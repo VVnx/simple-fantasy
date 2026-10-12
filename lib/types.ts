@@ -11,3 +11,7 @@ export type SeasonRow = Selection & {
   minutePrecision: 'season-total' | 'rounded-game-minutes';
 };
 export type RowResult = { row?: SeasonRow; error?: string; code?: string };
+
+// Presentation metadata never changes the observed source totals.
+export type MinuteConversion = { year: number; factor: number; sourceMinutes: number; targetMinutes: number };
+export type TableRow = SeasonRow & { mode?: 'average' | 'total'; conversion?: MinuteConversion };

@@ -22,7 +22,7 @@ describe('math and presentation',()=>{
     expect(csv.startsWith('\uFEFF')).toBe(true);expect(csv).toContain("'=HYPERLINK");expect(csv).toContain('https://espn.com');expect(csv).toContain('MIN 近似');
   });
   it('computes the required defaults dynamically and crosses year boundaries',()=>{
-    expect(defaultSelections(new Date('2026-10-12Z'))).toEqual([{year:2025,type:'regular'},{year:2026,type:'regular'},{year:2027,type:'preseason'}]);
+    expect(defaultSelections(new Date('2026-10-12Z'))).toEqual([{year:2025,type:'regular'},{year:2026,type:'regular'},{year:2027,type:'preseason'},{year:2027,type:'regular'}]);
     expect(currentEndYear(new Date('2027-01-01Z'))).toBe(2027);
     expect(defaultSelections(new Date('2027-10-12Z'))[0].year).toBe(2026);
     expect(defaultSelections(new Date('2026-02-01Z'))[1].year).toBe(2025);
