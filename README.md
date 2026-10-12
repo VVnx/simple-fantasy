@@ -1,4 +1,4 @@
-# Simple Fantasy · 球员研究室
+# Fantasy Timeline
 
 输入中英文 NBA 球员名并明确选择候选人，比较 Yahoo Fantasy 11 CAT 赛季场均。白底浅蓝表头、手机横向滚动，支持 PNG / CSV 导出。默认过去两个完整常规赛、本季季前赛和本季常规赛；底部另列前两季原始总计。日期动态计算。
 
@@ -44,7 +44,7 @@ npm run build:vercel
 
 ## Sites 发布
 
-`.openai/hosting.json` 已绑定现有 Simple Fantasy 项目。沿用 Sites 插件的 source workflow、构建和发布步骤；不要再次创建项目。`build/` 与 `scripts/` 中的 Sites 集成来自官方 starter。无需 D1、R2 或运行时密钥。网站访问范围由 Sites 控制台管理。
+`.openai/hosting.json` 已绑定现有 Fantasy Timeline 项目。沿用 Sites 插件的 source workflow、构建和发布步骤；不要再次创建项目。`build/` 与 `scripts/` 中的 Sites 集成来自官方 starter。无需 D1、R2 或运行时密钥。网站访问范围由 Sites 控制台管理。
 
 ## 后续部署 Vercel
 
