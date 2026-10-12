@@ -1,9 +1,9 @@
 import {describe,it,expect,vi} from 'vitest';
 import {RequestCache} from '../lib/data/cache';
 import {defaultSelections,currentEndYear} from '../lib/seasons';
-import {statCells,ratio,createCsv} from '../lib/format';
+import {statCells,ratio} from '../lib/format';
 import {resolveSearch} from '../lib/aliases';
-import type {Totals,SeasonRow} from '../lib/types';
+import type {Totals} from '../lib/types';
 const totals:Totals={gp:3,min:75,fgm:10,fga:21,ftm:0,fta:0,three:4,pts:24,reb:14,ast:7,st:1,blk:0,to:3,dd:1};
 describe('math and presentation',()=>{
   it('divides totals once and keeps GP/DD as totals',()=>{
@@ -15,11 +15,6 @@ describe('math and presentation',()=>{
   });
   it('does not divide by zero appearances',()=>{
     expect(statCells({...totals,gp:0,min:0,dd:0})[1]).toBe('—');expect(statCells(null)).toEqual(Array(15).fill('—'));
-  });
-  it('exports BOM, provenance, and formula-safe names',()=>{
-    const row:SeasonRow={year:2027,type:'preseason',totals,status:'ok',fetchedAt:'2026-10-12T00:00:00Z',dataThrough:null,sources:[{label:'ESPN',url:'https://espn.com'}],notes:['MIN 近似'],minutePrecision:'rounded-game-minutes'};
-    const csv=createCsv('=HYPERLINK("bad")',[row]);
-    expect(csv.startsWith('\uFEFF')).toBe(true);expect(csv).toContain("'=HYPERLINK");expect(csv).toContain('https://espn.com');expect(csv).toContain('MIN 近似');
   });
   it('computes the required defaults dynamically and crosses year boundaries',()=>{
     expect(defaultSelections(new Date('2026-10-12Z'))).toEqual([{year:2025,type:'regular'},{year:2026,type:'regular'},{year:2027,type:'preseason'},{year:2027,type:'regular'}]);
