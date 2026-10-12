@@ -5,7 +5,8 @@ export const seasonLabel = (endYear: number) => `${endYear - 1}–${String(endYe
 export function defaultSelections(date = new Date()): Selection[] {
   // Conservatively regard regular seasons as complete from May 1, not mid-April.
   const completed = date.getUTCFullYear() - (date.getUTCMonth() >= 4 ? 0 : 1);
-  return [{ year: completed - 1, type: 'regular' }, { year: completed, type: 'regular' }, { year: currentEndYear(date), type: 'preseason' }];
+  const defaults: Selection[] = [{ year: completed - 1, type: 'regular' }, { year: completed, type: 'regular' }, { year: currentEndYear(date), type: 'preseason' }, { year: currentEndYear(date), type: 'regular' }];
+  return defaults.filter((s,index)=>defaults.findIndex(other=>other.year===s.year&&other.type===s.type)===index);
 }
 export const selectionKey = (s: Selection) => `${s.year}-${s.type}`;
 export const selectionLabel = (s: Selection) => `${seasonLabel(s.year)} ${s.type === 'regular' ? '常规赛' : '季前赛'}`;
