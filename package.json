@@ -10,7 +10,7 @@
     "dev": "node scripts/run-framework.mjs dev",
     "build": "node scripts/run-framework.mjs build",
     "start": "node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js dev --config dist/server/wrangler.json --local --persist-to .wrangler/state --ip 127.0.0.1 --inspector-port 0",
-    "lint": "eslint app components lib/data lib/aliases.ts lib/types.ts lib/format.ts lib/seasons.ts tests scripts/verify-live.ts",
+    "lint": "eslint app components lib/data lib/aliases.ts lib/types.ts lib/format.ts lib/seasons.ts lib/saved-players.ts tests scripts/verify-live.ts",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "verify:live": "tsx scripts/verify-live.ts",

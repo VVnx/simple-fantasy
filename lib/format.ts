@@ -1,6 +1,6 @@
 import type { SeasonRow, TableRow, Totals, MinuteConversion, Selection, TableSelection } from './types';
-import { seasonLabel, selectionKey } from './seasons';
-export const headers = ['赛季 / 赛事','GP','MIN','FGM / FGA','FG%','FTM / FTA','FT%','3PTM','PTS','REB','AST','ST','BLK','TO','A/T','DD'];
+import { seasonLabel, selectionKey, selectionLabel } from './seasons';
+export const headers = ['赛季 / 赛事','GP','MIN','FGM / FGA','FG%','FTM / FTA','FT%','3PTM','PTS','REB','AST','ST','BLK','TO','A/T','DD','OREB'];
 export const decimal = (n: number | null, places = 2) => n === null ? '—' : n.toFixed(places);
 export function ratio(made: number | null, attempted: number | null, kind: 'shooting' | 'at' = 'shooting') {
   if (made === null || attempted === null) return '—';
@@ -19,23 +19,25 @@ export function minuteConversion(source: SeasonRow | undefined, target: SeasonRo
   const factor = targetMinutes / sourceMinutes;
   return Number.isFinite(factor) && factor > 0 ? {year:target.year, factor, sourceMinutes, targetMinutes} : undefined;
 }
-export function comparisonSelections(selections: Selection[], history: Selection[], converted?: Selection): TableSelection[] {
+export function comparisonSelections(selections: Selection[], converted?: Selection): TableSelection[] {
   const averageRows: TableSelection[] = selections.flatMap(s=>[
     {...s,mode:'average' as const},
     ...(converted && selectionKey(s)===selectionKey(converted) ? [{...s,mode:'average' as const,converted:true}] : []),
   ]);
-  return [...averageRows,...history.map(s=>({...s,mode:'total' as const}))];
+  return [...averageRows,...selections.map(s=>({...s,mode:'total' as const}))];
 }
 export function doubleDoubleCell(t: Totals | null): string {
   if (!t || !Number.isFinite(t.gp) || t.gp <= 0 || t.dd === null || !Number.isFinite(t.dd)) return '—';
   return `${t.dd}（${(t.dd / t.gp * 100).toFixed(1)}%）`;
 }
 export function statCells(t: Totals | null, options: Pick<TableRow, 'mode' | 'conversion'> = {}): string[] {
-  if (!t) return Array.from({ length: 15 }, () => '—');
+  if (!t) return Array.from({ length: headers.length - 1 }, () => '—');
   const total = options.mode === 'total';
   const factor = total ? 1 : options.conversion?.factor ?? 1;
   const count = (x: number | null, places = 2) => decimal(x === null || (!total && t.gp === 0) ? null : total ? x : x / t.gp * factor, total ? 0 : places);
   const minutes = total ? t.min === null ? '—' : String(t.min) : options.conversion ? decimal(options.conversion.targetMinutes,1) : count(t.min,1);
-  return [String(t.gp),minutes,`${count(t.fgm)}/${count(t.fga)}`,ratio(t.fgm,t.fga),`${count(t.ftm)}/${count(t.fta)}`,ratio(t.ftm,t.fta),count(t.three),count(t.pts),count(t.reb),count(t.ast),count(t.st),count(t.blk),count(t.to),ratio(t.ast,t.to,'at'),doubleDoubleCell(t)];
+  return [String(t.gp),minutes,`${count(t.fgm)}/${count(t.fga)}`,ratio(t.fgm,t.fga),`${count(t.ftm)}/${count(t.fta)}`,ratio(t.ftm,t.fta),count(t.three),count(t.pts),count(t.reb),count(t.ast),count(t.st),count(t.blk),count(t.to),ratio(t.ast,t.to,'at'),doubleDoubleCell(t),count(t.oreb ?? null)];
 }
 export const conversionLabel = (r: TableRow) => r.conversion ? `换算至${seasonLabel(r.conversion.year)}场均分钟` : '';
+
+export const tableSelectionLabel = (s: TableSelection) => `${selectionLabel(s)} · ${s.mode==='total'?'总计':s.converted?'换算':'平均'}`;
