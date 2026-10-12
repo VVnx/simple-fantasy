@@ -4,7 +4,7 @@ import type { SeasonRow } from './types';
 function download(blob: Blob, name: string) {
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a'); link.href=url; link.download=name;
-  document.body.append(link);link.click();link.remove();
+  document.body.appendChild(link);link.click();link.remove();
   setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
 export function exportCsv(name: string, rows: SeasonRow[]) {
