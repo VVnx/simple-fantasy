@@ -1,4 +1,21 @@
-# 当前版本 · Fantasy Timeline v5 · 2026-10-12
+# 当前版本 · Fantasy Timeline v6 · 2026-10-12
+
+- 公开地址 https://www.alltimeline.com；同一 Sites 项目，保留 public 范围及自定义域名。原 Sites 地址仍可用。
+- 本地功能提交 `d4e2825`；Sites v6 源提交 `5e02f8c494eb1f35796bba656128a8bbdb8bc42c`，原生发布状态 succeeded。
+- 标题左侧星标收藏、搜索行最右侧独立收藏列表、仅空白搜索显示最近明确选择的5位球员。localStorage只保存稳定ID和名字，去重、按最近选择排序、允许取消，不上传、不预填示例。
+- 4条真实场均行标“平均”，分钟比例行标“换算”；底部4条原始总计包括本季季前赛与常规赛。换算8→9→9→8行，原始行和总计不变；DD实际总次数及DD/GP占比不变。
+- 新OREB列位于DD后，ESPN Core offensiveRebounds真实核验：里萨谢2024–25总计86/场均1.15，2025–26总计71/场均1.06。当前季前赛gamelog确实无该字段，返回null/显示—；未反推或冒充0。本季常规赛无记录，平均及总计均—。
+- 47项单元测试、lint、typecheck、Sites构建及Next/Vercel本地构建通过。原仓库node_modules较锁文件落后，已通过官方install:ci同步后重建成功。
+- 发布后本机可见Chrome实测：中英文搜索及明确选择、收藏添加/取消/刷新及关闭重开后持久化、独立列表选择并关闭、最近5位去重排序、空白/空格聚焦、方向键/Enter/Escape/blur、非空查询只显示远程候选、不同球员与重复查看。
+- 真实无结果查询与浏览器受控503注入验证搜索和统计错误提示；解除注入后恢复正常。未伪造生产数据或修改服务端统计。
+- 实测390px手机宽度：页面不横向溢出、收藏按钮右对齐，表格内部可横向滚动；桌面与手机截图已实际查看。浏览器无pageerror。
+- 本轮浏览器插件出现Transport closed，改用Mac上已安装Playwright启动本机真实Chrome的独立临时测试配置；测试窗口及配置已清理，不改动日常浏览器历史/收藏。
+- 已移除右上说明；未恢复下载、选季、刷新、来源面板。数据来源和读取时间仍在API元数据及README中。
+- 没有GitHub推送、Vercel云端部署或付费资源；没有本地服务遗留。Vercel配置见README，构建命令npm run build:vercel，Node22，无环境密钥。
+
+---
+
+# 历史版本 · Fantasy Timeline v5 · 2026-10-12
 
 - 公开地址 https://www.alltimeline.com；同一 Site 项目，站点名和浏览器标题均为 Fantasy Timeline。
 - 本地功能提交：`5e74986`（原始/换算双行与DD占比）、`ae02dda`（更名）、`69fe5b8`（极简界面）。Sites v5源提交 `5e89d4313884e22f80e37d501be4ae9ce0c97377`。
