@@ -24,13 +24,27 @@ describe('independently retrieved ESPN fixtures (2026-10-12)',()=>{
     for(const key of ['gp','fgm','fga','ftm','fta','three','pts','reb','ast','st','blk','to','dd'] as const)expect(log[key]).toBe(core[key]);
     expect(log.gp).toBe(64);
   });
+  it('reads actual offensive rebounds and preserves missing or zero OREB',()=>{
+    expect(parseCore(core25,'5211175',regular).oreb).toBe(86);
+    expect(parseCore(core26,'5211175',{year:2026,type:'regular'}).oreb).toBe(71);
+    const d=structuredClone(core25);
+    for(const c of d.splits.categories)c.stats=c.stats.filter(s=>s.name!=='offensiveRebounds');
+    expect(parseCore(d,'5211175',regular).oreb).toBeNull();
+    const log=structuredClone(log27);
+    expect(parseGameLog(log,pre).totals?.oreb).toBeNull();
+    log.names.push('offensiveRebounds');
+    for(const t of log.seasonTypes)for(const c of t.categories)for(const e of c.events??[])e.stats.push('0');
+    expect(parseGameLog(log,pre).totals?.oreb).toBe(0);
+    log.seasonTypes[0].categories[0].events![0].stats[log.names.indexOf('offensiveRebounds')]='3';
+    expect(parseGameLog(log,pre).totals?.oreb).toBe(3);
+  });
   it('excludes play-in and preseason from regular season',()=>{
     expect(parseGameLog(log25,regular).totals?.gp).toBe(75);
     expect(parseGameLog(log25,{year:2025,type:'preseason'}).totals?.gp).toBe(2);
   });
   it('gets the correct 2026–27 preseason and preserves zero FT vs missing percentage',()=>{
     const data=parseGameLog(log27,pre);
-    expect(data.totals).toEqual({gp:2,min:48,fgm:11,fga:22,ftm:0,fta:0,three:3,pts:25,reb:11,ast:3,st:2,blk:1,to:4,dd:0});
+    expect(data.totals).toEqual({gp:2,min:48,fgm:11,fga:22,ftm:0,fta:0,three:3,pts:25,reb:11,ast:3,st:2,blk:1,to:4,dd:0,oreb:null});
     expect(data.notes.join('')).toContain('近似');
     expect(data.dataThrough).toBe('2026-10-11T10:00:00.000Z');
   });

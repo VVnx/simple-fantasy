@@ -1,7 +1,7 @@
 export type SeasonType = 'regular' | 'preseason';
 export type Selection = { year: number; type: SeasonType };
 export type Player = { id: string; name: string; team: string; position?: string; chineseName?: string };
-export const countKeys = ['min','fgm','fga','ftm','fta','three','pts','reb','ast','st','blk','to'] as const;
+export const countKeys = ['min','fgm','fga','ftm','fta','three','pts','reb','ast','st','blk','to','oreb'] as const;
 export type CountKey = typeof countKeys[number];
 export type Totals = Record<CountKey, number | null> & { gp: number; dd: number | null };
 export type Source = { label: string; url: string };

@@ -14,7 +14,7 @@ const coreSchema = z.object({
   season: ref, seasonType: ref, athlete: ref,
   splits: z.object({ type: z.string(), categories: z.array(z.object({ stats: z.array(z.object({name:z.string(),value:z.unknown().optional()})) })) }),
 });
-const mapping = { min:'minutes',fgm:'fieldGoalsMade',fga:'fieldGoalsAttempted',ftm:'freeThrowsMade',fta:'freeThrowsAttempted',three:'threePointFieldGoalsMade',pts:'points',reb:'totalRebounds',ast:'assists',st:'steals',blk:'blocks',to:'turnovers' } as const;
+const mapping = { min:'minutes',fgm:'fieldGoalsMade',fga:'fieldGoalsAttempted',ftm:'freeThrowsMade',fta:'freeThrowsAttempted',three:'threePointFieldGoalsMade',pts:'points',reb:'totalRebounds',ast:'assists',st:'steals',blk:'blocks',to:'turnovers',oreb:'offensiveRebounds' } as const;
 export function parseCore(raw: unknown, id: string, selection: Selection): Totals {
   const parsed = coreSchema.safeParse(raw);
   if (!parsed.success) throw shapeError();
@@ -67,7 +67,7 @@ export function parseGameLog(raw: unknown, selection: Selection): { totals: Tota
     games.set(event.eventId,event.stats);
   }
   if (!games.size) return {totals:null,dataThrough:null,notes:['该赛事段没有可用的逐场记录。']};
-  const totals: Totals = { gp:0,dd:0,min:0,fgm:0,fga:0,ftm:0,fta:0,three:0,pts:0,reb:0,ast:0,st:0,blk:0,to:0 };
+  const totals: Totals = { gp:0,dd:0,min:0,fgm:0,fga:0,ftm:0,fta:0,three:0,pts:0,reb:0,ast:0,st:0,blk:0,to:0,oreb:0 };
   let through: string | null = null;
   const requiredNames = ['minutes','fieldGoalsMade-fieldGoalsAttempted','freeThrowsMade-freeThrowsAttempted','threePointFieldGoalsMade-threePointFieldGoalsAttempted','points','totalRebounds','assists','steals','blocks','turnovers'];
   if (requiredNames.some(name=>!d.names.includes(name))) throw shapeError();
@@ -84,7 +84,7 @@ export function parseGameLog(raw: unknown, selection: Selection): { totals: Tota
     const [fgm,fga] = parsePair(field('fieldGoalsMade-fieldGoalsAttempted'));
     const [ftm,fta] = parsePair(field('freeThrowsMade-freeThrowsAttempted'));
     const [three] = parsePair(field('threePointFieldGoalsMade-threePointFieldGoalsAttempted'));
-    const row = {min:parseNumber(field('minutes')),fgm,fga,ftm,fta,three,pts:parseNumber(field('points')),reb:parseNumber(field('totalRebounds')),ast:parseNumber(field('assists')),st:parseNumber(field('steals')),blk:parseNumber(field('blocks')),to:parseNumber(field('turnovers'))};
+    const row = {min:parseNumber(field('minutes')),fgm,fga,ftm,fta,three,pts:parseNumber(field('points')),reb:parseNumber(field('totalRebounds')),ast:parseNumber(field('assists')),st:parseNumber(field('steals')),blk:parseNumber(field('blocks')),to:parseNumber(field('turnovers')),oreb:parseNumber(field('offensiveRebounds'))};
     totals.gp++;
     for (const key of countKeys) totals[key] = totals[key] === null || row[key] === null ? null : totals[key]! + row[key]!;
     const five = [row.pts,row.reb,row.ast,row.st,row.blk];
@@ -94,7 +94,7 @@ export function parseGameLog(raw: unknown, selection: Selection): { totals: Tota
     if (!through || date > through) through = date;
   }
   validateTotals(totals);
-  return {totals: totals.gp ? totals : null, dataThrough:through, notes:['MIN ≈：ESPN 逐场分钟已舍入为整数，场均分钟为近似值。','仅汇总该赛事段的已完赛出场记录，排除全明星及杯赛决赛；DD 按单场五项基础数据计算，三双也计入。']};
+  return {totals: totals.gp ? totals : null, dataThrough:through, notes:[...(totals.oreb===null?['逐场数据未提供完整 OREB（前场篮板），该列显示 —。']:[]),'MIN ≈：ESPN 逐场分钟已舍入为整数，场均分钟为近似值。','仅汇总该赛事段的已完赛出场记录，排除全明星及杯赛决赛；DD 按单场五项基础数据计算，三双也计入。']};
 }
 const playerSchema = z.object({ uid:z.string(),displayName:z.string(),subtitle:z.string().optional(),defaultLeagueSlug:z.string().optional(),description:z.string().optional() });
 export function parseSearch(raw: unknown): Player[] {

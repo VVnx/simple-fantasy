@@ -4,17 +4,17 @@ import {defaultSelections,currentEndYear} from '../lib/seasons';
 import {statCells,ratio} from '../lib/format';
 import {resolveSearch} from '../lib/aliases';
 import type {Totals} from '../lib/types';
-const totals:Totals={gp:3,min:75,fgm:10,fga:21,ftm:0,fta:0,three:4,pts:24,reb:14,ast:7,st:1,blk:0,to:3,dd:1};
+const totals:Totals={gp:3,min:75,fgm:10,fga:21,ftm:0,fta:0,three:4,pts:24,reb:14,ast:7,st:1,blk:0,to:3,dd:1,oreb:5};
 describe('math and presentation',()=>{
   it('divides totals once and keeps GP/DD as totals',()=>{
-    expect(statCells(totals)).toEqual(['3','25.0','3.33/7.00','.476','0.00/0.00','—','1.33','8.00','4.67','2.33','0.33','0.00','1.00','2.333','1（33.3%）']);
+    expect(statCells(totals)).toEqual(['3','25.0','3.33/7.00','.476','0.00/0.00','—','1.33','8.00','4.67','2.33','0.33','0.00','1.00','2.333','1（33.3%）','1.67']);
   });
   it('uses totals for shooting and A/T rather than rounded averages',()=>{
     expect(ratio(7,3,'at')).toBe('2.333');expect(ratio(1,6)).toBe('.167');
     expect(ratio(0,6)).toBe('.000');expect(ratio(1,0)).toBe('—');expect(ratio(null,6)).toBe('—');expect(ratio(4,0,'at')).toBe('—');
   });
   it('does not divide by zero appearances',()=>{
-    expect(statCells({...totals,gp:0,min:0,dd:0})[1]).toBe('—');expect(statCells(null)).toEqual(Array(15).fill('—'));
+    expect(statCells({...totals,gp:0,min:0,dd:0})[1]).toBe('—');expect(statCells(null)).toEqual(Array(16).fill('—'));
   });
   it('computes the required defaults dynamically and crosses year boundaries',()=>{
     expect(defaultSelections(new Date('2026-10-12Z'))).toEqual([{year:2025,type:'regular'},{year:2026,type:'regular'},{year:2027,type:'preseason'},{year:2027,type:'regular'}]);
