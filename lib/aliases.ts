@@ -1,0 +1,72 @@
+// Search aliases only: never store statistics, teams, or player IDs here.
+// Shared surnames intentionally remain broad so the user can disambiguate.
+const entries = [
+ ['里萨谢|里薩謝|扎卡里里萨谢|扎卡里里薩謝','Zaccharie Risacher'],
+ ['詹姆斯|詹姆士','James'],['勒布朗|勒布朗詹姆斯|老詹','LeBron James'],['布朗尼|布朗尼詹姆斯','Bronny James'],
+ ['库里|庫里','Curry'],['斯蒂芬库里|斯蒂芬庫里|斯蒂芬|史蒂芬柯瑞','Stephen Curry'],['塞斯库里|塞斯庫里','Seth Curry'],
+ ['约基奇|約基奇|尼古拉约基奇','Nikola Jokic'],['约维奇|約維奇','Nikola Jovic'],
+ ['东契奇|東契奇|卢卡东契奇','Luka Doncic'],['字母哥|扬尼斯|揚尼斯|阿德托昆博','Giannis Antetokounmpo'],
+ ['亚历山大|亞歷山大|谢伊|謝伊|晒|SGA','Shai Gilgeous-Alexander'],
+ ['文班亚马|文班亞馬|文班|温班亚马','Victor Wembanyama'],['戴维斯|戴維斯|浓眉|濃眉','Anthony Davis'],
+ ['杜兰特|杜蘭特|KD','Kevin Durant'],['哈登|大胡子','James Harden'],['恩比德|大帝','Joel Embiid'],
+ ['塔图姆|塔圖姆','Jayson Tatum'],['杰伦布朗|杰倫布朗|杰伦布朗','Jaylen Brown'],['布朗','Brown'],
+ ['爱德华兹|愛德華茲|华子','Anthony Edwards'],['布克','Devin Booker'],['米切尔|米切爾','Mitchell'],
+ ['多诺万米切尔|多諾萬米切爾','Donovan Mitchell'],['莫兰特|莫蘭特','Ja Morant'],['利拉德','Damian Lillard'],
+ ['布伦森|布倫森|布朗森','Jalen Brunson'],['哈利伯顿|哈利伯頓','Tyrese Haliburton'],['马克西|馬克西','Tyrese Maxey'],
+ ['特雷杨|特雷楊|吹杨','Trae Young'],['三球|拉梅洛鲍尔|拉梅洛鮑爾','LaMelo Ball'],['鲍尔|鮑爾','Ball'],
+ ['欧文|歐文','Kyrie Irving'],['巴特勒|巴特勒三世','Jimmy Butler'],['伦纳德|倫納德|莱昂纳德|小卡','Kawhi Leonard'],
+ ['保罗乔治|保羅喬治|泡椒','Paul George'],['保罗|保羅','Chris Paul'],['威少|威斯布鲁克|威斯布魯克','Russell Westbrook'],
+ ['萨博尼斯|薩博尼斯|小萨','Domantas Sabonis'],['申京|申經|申根','Alperen Sengun'],['唐斯|唐斯','Karl-Anthony Towns'],
+ ['阿德巴约|阿德巴約|热巴','Bam Adebayo'],['戈贝尔|戈貝爾','Rudy Gobert'],['霍姆格伦|霍姆格倫|切特','Chet Holmgren'],
+ ['贾伦杰克逊|賈倫傑克遜|小贾伦杰克逊','Jaren Jackson Jr.'],['小贾巴里史密斯|小賈巴里史密斯','Jabari Smith Jr.'],
+ ['班凯罗|班凱羅','Paolo Banchero'],['弗朗茨瓦格纳|弗朗茨瓦格納|小瓦格纳','Franz Wagner'],['瓦格纳|瓦格納','Wagner'],
+ ['莫布里','Evan Mobley'],['加兰|加蘭','Darius Garland'],['阿伦|阿倫','Allen'],['贾勒特阿伦|賈勒特阿倫','Jarrett Allen'],
+ ['西亚卡姆|西亞卡姆','Pascal Siakam'],['巴恩斯','Barnes'],['斯科蒂巴恩斯','Scottie Barnes'],['英格拉姆','Brandon Ingram'],
+ ['锡安|錫安|蔡恩|威廉森','Zion Williamson'],['穆雷','Murray'],['贾马尔穆雷|賈馬爾穆雷','Jamal Murray'],
+ ['德章泰穆雷','Dejounte Murray'],['福克斯','De\'Aaron Fox'],['拉文','Zach LaVine'],['德罗赞|德羅贊','DeMar DeRozan'],
+ ['武切维奇|武切維奇','Nikola Vucevic'],['吉迪|基迪','Josh Giddey'],['怀特|懷特','White'],['德里克怀特|德里克懷特','Derrick White'],
+ ['科比怀特|科比懷特','Coby White'],['波尔津吉斯|波爾津吉斯|铂金','Kristaps Porzingis'],['霍勒迪','Holiday'],
+ ['朱霍勒迪|朱霍勒迪','Jrue Holiday'],['怀特海德|懷特海德','Dariq Whitehead'],['克莱|克雷汤普森|克萊湯普森','Klay Thompson'],
+ ['汤普森|湯普森','Thompson'],['阿门汤普森|阿門湯普森|阿门','Amen Thompson'],['奥萨尔汤普森|奧薩爾湯普森|奥萨尔','Ausar Thompson'],
+ ['坎宁安|坎寧安|康宁汉姆|康寧漢姆','Cade Cunningham'],['杜伦|杜倫','Jalen Duren'],['艾维|艾維','Jaden Ivey'],
+ ['杰伦格林|杰倫格林','Jalen Green'],['德雷蒙德格林|追梦|追夢','Draymond Green'],['格林','Green'],
+ ['范弗利特|范弗里特','Fred VanVleet'],['阿门|阿門','Amen Thompson'],['伊森','Tari Eason'],['惠特莫尔|惠特莫爾','Cam Whitmore'],
+ ['阿夫迪亚|阿夫迪亞','Deni Avdija'],['夏普','Shaedon Sharpe'],['亨德森','Scoot Henderson'],['艾顿|艾頓','Deandre Ayton'],
+ ['克林根','Donovan Clingan'],['凯斯勒|凱斯勒','Walker Kessler'],['马尔卡宁|馬爾卡寧','Lauri Markkanen'],['乔治|喬治','George'],
+ ['基扬特乔治|基揚特喬治','Keyonte George'],['科林斯','Collins'],['约翰科林斯|約翰科林斯','John Collins'],
+ ['凯尔特|卡斯尔|卡斯爾','Stephon Castle'],['瓦塞尔|瓦塞爾','Devin Vassell'],['索汉|索漢','Jeremy Sochan'],
+ ['库珀弗拉格|庫珀弗拉格|弗拉格','Cooper Flagg'],['迪伦哈珀|迪倫哈珀|哈珀','Dylan Harper'],['克努佩尔|克努佩爾','Kon Knueppel'],
+ ['特雷约翰逊|特雷約翰遜','Tre Johnson'],['埃奇库姆|埃奇庫姆','VJ Edgecombe'],['贝利|貝利','Ace Bailey'],
+ ['卡明斯','Cummings'],['库明加|庫明加','Jonathan Kuminga'],['波杰姆斯基|波傑姆斯基','Brandin Podziemski'],['穆迪','Moses Moody'],
+ ['里夫斯|里弗斯','Austin Reaves'],['八村塁|八村垒','Rui Hachimura'],['克内克特|克內克特','Dalton Knecht'],
+ ['克拉克斯顿|克拉克斯頓','Nic Claxton'],['卡梅隆约翰逊|卡梅隆約翰遜|卡姆约翰逊','Cameron Johnson'],['托马斯|托馬斯','Thomas'],
+ ['卡姆托马斯|卡姆托馬斯','Cam Thomas'],['布里奇斯|布里奇斯','Bridges'],['米卡尔布里奇斯|米卡爾布里奇斯','Mikal Bridges'],
+ ['迈尔斯布里奇斯|邁爾斯布里奇斯','Miles Bridges'],['阿努诺比|阿奴诺比|阿努諾比','OG Anunoby'],['哈特','Josh Hart'],
+ ['米切尔罗宾逊|米切爾羅賓遜','Mitchell Robinson'],['罗宾逊|羅賓遜','Robinson'],['赫罗|希罗|希羅','Tyler Herro'],
+ ['哈克斯|小海梅哈克斯','Jaime Jaquez Jr.'],['韦尔|韋爾','Kel\'el Ware'],['鲍威尔|鮑威爾','Powell'],
+ ['诺曼鲍威尔|諾曼鮑威爾','Norman Powell'],['祖巴茨','Ivica Zubac'],['特纳|特納','Myles Turner'],['内姆哈德|內姆哈德','Nembhard'],
+ ['安德鲁内姆哈德|安德魯內姆哈德','Andrew Nembhard'],['马瑟林|馬瑟林','Bennedict Mathurin'],['内史密斯|內史密斯','Aaron Nesmith'],
+ ['墨菲|特雷墨菲','Trey Murphy III'],['赫伯特琼斯|赫伯特瓊斯','Herbert Jones'],['琼斯|瓊斯','Jones'],['米西','Yves Missi'],
+ ['普尔|普爾','Jordan Poole'],['萨尔|薩爾','Alex Sarr'],['库利巴利|庫利巴利','Bilal Coulibaly'],['基肖恩乔治|基肖恩喬治','Kyshawn George'],
+ ['卡林顿|卡林頓','Bub Carrington'],['戴森丹尼尔斯|戴森丹尼爾斯|丹尼尔斯','Dyson Daniels'],['杰伦约翰逊|杰倫約翰遜','Jalen Johnson'],
+ ['奥孔古|奧孔古','Onyeka Okongwu'],['卡佩拉','Clint Capela'],['波格丹诺维奇|波格丹諾維奇','Bogdanovic'],
+ ['杰伦威廉姆斯|杰倫威廉姆斯|杰威','Jalen Williams'],['杰林威廉姆斯|杰林威廉姆斯','Jaylin Williams'],['威廉姆斯|威廉斯','Williams'],
+ ['哈尔滕施泰因|哈爾滕施泰因','Isaiah Hartenstein'],['卡鲁索|卡魯索','Alex Caruso'],['多尔特|多爾特','Luguentz Dort'],
+ ['麦丹|杰登麦克丹尼尔斯|杰登麥克丹尼爾斯','Jaden McDaniels'],['里德','Naz Reid'],['迪文琴佐','Donte DiVincenzo'],['康利','Mike Conley'],
+ ['波特','Porter'],['小迈克尔波特|小邁克爾波特','Michael Porter Jr.'],['阿隆戈登|阿隆哥頓','Aaron Gordon'],['戈登','Gordon'],
+ ['布劳恩|布勞恩','Christian Braun'],['斯特劳瑟|斯特勞瑟','Julian Strawther'],['普里查德','Payton Pritchard'],['豪泽|豪澤','Sam Hauser'],
+ ['米勒','Miller'],['布兰登米勒|布蘭登米勒','Brandon Miller'],['马克威廉姆斯|馬克威廉姆斯','Mark Williams'],
+ ['比尔|比爾','Bradley Beal'],['狄龙|狄龍|迪龙布鲁克斯','Dillon Brooks'],['基根穆雷','Keegan Murray'],['蒙克','Malik Monk'],
+ ['戴文卡特|德文卡特','Devin Carter'],['卡特','Carter'],['温德尔卡特|溫德爾卡特','Wendell Carter Jr.'],
+ ['萨格斯|薩格斯','Jalen Suggs'],['贝恩|貝恩','Desmond Bane'],['埃迪|扎克伊迪|扎克埃迪','Zach Edey'],['阿尔达马|阿爾達馬','Santi Aldama'],
+ ['姚明','Yao Ming'],['易建联|易建聯','Yi Jianlian'],['杨瀚森|楊瀚森','Hansen Yang'],['崔永熙','Yongxi Cui'],['周琦','Zhou Qi'],
+] as const;
+export const normalize = (s: string) => s.normalize('NFKD').replace(/\p{M}/gu,'').toLowerCase().replace(/[\s·・.'’\-]/g,'');
+const aliases = new Map(entries.flatMap(([names, en])=>names.split('|').map(n=>[normalize(n),en] as const)));
+export function resolveSearch(query: string) {
+  return aliases.get(normalize(query)) ?? query.normalize('NFKD').replace(/\p{M}/gu,'').trim();
+}
+export function chineseName(englishName: string) {
+  return entries.find(([,en])=>normalize(en) === normalize(englishName))?.[0].split('|')[0];
+}
+export const aliasCount = entries.length;
