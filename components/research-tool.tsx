@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from 'react';
 import type { Player, RowResult, SeasonRow, Selection, TableRow } from '@/lib/types';
 import { currentEndYear, defaultSelections, seasonLabel, selectionKey, selectionLabel } from '@/lib/seasons';
-import { headers, statCells, minuteConversion, conversionLabel } from '@/lib/format';
+import { headers, statCells, minuteConversion, conversionLabel, comparisonSelections } from '@/lib/format';
 import { exportCsv, exportPng } from '@/lib/export';
 
 type SearchState = { query: string; players: Player[]; error?: string; resolvedQuery?: string };
@@ -71,10 +71,10 @@ export default function ResearchTool({today}:{today:string}) {
   const preseason=results[selectionKey(currentPreseason)]?.row;
   const conversionOptions=history.map(s=>({year:s.year,value:minuteConversion(preseason,results[selectionKey(s)]?.row)}));
   const conversion=conversionOptions.find(o=>String(o.year)===conversionYear)?.value;
-  const displaySelections=[...selections.map(s=>({...s,mode:'average' as const})),...history.map(s=>({...s,mode:'total' as const}))];
+  const displaySelections=comparisonSelections(selections,history,conversion?currentPreseason:undefined);
   const rows:TableRow[]=displaySelections.flatMap(s=>{
     const row=results[selectionKey(s)]?.row;
-    return row ? [{...row,mode:s.mode,conversion:s.mode==='average'&&s.year===currentPreseason.year&&s.type==='preseason'?conversion:undefined}] : [];
+    return row ? [{...row,mode:s.mode,conversion:s.converted?conversion:undefined}] : [];
   });
   const through=sourceRows.map(r=>r.fetchedAt).sort()[0];
   const searching=q.length>=2&&search.query!==q;
@@ -110,11 +110,11 @@ export default function ResearchTool({today}:{today:string}) {
       <div className="table-scroll" tabIndex={0} role="region" aria-label="球员数据表，可横向滚动"><table><caption className="sr-only">{player?name:'未选择球员'} · Yahoo Fantasy 11 CAT 赛季数据对比</caption><thead><tr>{headers.map(h=><th key={h} scope="col">{h}</th>)}</tr></thead><tbody>{displaySelections.map((s,index)=>{
         const result=player?results[selectionKey(s)]:undefined;
         const source=result?.row;
-        const row:TableRow|undefined=source?{...source,mode:s.mode,conversion:s.mode==='average'&&s.year===currentPreseason.year&&s.type==='preseason'?conversion:undefined}:undefined;
-        const className=s.mode==='total'?`total-row${index===selections.length?' total-start':''}`:s.type==='preseason'?'preseason-row':'';
-        return <tr key={`${selectionKey(s)}:${s.mode}`} className={className}><th scope="row">{selectionLabel(s)}{s.mode==='total'?' · 总计':''}{row?.conversion&&<small>{conversionLabel(row)}</small>}{row?.status==='unavailable'&&<small>暂无出场记录</small>}{row?.minutePrecision==='rounded-game-minutes'&&row.totals&&<small>MIN 为近似值</small>}</th>{!player?<td colSpan={15} className="empty-cell">—</td>:!result?<td colSpan={15} className="state-cell"><span className="loading-dot"/> 正在读取 ESPN 数据…</td>:result.error?<td colSpan={15} className="error state-cell" role="alert">读取失败：{result.error}</td>:statCells(row?.totals??null,row).map((cell,i)=><td key={i} title={i===1&&row?.minutePrecision==='rounded-game-minutes'?'基于逐场整数分钟，近似值':undefined}>{cell}{i===1&&row?.minutePrecision==='rounded-game-minutes'&&row.totals?<sup> ≈</sup>:null}</td>)}</tr>;
+        const row:TableRow|undefined=source?{...source,mode:s.mode,conversion:s.converted?conversion:undefined}:undefined;
+        const className=s.mode==='total'?`total-row${displaySelections[index-1]?.mode!=='total'?' total-start':''}`:s.type==='preseason'?'preseason-row':'';
+        return <tr key={`${selectionKey(s)}:${s.mode}:${s.converted?'converted':'observed'}`} className={className}><th scope="row">{selectionLabel(s)}{s.mode==='total'?' · 总计':''}{row?.conversion&&<small>{conversionLabel(row)}</small>}{row?.status==='unavailable'&&<small>暂无出场记录</small>}{row?.minutePrecision==='rounded-game-minutes'&&row.totals&&<small>MIN 为近似值</small>}</th>{!player?<td colSpan={15} className="empty-cell">—</td>:!result?<td colSpan={15} className="state-cell"><span className="loading-dot"/> 正在读取 ESPN 数据…</td>:result.error?<td colSpan={15} className="error state-cell" role="alert">读取失败：{result.error}</td>:statCells(row?.totals??null,row).map((cell,i)=><td key={i} title={i===1&&row?.minutePrecision==='rounded-game-minutes'?'基于逐场整数分钟，近似值':undefined}>{cell}{i===1&&row?.minutePrecision==='rounded-game-minutes'&&row.totals?<sup> ≈</sup>:null}</td>)}</tr>;
       })}</tbody></table></div>
-      <div className="table-footnotes">GP、DD 为总次数；总计行含总分钟，其余行计数为场均。— 为缺失或分母为 0；MIN ≈ 源于逐场整数分钟。</div>
+      <div className="table-footnotes">GP 为出场数；DD = 两双次数（DD/GP 占比）。总计行含总分钟，其余行计数为场均；— 为缺失或分母为 0；MIN ≈ 为近似值。</div>
       {!!player&&<div className="source-section"><div className="source-heading"><span><span className="dot"/> 数据来源 · ESPN</span><span>{through?`本表最早读取：${timeLabel(through)}（北京时间）`:'正在连接数据源'}</span></div>{requests.map(s=>{const row=results[selectionKey(s)]?.row;return row&&<details key={selectionKey(s)}><summary>{selectionLabel(s)} · 来源与统计说明</summary><div className="source-detail"><p>读取：{timeLabel(row.fetchedAt)}（北京时间）{row.dataThrough?` · 已收录比赛截至 ${timeLabel(row.dataThrough)}`:' · 源未提供赛季总数最后更新时间'}</p>{row.notes.map(n=><p key={n}>{n}</p>)}<p>{row.sources.map(source=><a href={source.url} key={source.url} target="_blank" rel="noreferrer">{source.label} ↗</a>)}</p></div></details>;})}</div>}
     </section>
 

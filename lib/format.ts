@@ -1,5 +1,5 @@
-import type { SeasonRow, TableRow, Totals, MinuteConversion } from './types';
-import { selectionLabel, seasonLabel } from './seasons';
+import type { SeasonRow, TableRow, Totals, MinuteConversion, Selection, TableSelection } from './types';
+import { selectionLabel, seasonLabel, selectionKey } from './seasons';
 export const headers = ['赛季 / 赛事','GP','MIN','FGM / FGA','FG%','FTM / FTA','FT%','3PTM','PTS','REB','AST','ST','BLK','TO','A/T','DD'];
 export const decimal = (n: number | null, places = 2) => n === null ? '—' : n.toFixed(places);
 export function ratio(made: number | null, attempted: number | null, kind: 'shooting' | 'at' = 'shooting') {
@@ -19,17 +19,28 @@ export function minuteConversion(source: SeasonRow | undefined, target: SeasonRo
   const factor = targetMinutes / sourceMinutes;
   return Number.isFinite(factor) && factor > 0 ? {year:target.year, factor, sourceMinutes, targetMinutes} : undefined;
 }
+export function comparisonSelections(selections: Selection[], history: Selection[], converted?: Selection): TableSelection[] {
+  const averageRows: TableSelection[] = selections.flatMap(s=>[
+    {...s,mode:'average' as const},
+    ...(converted && selectionKey(s)===selectionKey(converted) ? [{...s,mode:'average' as const,converted:true}] : []),
+  ]);
+  return [...averageRows,...history.map(s=>({...s,mode:'total' as const}))];
+}
+export function doubleDoubleCell(t: Totals | null): string {
+  if (!t || !Number.isFinite(t.gp) || t.gp <= 0 || t.dd === null || !Number.isFinite(t.dd)) return '—';
+  return `${t.dd}（${(t.dd / t.gp * 100).toFixed(1)}%）`;
+}
 export function statCells(t: Totals | null, options: Pick<TableRow, 'mode' | 'conversion'> = {}): string[] {
   if (!t) return Array.from({ length: 15 }, () => '—');
   const total = options.mode === 'total';
   const factor = total ? 1 : options.conversion?.factor ?? 1;
   const count = (x: number | null, places = 2) => decimal(x === null || (!total && t.gp === 0) ? null : total ? x : x / t.gp * factor, total ? 0 : places);
   const minutes = total ? t.min === null ? '—' : String(t.min) : options.conversion ? decimal(options.conversion.targetMinutes,1) : count(t.min,1);
-  return [String(t.gp),minutes,`${count(t.fgm)}/${count(t.fga)}`,ratio(t.fgm,t.fga),`${count(t.ftm)}/${count(t.fta)}`,ratio(t.ftm,t.fta),count(t.three),count(t.pts),count(t.reb),count(t.ast),count(t.st),count(t.blk),count(t.to),ratio(t.ast,t.to,'at'),t.dd === null ? '—' : String(t.dd)];
+  return [String(t.gp),minutes,`${count(t.fgm)}/${count(t.fga)}`,ratio(t.fgm,t.fga),`${count(t.ftm)}/${count(t.fta)}`,ratio(t.ftm,t.fta),count(t.three),count(t.pts),count(t.reb),count(t.ast),count(t.st),count(t.blk),count(t.to),ratio(t.ast,t.to,'at'),doubleDoubleCell(t)];
 }
-export const conversionLabel = (r: TableRow) => r.conversion ? `按${seasonLabel(r.conversion.year)}分钟换算` : '';
+export const conversionLabel = (r: TableRow) => r.conversion ? `换算至${seasonLabel(r.conversion.year)}场均分钟` : '';
 export const rowLabel = (r: TableRow) => selectionLabel(r) + (r.mode === 'total' ? ' · 总计' : r.conversion ? `（${conversionLabel(r)}）` : '');
-export const rowNotes = (r: TableRow) => [...r.notes, ...(r.mode === 'total' ? ['总计行使用原始赛季总数；MIN 为总分钟，非场均。'] : []), ...(r.conversion ? [`${conversionLabel(r)}：目标场均分钟 / 季前赛原始场均分钟 = ${r.conversion.targetMinutes} / ${r.conversion.sourceMinutes}；仅等比例换算计数，不代表真实表现或预测；GP、DD、FG%、FT%、A/T 保留原值。`] : [])];
+export const rowNotes = (r: TableRow) => [...r.notes, 'DD 显示两双次数（两双场次占比）；占比 = DD / GP × 100%，换算行沿用实际样本。', ...(r.mode === 'total' ? ['总计行使用原始赛季总数；MIN 为总分钟，非场均。'] : []), ...(r.conversion ? [`${conversionLabel(r)}：目标场均分钟 / 季前赛原始场均分钟 = ${r.conversion.targetMinutes} / ${r.conversion.sourceMinutes}；仅等比例换算计数，不代表真实表现或预测；GP、DD、FG%、FT%、A/T 保留原值。`] : [])];
 export const rowCells = (r: TableRow) => {
   const cells = [rowLabel(r), ...statCells(r.totals,r)];
   if (r.minutePrecision === 'rounded-game-minutes' && r.totals) cells[2] += ' ≈';

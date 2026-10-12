@@ -12,11 +12,11 @@ export function exportCsv(name: string, rows: TableRow[]) {
 export async function exportPng(name: string, rows: TableRow[]) {
   await document.fonts.ready;
   const canvas=document.createElement('canvas');
-  const widths=[290,66,85,160,82,150,82,82,82,82,82,72,72,72,90,62];
+  const widths=[290,66,85,160,82,150,82,82,82,82,82,72,72,72,90,150];
   const width=widths.reduce((a,b)=>a+b,0)+64;
   const rawNotes=[
     'GP、DD 为总次数；场均行计数为场均，总计行计数与 MIN 为原始总数；FG%、FT%、A/T 按总数计算。',
-    'DD = 两双总次数（含三双）；— = 缺失或分母为 0。MIN ≈ 表示源逐场分钟舍入后的近似值。',
+    'DD = 两双次数（DD/GP 占比，含三双）；换算行沿用实际样本。— = 缺失或分母为 0；MIN ≈ 为近似值。',
     ...rows.flatMap(r=>[`${rowLabel(r)} · 读取 ${r.fetchedAt} · ${r.status==='ok'?'ESPN':'暂无记录'}`, ...rowNotes(r).map(n=>`  ${n}`),...r.sources.map(s=>`  ${s.url}`)]),
   ];
   const measure=canvas.getContext('2d');if(!measure)throw new Error('无法创建图片，请尝试 CSV。');

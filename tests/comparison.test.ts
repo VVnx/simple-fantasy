@@ -1,5 +1,5 @@
 import {describe,it,expect} from 'vitest';
-import {averageMinutes,minuteConversion,statCells,rowCells,createCsv} from '../lib/format';
+import {averageMinutes,minuteConversion,statCells,rowCells,createCsv,comparisonSelections,doubleDoubleCell} from '../lib/format';
 import {parseCore,parseGameLog} from '../lib/data/espn';
 import type {SeasonRow,TableRow} from '../lib/types';
 import core25 from './fixtures/risacher-core-2025.json';
@@ -11,7 +11,7 @@ const b:SeasonRow={...meta,year:2026,type:'regular',totals:parseCore(core26,'521
 const pre:SeasonRow={...meta,year:2027,type:'preseason',totals:parseGameLog(log27,{year:2027,type:'preseason'}).totals,minutePrecision:'rounded-game-minutes'};
 describe('totals and minute-normalized preseason presentation',()=>{
   it('uses exact source totals, not rounded per-game values multiplied by GP',()=>{
-    expect(statCells(a.totals,{mode:'total'})).toEqual(['75','1843','357/779','.458','106/149','.711','122','942','268','92','52','37','92','1.000','1']);
+    expect(statCells(a.totals,{mode:'total'})).toEqual(['75','1843','357/779','.458','106/149','.711','122','942','268','92','52','37','92','1.000','1（1.3%）']);
     expect(statCells(b.totals,{mode:'total'})[7]).toBe('641');
     expect(statCells({...a.totals!,min:1843.5},{mode:'total'})[1]).toBe('1843.5');
   });
@@ -54,12 +54,52 @@ describe('totals and minute-normalized preseason presentation',()=>{
   it('exports the same transformed cells with explicit provenance and unavailable current regular season',()=>{
     const converted:TableRow={...pre,conversion:minuteConversion(pre,b)};
     const empty:TableRow={...meta,year:2027,type:'regular',status:'unavailable',totals:null,minutePrecision:'season-total'};
-    const rows:TableRow[]=[a,b,converted,empty,{...a,mode:'total'},{...b,mode:'total'}];
+    const rows:TableRow[]=[a,b,pre,converted,empty,{...a,mode:'total'},{...b,mode:'total'}];
     const csv=createCsv('里萨谢',rows);
-    expect(rowCells(converted)[0]).toContain('按2025–26分钟换算');
+    expect(rowCells(converted)[0]).toContain('换算至2025–26场均分钟');
     expect(rowCells(converted)[2]).toBe('22.4 ≈');expect(rowCells(converted)[8]).toBe('11.68');
     expect(rowCells(empty).slice(1)).toEqual(Array(15).fill('—'));
     expect(csv).toContain('总计行使用原始赛季总数');expect(csv).toContain('不代表真实表现或预测');
     expect(csv).toContain('"11.68"');expect(csv).toContain('"641"');expect(csv).toContain('"1503"');
+  });
+});
+
+describe('one additional comparison row and DD appearance share',()=>{
+  const currentRegular={year:2027,type:'regular' as const};
+  const selected=[a,b,pre,currentRegular],history=[a,b];
+  it('preserves the observed preseason row and adds exactly one adjacent converted row',()=>{
+    const original=comparisonSelections(selected,history);
+    expect(original).toHaveLength(6);expect(original.some(s=>s.converted)).toBe(false);
+    const converted=comparisonSelections(selected,history,pre);
+    expect(converted).toHaveLength(7);
+    expect(converted[2]).toMatchObject({year:2027,type:'preseason',mode:'average'});
+    expect(converted[2].converted).toBeUndefined();
+    expect(converted[3]).toMatchObject({year:2027,type:'preseason',converted:true});
+    expect(converted[4]).toMatchObject(currentRegular);
+    for(let i=0;i<3;i++)expect(comparisonSelections(selected,history,pre).filter(s=>s.converted)).toHaveLength(1);
+    expect(comparisonSelections(selected,history)).toHaveLength(6);
+    expect(comparisonSelections([a,b,currentRegular],history,pre).some(s=>s.converted)).toBe(false);
+  });
+  it('uses real DD and GP for percentages, preserving zero vs missing',()=>{
+    expect(doubleDoubleCell(a.totals)).toBe('1（1.3%）');
+    expect(doubleDoubleCell(b.totals)).toBe('0（0.0%）');
+    expect(doubleDoubleCell({...a.totals!,dd:10,gp:10})).toBe('10（100.0%）');
+    expect(doubleDoubleCell({...a.totals!,dd:null})).toBe('—');
+    expect(doubleDoubleCell({...a.totals!,dd:0,gp:0})).toBe('—');
+    expect(doubleDoubleCell(null)).toBe('—');
+    const conversion=minuteConversion(pre,a);
+    const ddSample={...pre.totals!,dd:1};
+    expect(statCells(ddSample,{conversion})[14]).toBe('1（50.0%）');
+    expect(statCells(ddSample,{mode:'total'})[14]).toBe('1（50.0%）');
+  });
+  it('exports original and converted preseason independently, with readable DD counts and share',()=>{
+    const converted:TableRow={...pre,conversion:minuteConversion(pre,b)};
+    const csv=createCsv('里萨谢',[a,b,pre,converted,{...a,mode:'total'},{...b,mode:'total'}]);
+    expect(rowCells(pre)[0]).toBe('2026–27 季前赛');
+    expect(rowCells(pre)[8]).toBe('12.50');expect(rowCells(converted)[8]).toBe('11.68');
+    expect(csv).toContain('"12.50"');expect(csv).toContain('"11.68"');
+    expect(csv).toContain('"1（1.3%）"');expect(csv).toContain('"0（0.0%）"');
+    expect(csv).toContain('DD / GP × 100%');
+    expect(rowCells(pre)[15]).toBe(rowCells(converted)[15]);
   });
 });
