@@ -7,7 +7,7 @@ function download(blob: Blob, name: string) {
   setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
 export function exportCsv(name: string, rows: TableRow[]) {
-  download(new Blob([createCsv(name,rows)],{type:'text/csv;charset=utf-8;'}),`${name}-11cat.csv`);
+  download(new Blob([createCsv(name,rows)],{type:'text/csv;charset=utf-8;'}),`Fantasy Timeline-${name}-11cat.csv`);
 }
 export async function exportPng(name: string, rows: TableRow[]) {
   await document.fonts.ready;
@@ -28,7 +28,7 @@ export async function exportPng(name: string, rows: TableRow[]) {
   c.scale(scale,scale);c.fillStyle='#fff';c.fillRect(0,0,width,height);
   const font=(size:number,bold=false)=>{c.font=`${bold?600:400} ${size}px -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif`;};
   c.fillStyle='#162d48';font(30,true);c.fillText(`${name} · 赛季数据对比`,32,52);
-  c.fillStyle='#65758a';font(19);c.fillText('SIMPLE FANTASY  /  Yahoo Fantasy 11 CAT',32,88);
+  c.fillStyle='#65758a';font(19);c.fillText('Fantasy Timeline  /  Yahoo Fantasy 11 CAT',32,88);
   const drawRow=(cells:string[],y:number,header=false)=>{
     c.fillStyle=header?'#eaf2fc':'#fff';c.fillRect(0,y,width,68);
     c.strokeStyle='#dae4ef';c.beginPath();c.moveTo(0,y+68);c.lineTo(width,y+68);c.stroke();
@@ -40,5 +40,5 @@ export async function exportPng(name: string, rows: TableRow[]) {
   c.fillStyle='#617287';font(14);notes.forEach((line,i)=>c.fillText(line,32,190+rows.length*68+34+i*26));
   const blob=await new Promise<Blob|null>(resolve=>canvas.toBlob(resolve,'image/png'));
   if(!blob)throw new Error('图片生成失败，请尝试 CSV。');
-  download(blob,`${name}-赛季对比-11cat.png`);
+  download(blob,`Fantasy Timeline-${name}-赛季对比-11cat.png`);
 }

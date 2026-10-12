@@ -49,7 +49,7 @@ export const rowCells = (r: TableRow) => {
 // Guard against spreadsheet formula injection in names/notes, and quote every cell.
 export const csvCell = (value: string) => `"${(/^[=+@-]/.test(value) ? "'" : '') + value.replaceAll('"','""')}"`;
 export function createCsv(name: string, rows: TableRow[]) {
-  const metaHeaders = ['球员','状态','读取时间 UTC','数据截至','来源','备注'];
-  const body = rows.map(row => [...rowCells(row),name,row.status,row.fetchedAt,row.dataThrough ?? '上游未提供',row.sources.map(s=>s.url).join(' | '),rowNotes(row).join('；')]);
+  const metaHeaders = ['球员','工具','状态','读取时间 UTC','数据截至','来源','备注'];
+  const body = rows.map(row => [...rowCells(row),name,'Fantasy Timeline',row.status,row.fetchedAt,row.dataThrough ?? '上游未提供',row.sources.map(s=>s.url).join(' | '),rowNotes(row).join('；')]);
   return '\uFEFF' + [[...headers,...metaHeaders], ...body].map(row=>row.map(csvCell).join(',')).join('\r\n');
 }

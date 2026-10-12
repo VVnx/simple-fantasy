@@ -91,7 +91,7 @@ export default function ResearchTool({today}:{today:string}) {
     try{await exportPng(name,rows);}catch(e){setExportError(e instanceof Error?e.message:'导出失败');}finally{setExporting(false);}
   }
   return <main>
-    <header className="site-header"><h1>Simple Fantasy</h1><span className="header-note">球员对比 · 11 CAT</span></header>
+    <header className="site-header"><h1>Fantasy Timeline</h1><span className="header-note">球员对比 · 11 CAT</span></header>
     <section className="search-section" aria-label="查找球员"><label className="field-label" htmlFor="player-search">搜索球员</label>
       <div className="search-field"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg><input id="player-search" autoComplete="off" placeholder="输入中文或英文姓名，如 里萨谢 / Risacher" value={query} maxLength={80} onChange={e=>setQuery(e.target.value)}/>{q&&<button className="clear-search" onClick={()=>setQuery('')} aria-label="清空搜索">×</button>}</div>
       <div aria-live="polite" className="search-feedback">
