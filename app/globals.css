@@ -6,3 +6,5 @@ body{background:#fff}main{max-width:1500px;padding:0 28px}.site-header{height:70
 .minute-controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:0 20px 12px;font-size:11px;color:var(--muted)}.minute-controls label{color:var(--ink)}.minute-controls select{font:inherit;border:1px solid var(--line);border-radius:6px;background:#fff;color:var(--ink);padding:5px 8px}.total-row th,.total-row td{background:#fafcfe}.total-start th,.total-start td{border-top:2px solid #cddced}.total-row th{font-weight:600}@media(max-width:520px){.minute-controls{padding:0 14px 10px}.minute-controls span{font-size:10px;width:100%}}
 
 thead th:last-child,tbody td:last-child{min-width:120px}
+
+.workspace-heading{display:block}.workspace-heading h2{white-space:nowrap;overflow-x:auto;max-width:100%;margin:0}.minute-controls{padding-top:12px}.workspace-heading+.minute-controls{padding-top:0}
