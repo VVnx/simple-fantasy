@@ -19,6 +19,7 @@ export default function ScheduleTool({today,season}:{today:string;season?:Schedu
   const todayET=easternDate(new Date(today));
   const [week,setWeek]=useState(()=>season?currentScheduleWeek(todayET,season):'');
   const [revision,setRevision]=useState(0);
+  const [sortDirection,setSortDirection]=useState<'ascending'|'descending'>('descending');
   const [state,setState]=useState<LoadState>({key:''});
   const key=`${week}:${revision}`;
   useEffect(()=>{
@@ -36,10 +37,12 @@ export default function ScheduleTool({today,season}:{today:string;season?:Schedu
   },[week,key]);
   const current=state.key===key?state:undefined, data=current?.data, loading=!!season&&!current;
   const dates=week?weekDays(week):[];
-  const rows=data?buildScheduleRows(data,'regular'):[];
+  const rows=data?buildScheduleRows(data,'regular').sort((a,b)=>
+    (sortDirection==='ascending'?a.total-b.total:b.total-a.total)||a.team.abbreviation.localeCompare(b.team.abbreviation)
+  ):[];
   const hasGames=rows.some(row=>row.total>0);
   return <main className="schedule-page">
-    <header className="site-header"><h1>Fantasy Timeline</h1><ToolNavigation active="schedule"/></header>
+    <header className="site-header"><h1>Fantasy - All Timeline</h1><ToolNavigation active="schedule"/></header>
     <section className="schedule-heading">
       <div><h2>每周赛程</h2>{season&&<p>{seasonLabel(season.year)} 常规赛</p>}</div>
       {season&&<div className="week-controls" aria-label="选择 Week">
@@ -58,7 +61,11 @@ export default function ScheduleTool({today,season}:{today:string;season?:Schedu
       <div className="table-scroll schedule-scroll" tabIndex={0} role="region" aria-label="30 支球队每周比赛网格，可横向和纵向滚动" aria-busy={loading}>
         <table className="schedule-grid">
           <caption className="sr-only">Week {seasonWeekNumber(week,season)}，{shortDate(week)}至{shortDate(dates[6])}，30 支 NBA 球队总场次与每日对手</caption>
-          <thead><tr><th scope="col" className="team-column">球队</th><th scope="col" className="total-column">场次</th>{dates.map(date=><th key={date} scope="col" className={date===todayET?'is-today':''}>{weekday(date)}<small>{shortDate(date)}</small></th>)}</tr></thead>
+          <thead><tr><th scope="col" className="team-column">球队</th><th scope="col" className="total-column" aria-sort={sortDirection}>
+            <button type="button" className="count-sort" onClick={()=>setSortDirection(direction=>direction==='ascending'?'descending':'ascending')} aria-label={sortDirection==='ascending'?'按场次降序排列':'按场次升序排列'} title={sortDirection==='ascending'?'切换为降序':'切换为升序'}>
+              场次<span aria-hidden="true">{sortDirection==='ascending'?'↑':'↓'}</span>
+            </button>
+          </th>{dates.map(date=><th key={date} scope="col" className={date===todayET?'is-today':''}>{weekday(date)}<small>{shortDate(date)}</small></th>)}</tr></thead>
           <tbody>{!data?NBA_TEAMS.map(team=><tr key={team.id}><th scope="row" className="team-column">{team.name}<small>{team.abbreviation}</small></th><td>—</td>{dates.map(date=><td key={date}><span className="no-game">{loading?'…':'—'}</span></td>)}</tr>):rows.map(row=><tr key={row.team.id}>
             <th scope="row" className="team-column">{row.team.name}<small>{row.team.abbreviation}</small></th>
             <td className="count-cell"><strong>{row.total}</strong></td>
