@@ -2,7 +2,7 @@ import { DataError } from './errors';
 export async function fetchJson(url: string, timeoutMs = 8_000): Promise<unknown> {
   // Hosts and paths are assembled by the adapter, never taken from user input.
   try {
-    const response = await fetch(url, { signal: AbortSignal.timeout(timeoutMs), cache: 'no-store', headers: { Accept: 'application/json' } });
+    const response = await fetch(url, { signal: AbortSignal.timeout(timeoutMs), cache: 'no-store', headers: { Accept: 'application/json', 'User-Agent':'FantasyTimeline/1.0 (+https://www.alltimeline.com)' } });
     if (response.status === 404) throw new DataError('NOT_FOUND','该数据源没有这项记录。',404);
     if (!response.ok) {
       const endpoint=new URL(url);
