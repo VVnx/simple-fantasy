@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
+import ToolNavigation from './tool-navigation';
 import type { Player, RowResult, Selection, TableRow } from '@/lib/types';
 import { defaultSelections, seasonLabel, selectionKey } from '@/lib/seasons';
 import { headers, statCells, minuteConversion, conversionLabel, comparisonSelections, tableSelectionLabel } from '@/lib/format';
@@ -111,7 +112,7 @@ export default function ResearchTool({today}:{today:string}) {
     if (event.key==='Enter'&&menuVisible&&active) {event.preventDefault();selectPlayer(active);}
   }
   return <main>
-    <header className="site-header"><h1>Fantasy Timeline</h1></header>
+    <header className="site-header"><h1>Fantasy Timeline</h1><ToolNavigation active="players"/></header>
     <section className="search-section" aria-label="查找球员" onBlur={e=>{if(!e.currentTarget.contains(e.relatedTarget as Node|null)){setMenuOpen(false);setActiveOption('');}}}><label className="sr-only" htmlFor="player-search">搜索球员</label>
       <div className="search-row"><div className="search-field"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg><input ref={inputRef} id="player-search" autoComplete="off" role="combobox" aria-autocomplete="list" aria-expanded={menuVisible} aria-controls={menuVisible?'player-options':undefined} aria-activedescendant={menuVisible&&active?`player-option-${active.id}`:undefined} onFocus={()=>{initializeSaved();setMenuOpen(true);setActiveOption('');}} onClick={()=>setMenuOpen(true)} onKeyDown={onSearchKey} placeholder="输入中文或英文姓名，如 里萨谢 / Risacher" value={query} maxLength={80} onChange={e=>{setQuery(e.target.value);setMenuOpen(true);setActiveOption('');}}/>{q&&<button className="clear-search" onPointerDown={e=>e.preventDefault()} onClick={()=>{setQuery('');setMenuOpen(true);setActiveOption('');inputRef.current?.focus();}} aria-label="清空搜索">×</button>}</div><button ref={favoritesButtonRef} type="button" className="favorites-trigger" onClick={()=>{initializeSaved();setMenuOpen(false);setActiveOption('');favoritesDialogRef.current?.showModal();}}>收藏列表</button></div>
       <div aria-live="polite" className="search-feedback">
