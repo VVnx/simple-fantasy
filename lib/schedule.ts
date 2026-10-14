@@ -20,10 +20,10 @@ export type ScheduleGame = {
   status:'scheduled'|'live'|'final'|'postponed'|'canceled';
 };
 export type WeekSchedule = {weekStart:string; games:ScheduleGame[]; fetchedAt:string; source:string};
-export type TeamGame = ScheduleGame & {opponent:string; home:boolean; backToBack:boolean; available:boolean};
+export type ScheduleSeason = {year:number;firstWeek:string;lastWeek:string};
+export type TeamGame = ScheduleGame & {opponent:string; home:boolean; backToBack:boolean};
 export type ScheduleRow = {
-  team:typeof NBA_TEAMS[number]; days:TeamGame[][]; total:number; remaining:number; nextTwo:number;
-  pairs:{start:string;end:string;available:boolean}[];
+  team:typeof NBA_TEAMS[number]; days:TeamGame[][]; total:number;
 };
 export function easternDate(instant:Date) {
   const parts = new Intl.DateTimeFormat('en-US',{timeZone:GAME_TIMEZONE,year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(instant);
@@ -48,27 +48,31 @@ export function weekDays(weekStart:string) {return Array.from({length:7},(_,i)=>
 export function shortDate(date:string) {return `${Number(date.slice(5,7))}/${Number(date.slice(8,10))}`;}
 export function weekday(date:string) {return ['周日','周一','周二','周三','周四','周五','周六'][new Date(`${date}T12:00:00Z`).getUTCDay()];}
 export function countsAsGame(game:ScheduleGame) {return game.status!=='postponed'&&game.status!=='canceled';}
-export function isAvailable(game:ScheduleGame,from:string,now:Date) {
-  return game.date>=from && game.status==='scheduled' && (game.timeKnown ? Date.parse(game.tipoff)>now.getTime() : game.date>=easternDate(now));
+export function seasonWeeks(season:ScheduleSeason) {
+  const count=Math.round((Date.parse(season.lastWeek)-Date.parse(season.firstWeek))/604_800_000)+1;
+  return Array.from({length:count},(_,i)=>addDays(season.firstWeek,i*7));
 }
-export function buildScheduleRows(data:WeekSchedule,type:ScheduleType,from:string,now:Date):ScheduleRow[] {
+export function seasonWeekNumber(week:string,season:ScheduleSeason) {
+  if(week<season.firstWeek||week>season.lastWeek)return null;
+  return Math.floor((Date.parse(mondayOf(week))-Date.parse(season.firstWeek))/604_800_000)+1;
+}
+export function currentScheduleWeek(date:string,season:ScheduleSeason) {
+  const week=mondayOf(date);
+  return week<season.firstWeek?season.firstWeek:week>season.lastWeek?season.lastWeek:week;
+}
+export function buildScheduleRows(data:WeekSchedule,type:ScheduleType):ScheduleRow[] {
   const dates=weekDays(data.weekStart), end=dates[6];
   const games=data.games.filter(game=>game.type===type);
   return NBA_TEAMS.map(team=>{
     const teamGames=games.filter(game=>game.homeId===team.id||game.awayId===team.id);
     const counted=teamGames.filter(countsAsGame);
     const playedDates=new Set(counted.map(game=>game.date));
-    const pairs=[...playedDates].sort().filter(date=>playedDates.has(addDays(date,1))&&date<=end&&addDays(date,1)>=data.weekStart).map(start=>({
-      start,end:addDays(start,1),available:[start,addDays(start,1)].every(date=>counted.some(game=>game.date===date&&isAvailable(game,from,now))),
-    }));
     const inWeek=counted.filter(game=>game.date>=data.weekStart&&game.date<=end);
     return {
-      team,total:inWeek.length,remaining:inWeek.filter(game=>isAvailable(game,from,now)).length,
-      nextTwo:inWeek.filter(game=>game.date<=addDays(from,1)&&isAvailable(game,from,now)).length,
-      pairs,
+      team,total:inWeek.length,
       days:dates.map(date=>teamGames.filter(game=>game.date===date).map(game=>({
         ...game,home:game.homeId===team.id,opponent:game.homeId===team.id?game.awayName:game.homeName,
-        backToBack:countsAsGame(game)&&pairs.some(pair=>pair.start===date||pair.end===date),available:isAvailable(game,from,now),
+        backToBack:countsAsGame(game)&&(playedDates.has(addDays(date,-1))||playedDates.has(addDays(date,1))),
       }))),
     };
   });

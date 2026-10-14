@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { addDays, easternDate, NBA_TEAMS, type ScheduleGame, type ScheduleType, type WeekSchedule } from '../schedule';
+import { addDays, easternDate, mondayOf, NBA_TEAMS, type ScheduleGame, type ScheduleType, type WeekSchedule, type ScheduleSeason } from '../schedule';
 import { fetchJson } from './http';
 import { requestCache } from './cache';
 import { DataError } from './errors';
@@ -17,6 +17,23 @@ const boardSchema=z.object({leagues:z.array(z.object({slug:z.string()})),events:
 const schemaError=()=>new DataError('SCHEMA','赛程数据结构发生变化，暂时无法可靠显示，请稍后重试。');
 const types:Record<number,ScheduleType|undefined>={1:'preseason',2:'regular',3:'playoffs'};
 const knownTeams=new Map(NBA_TEAMS.map(team=>[team.id,team]));
+
+export function parseScheduleSeason(raw:unknown,year:number):ScheduleSeason {
+  const parsed=z.object({year:z.number(),type:z.literal(2),startDate:z.string(),endDate:z.string()}).safeParse(raw);
+  if(!parsed.success||parsed.data.year!==year)throw schemaError();
+  const start=new Date(parsed.data.startDate),end=new Date(parsed.data.endDate);
+  if(!Number.isFinite(start.getTime())||!Number.isFinite(end.getTime())||end<=start||end.getTime()-start.getTime()>370*86_400_000)throw schemaError();
+  // ESPN phase bounds end at 23:59 Pacific, including daylight saving time.
+  // Converting that boundary to Eastern would introduce a spurious final Monday.
+  const parts=new Intl.DateTimeFormat('en-US',{timeZone:'America/Los_Angeles',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(end);
+  const part=(key:string)=>parts.find(p=>p.type===key)!.value;
+  return {year,firstWeek:mondayOf(easternDate(start)),lastWeek:mondayOf(`${part('year')}-${part('month')}-${part('day')}`)};
+}
+export async function getScheduleSeason(year:number):Promise<ScheduleSeason> {
+  return requestCache.get(`schedule-season:${year}`,6*60*60*1000,async()=>parseScheduleSeason(
+    await fetchJson(`https://sports.core.api.espn.com/v2/sports/basketball/leagues/nba/seasons/${year}/types/2`),year,
+  ));
+}
 
 export function parseScoreboard(raw:unknown,requestedDate:string):ScheduleGame[] {
   const result=boardSchema.safeParse(raw);

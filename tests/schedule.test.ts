@@ -1,8 +1,8 @@
 import { describe, expect, it, vi, afterEach } from 'vitest';
 import { NextRequest } from 'next/server';
 import { GET } from '../app/api/schedule/route';
-import { parseScoreboard, getWeekSchedule } from '../lib/data/schedule';
-import { addDays, buildScheduleRows, easternDate, mondayOf, validDate, weekDays, type ScheduleGame, type WeekSchedule } from '../lib/schedule';
+import { parseScoreboard, getWeekSchedule, parseScheduleSeason } from '../lib/data/schedule';
+import { addDays, buildScheduleRows, easternDate, mondayOf, currentScheduleWeek, seasonWeekNumber, seasonWeeks, validDate, weekDays, type ScheduleGame, type WeekSchedule } from '../lib/schedule';
 import fixture from './fixtures/schedule-2026-10-14.json';
 
 const now=new Date('2026-10-12T12:00:00Z');
@@ -10,10 +10,10 @@ function game(date:string,overrides:Partial<ScheduleGame>={}):ScheduleGame{
   return {id:date,date,tipoff:`${date}T23:00:00Z`,homeId:'2',awayId:'13',homeName:'凯尔特人',awayName:'湖人',status:'scheduled',timeKnown:true,neutral:false,type:'regular',...overrides};
 }
 function board(games:ScheduleGame[]):WeekSchedule{return {weekStart:'2026-10-12',games,fetchedAt:now.toISOString(),source:'ESPN'};}
-function boston(games:ScheduleGame[],from='2026-10-12',at=now){return buildScheduleRows(board(games),'regular',from,at).find(row=>row.team.id==='2')!;}
+function boston(games:ScheduleGame[]){return buildScheduleRows(board(games),'regular').find(row=>row.team.id==='2')!;}
 afterEach(()=>vi.unstubAllGlobals());
 
-describe('NBA week and streaming opportunities',()=>{
+describe('NBA weekly grid',()=>{
   it('uses Eastern date rather than UTC or Beijing date, including DST',()=>{
     expect(easternDate(new Date('2026-10-12T02:00:00Z'))).toBe('2026-10-11');
     expect(easternDate(new Date('2026-11-02T04:30:00Z'))).toBe('2026-11-01');
@@ -26,47 +26,69 @@ describe('NBA week and streaming opportunities',()=>{
     expect(validDate('2026-02-29')).toBe(false);expect(validDate('2028-02-29')).toBe(true);expect(validDate('2026-1-1')).toBe(false);
   });
   it('always includes all 30 teams and zero-game rows',()=>{
-    const rows=buildScheduleRows(board([]),'regular','2026-10-12',now);
+    const rows=buildScheduleRows(board([]),'regular');
     expect(rows).toHaveLength(30);expect(new Set(rows.map(row=>row.team.id)).size).toBe(30);
     expect(rows.every(row=>row.total===0&&row.days.length===7)).toBe(true);
   });
   it('counts each matchup once per team and places it under the correct weekday',()=>{
-    const rows=buildScheduleRows(board([game('2026-10-12'),game('2026-10-14')]),'regular','2026-10-12',now);
+    const rows=buildScheduleRows(board([game('2026-10-12'),game('2026-10-14')]),'regular');
     expect(rows.reduce((n,row)=>n+row.total,0)).toBe(4);
     const row=rows.find(row=>row.team.id==='2')!;
     expect(row.total).toBe(2);expect(row.days.map(day=>day.length)).toEqual([1,0,1,0,0,0,0]);
     expect(row.days[0][0].opponent).toBe('湖人');expect(row.days[0][0].home).toBe(true);
     expect(rows.find(row=>row.team.id==='13')!.days[0][0].home).toBe(false);
   });
-  it('separates total games, remaining games and the selected two-day window',()=>{
-    const row=boston([game('2026-10-12'),game('2026-10-13'),game('2026-10-15'),game('2026-10-18')],'2026-10-13');
-    expect(row.total).toBe(4);expect(row.remaining).toBe(3);expect(row.nextTwo).toBe(1);
-    expect(row.pairs[0].available).toBe(false);
-  });
   it('finds back-to-backs and highlights both games without marking separated dates',()=>{
     const row=boston([game('2026-10-12'),game('2026-10-13'),game('2026-10-15')]);
-    expect(row.pairs).toEqual([{start:'2026-10-12',end:'2026-10-13',available:true}]);
     expect(row.days[0][0].backToBack).toBe(true);expect(row.days[1][0].backToBack).toBe(true);expect(row.days[3][0].backToBack).toBe(false);
-    expect(row.nextTwo).toBe(2);
   });
   it('recognizes cross-week pairs without adding outside games to weekly totals',()=>{
     const row=boston([game('2026-10-11'),game('2026-10-12'),game('2026-10-18'),game('2026-10-19')]);
-    expect(row.total).toBe(2);expect(row.remaining).toBe(2);
-    expect(row.pairs).toEqual([{start:'2026-10-11',end:'2026-10-12',available:false},{start:'2026-10-18',end:'2026-10-19',available:true}]);
+    expect(row.total).toBe(2);
+    expect(row.days[0][0].backToBack).toBe(true);
     expect(row.days[6][0].backToBack).toBe(true);
   });
-  it('does not offer games already started even if upstream still says scheduled',()=>{
-    const row=boston([game('2026-10-12'),game('2026-10-13')],'2026-10-12',new Date('2026-10-12T23:01:00Z'));
-    expect(row.total).toBe(2);expect(row.remaining).toBe(1);expect(row.pairs[0].available).toBe(false);
-  });
-  it('excludes postponed/canceled games from totals and pairs, and live/final games from remaining',()=>{
+  it('excludes postponed/canceled games from totals and back-to-backs',()=>{
     const row=boston([game('2026-10-12',{status:'live'}),game('2026-10-13',{status:'postponed'}),game('2026-10-14',{status:'canceled'}),game('2026-10-15',{status:'final'})]);
-    expect(row.total).toBe(2);expect(row.remaining).toBe(0);expect(row.pairs).toHaveLength(0);
+    expect(row.total).toBe(2);expect(row.days.flat().every(game=>!game.backToBack)).toBe(true);
     expect(row.days[1][0].status).toBe('postponed');
   });
-  it('never mixes preseason into regular season opportunities',()=>{
+  it('never mixes preseason into the regular season grid',()=>{
     const row=boston([game('2026-10-12'),game('2026-10-13',{type:'preseason'})]);
-    expect(row.total).toBe(1);expect(row.pairs).toHaveLength(0);
+    expect(row.total).toBe(1);expect(row.days[0][0].backToBack).toBe(false);
+  });
+});
+
+// ESPN 2026–27 regular-season phase bounds; its end timestamp is the Pacific day boundary.
+const seasonBounds={year:2027,type:2,startDate:'2026-10-20T07:00Z',endDate:'2027-04-12T06:59Z'};
+const season=parseScheduleSeason(seasonBounds,2027);
+describe('regular-season Week numbering',()=>{
+  it('starts Week 1 on the Monday of opening week and stops at the final game week',()=>{
+    expect(season).toEqual({year:2027,firstWeek:'2026-10-19',lastWeek:'2027-04-05'});
+    expect(seasonWeeks(season)).toHaveLength(25);
+    expect(seasonWeeks(season).at(-1)).toBe('2027-04-05');
+    expect(seasonWeekNumber('2026-10-19',season)).toBe(1);
+    expect(seasonWeekNumber('2026-10-26',season)).toBe(2);
+    expect(seasonWeekNumber('2027-04-05',season)).toBe(25);
+  });
+  it('increments by natural weeks across New Year and daylight saving changes',()=>{
+    expect(seasonWeekNumber('2026-12-28',season)).toBe(11);
+    expect(seasonWeekNumber('2027-01-04',season)).toBe(12);
+    expect(seasonWeekNumber('2027-03-08',season)).toBe(21);
+    expect(seasonWeekNumber('2027-03-15',season)).toBe(22);
+  });
+  it('opens at Week 1 before the season and the last week after the season',()=>{
+    expect(currentScheduleWeek('2026-10-14',season)).toBe('2026-10-19');
+    expect(currentScheduleWeek('2026-10-25',season)).toBe('2026-10-19');
+    expect(currentScheduleWeek('2026-10-26',season)).toBe('2026-10-26');
+    expect(currentScheduleWeek('2027-05-01',season)).toBe('2027-04-05');
+    expect(seasonWeekNumber('2026-10-12',season)).toBeNull();
+    expect(seasonWeekNumber('2027-04-12',season)).toBeNull();
+  });
+  it('rejects missing, mismatched and invalid season metadata',()=>{
+    for(const raw of [{},{...seasonBounds,year:2026},{...seasonBounds,type:1},{...seasonBounds,startDate:'bad'},{...seasonBounds,endDate:'2026-10-19T00:00Z'},{...seasonBounds,endDate:'2028-04-12T06:59Z'}]){
+      expect(()=>parseScheduleSeason(raw,2027)).toThrow();
+    }
   });
 });
 
@@ -92,7 +114,7 @@ describe('ESPN schedule adapter',()=>{
     copy.events[0].competitions[0].competitors[1].team={id:'9999',displayName:'International Team'};
     expect(parseScoreboard(copy,'2026-10-14')[0].awayName).toBe('International Team');
   });
-  it('marks postponed games rather than advertising them as opportunities',()=>{
+  it('preserves postponed game status',()=>{
     const copy=structuredClone(fixture);copy.events[0].status.type.name='STATUS_POSTPONED';
     expect(parseScoreboard(copy,'2026-10-14')[0].status).toBe('postponed');
   });
