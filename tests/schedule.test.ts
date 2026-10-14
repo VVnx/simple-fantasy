@@ -9,7 +9,7 @@ const now=new Date('2026-10-12T12:00:00Z');
 function game(date:string,overrides:Partial<ScheduleGame>={}):ScheduleGame{
   return {id:date,date,tipoff:`${date}T23:00:00Z`,homeId:'2',awayId:'13',homeName:'凯尔特人',awayName:'湖人',status:'scheduled',timeKnown:true,neutral:false,type:'regular',...overrides};
 }
-function board(games:ScheduleGame[]):WeekSchedule{return {weekStart:'2026-10-12',games,fetchedAt:now.toISOString(),source:'ESPN'};}
+function board(games:ScheduleGame[]):WeekSchedule{return {weekStart:'2026-10-12',weeks:1,games,fetchedAt:now.toISOString(),source:'ESPN'};}
 function boston(games:ScheduleGame[]){return buildScheduleRows(board(games),'regular').find(row=>row.team.id==='2')!;}
 afterEach(()=>vi.unstubAllGlobals());
 
@@ -57,6 +57,25 @@ describe('NBA weekly grid',()=>{
     const row=boston([game('2026-10-12'),game('2026-10-13',{type:'preseason'})]);
     expect(row.total).toBe(1);expect(row.days[0][0].backToBack).toBe(false);
   });
+  it('counts 14 days once and highlights pairs at both outer edges and the middle Sunday/Monday',()=>{
+    const games=['2026-10-11','2026-10-12','2026-10-18','2026-10-19','2026-10-25','2026-10-26'].map(date=>game(date));
+    games.push(game('2026-10-21',{status:'postponed'}),game('2026-10-22',{type:'preseason'}));
+    const rows=buildScheduleRows({...board(games),weeks:2},'regular');
+    expect(rows).toHaveLength(30);
+    expect(rows.every(row=>row.days.length===14)).toBe(true);
+    const row=rows.find(row=>row.team.id==='2')!;
+    expect(row.total).toBe(4);
+    for(const index of [0,6,7,13])expect(row.days[index][0].backToBack).toBe(true);
+    expect(row.days[9][0].status).toBe('postponed');
+    expect(rows.reduce((sum,row)=>sum+row.total,0)).toBe(8);
+  });
+  it('keeps 14 consecutive calendar days across year and DST boundaries',()=>{
+    expect(weekDays('2026-12-28',2)).toHaveLength(14);
+    expect(weekDays('2026-12-28',2).at(-1)).toBe('2027-01-10');
+    const dates=weekDays('2026-10-26',2);
+    expect(new Set(dates).size).toBe(14);
+    expect(dates.at(-1)).toBe('2026-11-08');
+  });
 });
 
 // ESPN 2026–27 regular-season phase bounds; its end timestamp is the Pacific day boundary.
@@ -94,6 +113,14 @@ describe('regular-season Week numbering',()=>{
     for(const raw of [{},{...seasonBounds,year:2026},{...seasonBounds,type:1},{...seasonBounds,startDate:'bad'},{...seasonBounds,endDate:'2026-10-19T00:00Z'},{...seasonBounds,endDate:'2028-04-12T06:59Z'}]){
       expect(()=>parseScheduleSeason(raw,2027)).toThrow();
     }
+  });
+  it('keeps both weeks inside the season and shifts the final single week to the last pair',()=>{
+    expect(seasonWeeks(season,2)).toHaveLength(24);
+    expect(seasonWeeks(season,2).at(-1)).toBe('2027-03-29');
+    expect(currentScheduleWeek('2026-10-14',season,2)).toBe('2026-10-19');
+    expect(currentScheduleWeek('2026-10-28',season,2)).toBe('2026-10-26');
+    expect(currentScheduleWeek('2027-04-05',season,2)).toBe('2027-03-29');
+    expect(currentScheduleWeek('2027-05-01',season,2)).toBe('2027-03-29');
   });
 });
 
@@ -144,5 +171,31 @@ describe('ESPN schedule adapter',()=>{
       expect((await GET(new NextRequest(`http://localhost/api/schedule?week=${date}`))).status).toBe(400);
     }
     expect(fetcher).not.toHaveBeenCalled();
+  });
+  it('rejects unsupported week ranges before making upstream requests',async()=>{
+    const fetcher=vi.fn();vi.stubGlobal('fetch',fetcher);
+    for(const weeks of ['0','3','-1','1.5','02','bad','']){
+      expect((await GET(new NextRequest(`http://localhost/api/schedule?week=2026-12-07&weeks=${weeks}`))).status).toBe(400);
+    }
+    expect(fetcher).not.toHaveBeenCalled();
+  });
+  it('serves two weeks with both adjacent days and reuses daily cache from single-week reads',async()=>{
+    const fetcher=vi.fn(async()=>Response.json({leagues:[{slug:'nba'}],events:[]}));vi.stubGlobal('fetch',fetcher);
+    await getWeekSchedule('2026-12-07');
+    expect(fetcher).toHaveBeenCalledTimes(9);
+    const response=await GET(new NextRequest('http://localhost/api/schedule?week=2026-12-07&weeks=2'));
+    expect(response.status).toBe(200);
+    expect(await response.json()).toMatchObject({weekStart:'2026-12-07',weeks:2,games:[]});
+    expect(fetcher).toHaveBeenCalledTimes(16);
+    const requests=fetcher.mock.calls.flat().join(' ');
+    expect(requests).toContain('20261206');expect(requests).toContain('20261221');
+  });
+  it('fails the complete two-week range when the second week is unavailable',async()=>{
+    vi.stubGlobal('fetch',vi.fn(async(url:string)=>url.endsWith('20270210')?new Response('unavailable',{status:503}):Response.json({leagues:[{slug:'nba'}],events:[]})));
+    const response=await GET(new NextRequest('http://localhost/api/schedule?week=2027-02-01&weeks=2'));
+    expect(response.status).toBe(502);
+    expect(response.headers.get('Cache-Control')).toBe('no-store');
+    const result=await response.json();
+    expect(result).toMatchObject({error:expect.stringContaining('503')});expect(result).not.toHaveProperty('games');
   });
 });

@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { addDays, easternDate, mondayOf, NBA_TEAMS, type ScheduleGame, type ScheduleType, type WeekSchedule, type ScheduleSeason } from '../schedule';
+import { addDays, easternDate, mondayOf, NBA_TEAMS, type ScheduleGame, type ScheduleType, type WeekSchedule, type ScheduleSeason, type ScheduleWeeks } from '../schedule';
 import { fetchJson } from './http';
 import { requestCache } from './cache';
 import { DataError } from './errors';
@@ -70,9 +70,9 @@ export function parseScoreboard(raw:unknown,requestedDate:string):ScheduleGame[]
   }
   return games;
 }
-export async function getWeekSchedule(weekStart:string):Promise<WeekSchedule>{
+export async function getWeekSchedule(weekStart:string,weeks:ScheduleWeeks=1):Promise<WeekSchedule>{
   // Fetch adjacent days too: Sunday/Monday back-to-backs must not disappear at a week boundary.
-  const dates=Array.from({length:9},(_,i)=>addDays(weekStart,i-1));
+  const dates=Array.from({length:7*weeks+2},(_,i)=>addDays(weekStart,i-1));
   const daily=await Promise.all(dates.map(date=>requestCache.get(`schedule:${date}`,300_000,async()=>{
     const raw=await fetchJson(`https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=${date.replaceAll('-','')}`);
     return {games:parseScoreboard(raw,date),fetchedAt:new Date().toISOString()};
@@ -83,5 +83,5 @@ export async function getWeekSchedule(weekStart:string):Promise<WeekSchedule>{
     if(existing&&JSON.stringify(existing)!==JSON.stringify(game))throw schemaError();
     unique.set(game.id,game);
   }
-  return {weekStart,games:[...unique.values()].sort((a,b)=>a.tipoff.localeCompare(b.tipoff)),fetchedAt:daily.map(day=>day.fetchedAt).sort()[0],source:'ESPN'};
+  return {weekStart,weeks,games:[...unique.values()].sort((a,b)=>a.tipoff.localeCompare(b.tipoff)),fetchedAt:daily.map(day=>day.fetchedAt).sort()[0],source:'ESPN'};
 }

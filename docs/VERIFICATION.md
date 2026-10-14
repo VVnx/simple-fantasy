@@ -1,3 +1,13 @@
+# 场次排序与站点更名 · 2026-10-14
+
+- 场次表头默认降序，点击切换升序／降序，箭头与 `aria-sort` 同步；同场次按球队英文缩写排列，切换 Week 保留排序方向。
+- 首页、赛程页、浏览器标题与 Sites 显示名称统一为 `Fantasy - All Timeline`。
+- TypeScript 与 75 项测试通过，Sites 构建成功；线上 Week 1 的 30 队验证为降序 4→3→2、升序 2→3→4，Week 2 保留升序并可用 Enter 切回降序。
+- 375px 手机视口页面宽度为 375px，新标题与导航无溢出；表格继续独立滚动。已恢复默认视口。
+- Sites 版本 15，来源提交 `36f00093fa5a4ce504fd2f77e15ed86e2cf70f90`，部署 `appgdep_6acf278f478881919f42edb08c20c605` 成功；已核验 https://www.alltimeline.com/schedule 。
+
+---
+
 # 当前版本 · Fantasy Timeline v14 · 2026-10-14
 
 - 正式入口：https://www.alltimeline.com；本轮修复用户截图中奥孔古所有赛季 HTTP 403，保留原站点、访问范围与界面。
