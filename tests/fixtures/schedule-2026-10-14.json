@@ -1,0 +1,338 @@
+{
+  "leagues": [
+    {
+      "slug": "nba"
+    }
+  ],
+  "events": [
+    {
+      "id": "401898404",
+      "date": "2026-10-14T23:30Z",
+      "season": {
+        "year": 2027,
+        "type": 1,
+        "slug": "preseason"
+      },
+      "status": {
+        "clock": 0.0,
+        "displayClock": "0.0",
+        "period": 0,
+        "type": {
+          "id": "1",
+          "name": "STATUS_SCHEDULED",
+          "state": "pre",
+          "completed": false,
+          "description": "Scheduled",
+          "detail": "Wed, October 14th at 7:30 PM EDT",
+          "shortDetail": "10/14 - 7:30 PM EDT"
+        }
+      },
+      "competitions": [
+        {
+          "date": "2026-10-14T23:30Z",
+          "timeValid": true,
+          "neutralSite": false,
+          "notes": [],
+          "competitors": [
+            {
+              "homeAway": "home",
+              "team": {
+                "id": "14",
+                "displayName": "Miami Heat"
+              }
+            },
+            {
+              "homeAway": "away",
+              "team": {
+                "id": "17",
+                "displayName": "Brooklyn Nets"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "401898405",
+      "date": "2026-10-14T23:30Z",
+      "season": {
+        "year": 2027,
+        "type": 1,
+        "slug": "preseason"
+      },
+      "status": {
+        "clock": 0.0,
+        "displayClock": "0.0",
+        "period": 0,
+        "type": {
+          "id": "1",
+          "name": "STATUS_SCHEDULED",
+          "state": "pre",
+          "completed": false,
+          "description": "Scheduled",
+          "detail": "Wed, October 14th at 7:30 PM EDT",
+          "shortDetail": "10/14 - 7:30 PM EDT"
+        }
+      },
+      "competitions": [
+        {
+          "date": "2026-10-14T23:30Z",
+          "timeValid": true,
+          "neutralSite": false,
+          "notes": [],
+          "competitors": [
+            {
+              "homeAway": "home",
+              "team": {
+                "id": "2",
+                "displayName": "Boston Celtics"
+              }
+            },
+            {
+              "homeAway": "away",
+              "team": {
+                "id": "30",
+                "displayName": "Charlotte Hornets"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "401898722",
+      "date": "2026-10-15T00:00Z",
+      "season": {
+        "year": 2027,
+        "type": 1,
+        "slug": "preseason"
+      },
+      "status": {
+        "clock": 0.0,
+        "displayClock": "0.0",
+        "period": 0,
+        "type": {
+          "id": "1",
+          "name": "STATUS_SCHEDULED",
+          "state": "pre",
+          "completed": false,
+          "description": "Scheduled",
+          "detail": "Wed, October 14th at 8:00 PM EDT",
+          "shortDetail": "10/14 - 8:00 PM EDT"
+        }
+      },
+      "competitions": [
+        {
+          "date": "2026-10-15T00:00Z",
+          "timeValid": true,
+          "neutralSite": false,
+          "notes": [],
+          "competitors": [
+            {
+              "homeAway": "home",
+              "team": {
+                "id": "24",
+                "displayName": "San Antonio Spurs"
+              }
+            },
+            {
+              "homeAway": "away",
+              "team": {
+                "id": "21",
+                "displayName": "Phoenix Suns"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "401901825",
+      "date": "2026-10-15T00:00Z",
+      "season": {
+        "year": 2027,
+        "type": 1,
+        "slug": "preseason"
+      },
+      "status": {
+        "clock": 0.0,
+        "displayClock": "0.0",
+        "period": 0,
+        "type": {
+          "id": "1",
+          "name": "STATUS_SCHEDULED",
+          "state": "pre",
+          "completed": false,
+          "description": "Scheduled",
+          "detail": "Wed, October 14th at 8:00 PM EDT",
+          "shortDetail": "10/14 - 8:00 PM EDT"
+        }
+      },
+      "competitions": [
+        {
+          "date": "2026-10-15T00:00Z",
+          "timeValid": true,
+          "neutralSite": false,
+          "notes": [],
+          "competitors": [
+            {
+              "homeAway": "home",
+              "team": {
+                "id": "6",
+                "displayName": "Dallas Mavericks"
+              }
+            },
+            {
+              "homeAway": "away",
+              "team": {
+                "id": "3",
+                "displayName": "New Orleans Pelicans"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "401908942",
+      "date": "2026-10-15T00:00Z",
+      "season": {
+        "year": 2027,
+        "type": 1,
+        "slug": "preseason"
+      },
+      "status": {
+        "clock": 0.0,
+        "displayClock": "0.0",
+        "period": 0,
+        "type": {
+          "id": "1",
+          "name": "STATUS_SCHEDULED",
+          "state": "pre",
+          "completed": false,
+          "description": "Scheduled",
+          "detail": "Wed, October 14th at 8:00 PM EDT",
+          "shortDetail": "10/14 - 8:00 PM EDT"
+        }
+      },
+      "competitions": [
+        {
+          "date": "2026-10-15T00:00Z",
+          "timeValid": true,
+          "neutralSite": false,
+          "notes": [],
+          "competitors": [
+            {
+              "homeAway": "home",
+              "team": {
+                "id": "15",
+                "displayName": "Milwaukee Bucks"
+              }
+            },
+            {
+              "homeAway": "away",
+              "team": {
+                "id": "4",
+                "displayName": "Chicago Bulls"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "401914125",
+      "date": "2026-10-15T00:00Z",
+      "season": {
+        "year": 2027,
+        "type": 1,
+        "slug": "preseason"
+      },
+      "status": {
+        "clock": 0.0,
+        "displayClock": "0.0",
+        "period": 0,
+        "type": {
+          "id": "1",
+          "name": "STATUS_SCHEDULED",
+          "state": "pre",
+          "completed": false,
+          "description": "Scheduled",
+          "detail": "Wed, October 14th at 8:00 PM EDT",
+          "shortDetail": "10/14 - 8:00 PM EDT"
+        }
+      },
+      "competitions": [
+        {
+          "date": "2026-10-15T00:00Z",
+          "timeValid": true,
+          "neutralSite": false,
+          "notes": [],
+          "competitors": [
+            {
+              "homeAway": "home",
+              "team": {
+                "id": "16",
+                "displayName": "Minnesota Timberwolves"
+              }
+            },
+            {
+              "homeAway": "away",
+              "team": {
+                "id": "8",
+                "displayName": "Detroit Pistons"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "401918011",
+      "date": "2026-10-15T02:30Z",
+      "season": {
+        "year": 2027,
+        "type": 1,
+        "slug": "preseason"
+      },
+      "status": {
+        "clock": 0.0,
+        "displayClock": "0.0",
+        "period": 0,
+        "type": {
+          "id": "1",
+          "name": "STATUS_SCHEDULED",
+          "state": "pre",
+          "completed": false,
+          "description": "Scheduled",
+          "detail": "Wed, October 14th at 10:30 PM EDT",
+          "shortDetail": "10/14 - 10:30 PM EDT"
+        }
+      },
+      "competitions": [
+        {
+          "date": "2026-10-15T02:30Z",
+          "timeValid": true,
+          "neutralSite": false,
+          "notes": [],
+          "competitors": [
+            {
+              "homeAway": "home",
+              "team": {
+                "id": "12",
+                "displayName": "LA Clippers"
+              }
+            },
+            {
+              "homeAway": "away",
+              "team": {
+                "id": "7",
+                "displayName": "Denver Nuggets"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
