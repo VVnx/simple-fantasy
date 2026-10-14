@@ -1,4 +1,17 @@
-# 当前版本 · Fantasy Timeline v11 · 2026-10-14
+# 当前版本 · Fantasy Timeline v14 · 2026-10-14
+
+- 正式入口：https://www.alltimeline.com；本轮修复用户截图中奥孔古所有赛季 HTTP 403，保留原站点、访问范围与界面。
+- 14:29:57（北京时间）生产日志中，球员 `4431680` 的四个统计请求均返回本站 502；例如 2024–25 常规赛请求 `07b5fe63ad79252f85e740b6d91b441f`。直接请求本站同样得到 `UPSTREAM`、上游 HTTP 403，排除前端展示问题。
+- 后续诊断确认托管端收到 `server: cloudflare` 的 HTML `403 Forbidden`，发生在 JSON 解析前；相同 ESPN Core 和 gamelog 从本机读取为 200、真实统计解析通过。真实应用 User-Agent 未改善，已撤除该尝试。现有证据可定位到托管端至数据源的访问拒绝，不能确定具体拒绝规则或归因于某次源码提交。
+- ESPN Core、Web 搜索与 gamelog 的正常响应均声明 `Access-Control-Allow-Origin: *`。页面仅在本站 API 明确返回 `UPSTREAM_DENIED` 时，改用浏览器正常公开 CORS 请求；同一数据适配器处理来源身份、缺项、赛事分段和缓存，不使用代理、凭证、伪装头或示例数据。上游本身仍可能拒绝服务器直连，API 502 不等于页面读取失败。
+- 75 项测试通过，覆盖服务器成功不重复读取、403 备用读取、中文别名、真实数据解析、普通错误不掩盖、请求取消后丢弃结果和备用源失败。类型检查、Next 构建及官方 Sites 构建通过。
+- 正式页面实测中文“奥孔古”及英文“Okongwu”搜索均返回 Onyeka Okongwu `4431680`，选择后 8 行均无错误。2024–25：GP74、MIN2064、PTS988、DD28、OREB220；2025–26：GP74、MIN2297、PTS1123、DD16、OREB140；2026–27 季前赛：GP3、MIN59≈、PTS39、DD0、OREB缺失；本季常规赛暂无出场记录。历史和季前赛结果与独立读取的源 JSON 一致。
+- GitHub 功能源码提交 `d049c6e`；Sites 源提交 `8ced82c98e14e05a34d7329830317ec9ad86a24a`。生产 v14：`appgprj_6acc452f1a448191ab864e76dd77f4b1~appgver_ca9c81267fe48191ade6afd7e4b30120`；部署 `appgdep_6acf247e2e7081918247e3cb3c79ad89`，状态 `succeeded`，返回 https://simple-fantasy.teal-mug-4834.chatgpt.site 。
+- 已检查实际页面并保留恢复截图。没有启动本地预览服务、修改收藏、创建新托管资源或改动自定义域名。备用路径仍依赖用户网络可访问 ESPN。
+
+---
+
+# 历史版本 · Fantasy Timeline v11 · 2026-10-14
 
 - 正式入口：https://www.alltimeline.com/schedule；沿用原 Sites 项目、公开范围及自定义域名。
 - 简化为 Week 切换与 30 队×7 天网格，每队仅列全周场次和每日对手。移除补人概念、剩余场次、排序筛选、统计卡片和长说明；背靠背以绿色高亮，跨周连续比赛也可识别。
