@@ -8,12 +8,13 @@ export async function readWithPublicFallback<T>(url:string,readPublic:()=>Promis
   const body=await response.json();
   signal.throwIfAborted();
   if(response.ok)return body as T;
-  if(body?.code==='UPSTREAM_DENIED'){
+  const failure=body&&typeof body==='object'?body as Record<string,unknown>:undefined;
+  if(failure?.code==='UPSTREAM_DENIED'){
     const result=await readPublic();
     signal.throwIfAborted();
     return result;
   }
-  throw new Error(typeof body?.error==='string'?body.error:'请求失败，请稍后重试。');
+  throw new Error(typeof failure?.error==='string'?failure.error:'请求失败，请稍后重试。');
 }
 export function readPlayerSeason(id:string,selection:Selection,signal:AbortSignal) {
   const params=new URLSearchParams({player:id,year:String(selection.year),type:selection.type});
