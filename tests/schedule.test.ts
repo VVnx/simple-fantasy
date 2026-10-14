@@ -1,7 +1,7 @@
 import { describe, expect, it, vi, afterEach } from 'vitest';
 import { NextRequest } from 'next/server';
 import { GET } from '../app/api/schedule/route';
-import { parseScoreboard, getWeekSchedule, parseScheduleSeason } from '../lib/data/schedule';
+import { parseScoreboard, getWeekSchedule, parseScheduleSeason, getScheduleSeason } from '../lib/data/schedule';
 import { addDays, buildScheduleRows, easternDate, mondayOf, currentScheduleWeek, seasonWeekNumber, seasonWeeks, validDate, weekDays, type ScheduleGame, type WeekSchedule } from '../lib/schedule';
 import fixture from './fixtures/schedule-2026-10-14.json';
 
@@ -63,6 +63,11 @@ describe('NBA weekly grid',()=>{
 const seasonBounds={year:2027,type:2,startDate:'2026-10-20T07:00Z',endDate:'2027-04-12T06:59Z'};
 const season=parseScheduleSeason(seasonBounds,2027);
 describe('regular-season Week numbering',()=>{
+  it('keeps the published season calendar available without upstream metadata',async()=>{
+    vi.stubGlobal('fetch',vi.fn(async()=>new Response('Unavailable',{status:503})));
+    expect(await getScheduleSeason(2027)).toEqual(season);
+    await expect(getScheduleSeason(2028)).rejects.toThrow('503');
+  });
   it('starts Week 1 on the Monday of opening week and stops at the final game week',()=>{
     expect(season).toEqual({year:2027,firstWeek:'2026-10-19',lastWeek:'2027-04-05'});
     expect(seasonWeeks(season)).toHaveLength(25);
