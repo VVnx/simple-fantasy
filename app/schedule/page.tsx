@@ -7,7 +7,8 @@ export default async function SchedulePage(){
   try{
     const season=await getScheduleSeason(currentEndYear(today));
     return <ScheduleTool today={today.toISOString()} season={season}/>;
-  }catch{
+  }catch(error){
+    console.error('[schedule:season]',error);
     return <ScheduleTool today={today.toISOString()}/>;
   }
 }
