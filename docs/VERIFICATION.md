@@ -1,4 +1,16 @@
-# 当前版本 · Fantasy Timeline v6 · 2026-10-12
+# 当前版本 · Fantasy Timeline v7 · 2026-10-14
+
+- 正式入口：https://www.alltimeline.com/schedule；沿用原 Sites 项目、公开访问范围及自定义域名。
+- GitHub `VVnx/simple-fantasy` 的 `main` 已推送功能提交 `22714ed`。Sites 源提交 `54f580eaa435a89bd341e9069663d0fb9cee3d47` 与该功能提交的源码树一致（`9ff97df8405a8736290257f453e451ed6b332c60`）；两个仓库沿用各自历史，没有强推或覆盖历史。
+- Sites 保存版本 7：`appgprj_6acc452f1a448191ab864e76dd77f4b1~appgver_7b0439f359e08191a1ddcbac25838f4d`；发布 `appgdep_6acf17f37b248191b464e10451fab077`，原生状态 `succeeded`，返回 https://simple-fantasy.teal-mug-4834.chatgpt.site 。
+- 新增 30 队×7 天网格，显示全周／剩余场次、对手、主客场、美东时间、背靠背及跨周组合；可按补人起始日筛选未开赛机会，并按全周、剩余或起始两天场数排序。赛事分开计算，延期和取消不进入机会计数。
+- 本地 66 项测试、类型检查、Sites 与 Next 构建通过，浏览器已验证周次／日期／排序／筛选、工具导航、390px 布局和表内横向滚动。独立发布目录通过官方 Sites 构建、源码同步与打包流程。
+- 发布后正式域名 `/schedule` 成功返回新版标题、补人起始日与背靠背控件；`/api/schedule?week=2026-10-26` 成功返回真实 ESPN 数据，本周 49 场、覆盖 30 队。生产 API 读取时间为 2026-10-14T05:50:17.136Z，核验未使用本地夹具。
+- 赛程仍受 ESPN 调整与偶发超时影响；错误明确显示，可重试。自然周按美东周一至周日划分，不推断用户联盟的交易生效时间，也不保证具体球员出场。
+
+---
+
+# 历史版本 · Fantasy Timeline v6 · 2026-10-12
 
 - 公开地址 https://www.alltimeline.com；同一 Sites 项目，保留 public 范围及自定义域名。原 Sites 地址仍可用。
 - 本地功能提交 `d4e2825`；Sites v6 源提交 `5e02f8c494eb1f35796bba656128a8bbdb8bc42c`，原生发布状态 succeeded。
