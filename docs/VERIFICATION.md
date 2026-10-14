@@ -1,4 +1,19 @@
-# 当前版本 · Fantasy Timeline v7 · 2026-10-14
+# 当前版本 · Fantasy Timeline v11 · 2026-10-14
+
+- 正式入口：https://www.alltimeline.com/schedule；沿用原 Sites 项目、公开范围及自定义域名。
+- 简化为 Week 切换与 30 队×7 天网格，每队仅列全周场次和每日对手。移除补人概念、剩余场次、排序筛选、统计卡片和长说明；背靠背以绿色高亮，跨周连续比赛也可识别。
+- 常规赛开赛周为 Week 1，每周一至周日按自然周递增，不使用平台合并周口径。2026–27 为 Week 1（10/19–10/25）至 Week 25（4/5–4/11）；赛前默认 Week 1。
+- 本季日期来自已核实的 NBA 官方赛季安排：https://pr.nba.com/2026-27-nba-regular-season-schedule 。上线检查发现独立 ESPN season 元数据接口在托管环境返回非成功状态，因此本季采用已公布日期配置；后续未配置赛季仍尝试元数据接口，读取失败明确提示，不猜测 Week。具体比赛始终实时读取 ESPN。
+- GitHub main 已推送功能及修复至 `5ad598b`；Sites 源提交 `325a8e73c7642075cd6cbd4d47b426e2e177d706`。两个仓库保留各自历史。
+- Sites 保存版本 11：`appgprj_6acc452f1a448191ab864e76dd77f4b1~appgver_c9349695ecb88191a324d5f1a7062557`；发布 `appgdep_6acf210fcac48191ba5572712d8ccb3b`，状态 `succeeded`，原生地址 https://simple-fantasy.teal-mug-4834.chatgpt.site 。
+- 69 项测试、类型检查、Next 与 Sites 构建通过。类型生成在停止 Vinext 开发服务后重新生成，避免共用 `.next` 目录造成声明冲突。
+- 正式域名浏览器核验：默认 Week 1 为 43 场、30 队；下一周 Week 2 为 49 场、30 队；9 列、背靠背高亮、Week 下拉、赛季末边界禁用和返回本周正常，页面无“补人／剩余场次／排序”控件。
+- 桌面 1280px 完整显示周一至周日。手机 390px 页面宽度为 390px，表格独立横向滚动、球队列固定，底部图例保持一行。实际截图已查看；临时视口和本地预览服务已清理。
+- 本地浏览器原错误标签页被浏览器 URL 策略阻止；通过正式站点完成页面与交互验证。赛程数据仍受 ESPN 调整、超时和未公布场次影响，读取失败可以重试。
+
+---
+
+# 历史版本 · Fantasy Timeline v7 · 2026-10-14
 
 - 正式入口：https://www.alltimeline.com/schedule；沿用原 Sites 项目、公开访问范围及自定义域名。
 - GitHub `VVnx/simple-fantasy` 的 `main` 已推送功能提交 `22714ed`。Sites 源提交 `54f580eaa435a89bd341e9069663d0fb9cee3d47` 与该功能提交的源码树一致（`9ff97df8405a8736290257f453e451ed6b332c60`）；两个仓库沿用各自历史，没有强推或覆盖历史。
