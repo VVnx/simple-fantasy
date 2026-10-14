@@ -17,6 +17,12 @@ const boardSchema=z.object({leagues:z.array(z.object({slug:z.string()})),events:
 const schemaError=()=>new DataError('SCHEMA','赛程数据结构发生变化，暂时无法可靠显示，请稍后重试。');
 const types:Record<number,ScheduleType|undefined>={1:'preseason',2:'regular',3:'playoffs'};
 const knownTeams=new Map(NBA_TEAMS.map(team=>[team.id,team]));
+// Published season dates, not example games. Keep Week navigation available even
+// when the separate season-metadata endpoint is unavailable from the hosted runtime.
+// https://pr.nba.com/2026-27-nba-regular-season-schedule
+const publishedSeasons:Record<number,ScheduleSeason>={
+  2027:{year:2027,firstWeek:'2026-10-19',lastWeek:'2027-04-05'},
+};
 
 export function parseScheduleSeason(raw:unknown,year:number):ScheduleSeason {
   const parsed=z.object({year:z.number(),type:z.literal(2),startDate:z.string(),endDate:z.string()}).safeParse(raw);
@@ -30,6 +36,7 @@ export function parseScheduleSeason(raw:unknown,year:number):ScheduleSeason {
   return {year,firstWeek:mondayOf(easternDate(start)),lastWeek:mondayOf(`${part('year')}-${part('month')}-${part('day')}`)};
 }
 export async function getScheduleSeason(year:number):Promise<ScheduleSeason> {
+  if(publishedSeasons[year])return publishedSeasons[year];
   return requestCache.get(`schedule-season:${year}`,6*60*60*1000,async()=>parseScheduleSeason(
     await fetchJson(`https://sports.core.api.espn.com/v2/sports/basketball/leagues/nba/seasons/${year}/types/2`),year,
   ));
