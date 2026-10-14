@@ -1,5 +1,5 @@
 export class DataError extends Error {
-  constructor(public code: 'UPSTREAM' | 'TIMEOUT' | 'SCHEMA' | 'NOT_FOUND' | 'MISMATCH', message: string, public status = 502) { super(message); }
+  constructor(public code: 'UPSTREAM' | 'UPSTREAM_DENIED' | 'TIMEOUT' | 'SCHEMA' | 'NOT_FOUND' | 'MISMATCH', message: string, public status = 502) { super(message); }
 }
 export function publicError(error: unknown) {
   if (error instanceof DataError) return { error: error.message, code: error.code };

@@ -4,18 +4,11 @@ import ToolNavigation from './tool-navigation';
 import type { Player, RowResult, Selection, TableRow } from '@/lib/types';
 import { defaultSelections, seasonLabel, selectionKey } from '@/lib/seasons';
 import { headers, statCells, minuteConversion, conversionLabel, comparisonSelections, tableSelectionLabel } from '@/lib/format';
+import { readPlayerSearch, readPlayerSeason } from '@/lib/data/client';
 
 import { loadSavedPlayers, rememberPlayer, savePlayers, toggleFavorite, type SavedPlayer, type SavedPlayers } from '@/lib/saved-players';
 
 type SearchState = { query: string; players: Player[]; error?: string; resolvedQuery?: string };
-async function readJson<T>(response: Response): Promise<T> {
-  const body: unknown = await response.json();
-  if (!response.ok) {
-    const message = body && typeof body === 'object' && 'error' in body && typeof body.error === 'string' ? body.error : '请求失败，请稍后重试。';
-    throw new Error(message);
-  }
-  return body as T;
-}
 function useResults(playerId: string | undefined, selections: Selection[]) {
   const [state,setState]=useState<{identity:string;items:Record<string,RowResult>}>({identity:'',items:{}});
   const identity=playerId??'';
@@ -25,8 +18,7 @@ function useResults(playerId: string | undefined, selections: Selection[]) {
     const controller=new AbortController();
     const requested=signature.split(',').map(key=>{const [year,type]=key.split('-');return {year:Number(year),type:type as Selection['type']};});
     for (const s of requested) {
-      const params=new URLSearchParams({player:playerId,year:String(s.year),type:s.type});
-      fetch(`/api/stats?${params}`,{signal:controller.signal}).then(readJson<RowResult>).then((body)=>{
+      readPlayerSeason(playerId,s,controller.signal).then((body)=>{
         if(!controller.signal.aborted)setState(prev=>({identity,items:{...(prev.identity===identity?prev.items:{}),[selectionKey(s)]:body}}));
       }).catch(error=>{
         if(!controller.signal.aborted)setState(prev=>({identity,items:{...(prev.identity===identity?prev.items:{}),[selectionKey(s)]:{error:error instanceof Error?error.message:'请求失败'}}}));
@@ -57,7 +49,7 @@ export default function ResearchTool({today}:{today:string}) {
     if(q.length<2)return;
     const controller=new AbortController();
     const timer=setTimeout(()=>{
-      fetch(`/api/players?q=${encodeURIComponent(q)}`,{signal:controller.signal}).then(readJson<{players:Player[];resolvedQuery:string}>).then(body=>{
+      readPlayerSearch(q,controller.signal).then(body=>{
         if(seq===searchSeq.current&&!controller.signal.aborted)setSearch({query:q,players:body.players,resolvedQuery:body.resolvedQuery});
       }).catch(error=>{
         if(seq===searchSeq.current&&!controller.signal.aborted)setSearch({query:q,players:[],error:error instanceof Error?error.message:'搜索失败'});
