@@ -22,6 +22,8 @@ export default function ScheduleTool({today,season}:{today:string;season?:Schedu
   const [revision,setRevision]=useState(0);
   const [sortDirection,setSortDirection]=useState<'ascending'|'descending'>('descending');
   const [state,setState]=useState<LoadState>({key:''});
+  const [exporting,setExporting]=useState(false);
+  const [exportResult,setExportResult]=useState<{key:string;error?:string;message?:string}>();
   const key=`${week}:${weeks}:${revision}`;
   useEffect(()=>{
     if(!week)return;
@@ -53,6 +55,17 @@ export default function ScheduleTool({today,season}:{today:string;season?:Schedu
   const hasGames=rows.some(row=>row.total>0);
   const totals=rows.map(row=>row.total);
   const minTotal=Math.min(...totals), maxTotal=Math.max(...totals);
+  async function exportImage(){
+    if(!data||!season||exporting)return;
+    setExporting(true);setExportResult(undefined);
+    try{
+      const {downloadSchedulePng}=await import('@/lib/schedule-export');
+      await downloadSchedulePng(data,{season,direction:sortDirection});
+      setExportResult({key,message:'图片已生成'});
+    }catch(error){
+      setExportResult({key,error:error instanceof Error?error.message:'导出失败，请重试。'});
+    }finally{setExporting(false);}
+  }
   return <main className="schedule-page">
     <header className="site-header"><h1>Fantasy - All Timeline</h1><ToolNavigation active="schedule"/></header>
     <section className="schedule-heading">
@@ -70,6 +83,10 @@ export default function ScheduleTool({today,season}:{today:string;season?:Schedu
         </div>
       </div>}
     </section>
+    {season&&<div className="schedule-export-actions">
+      {exportResult?.key===key&&(exportResult.error?<span role="alert" className="error">{exportResult.error}</span>:<span role="status">{exportResult.message}</span>)}
+      <button type="button" onClick={exportImage} disabled={!data||loading||exporting}>{exporting?'正在生成图片…':`导出${weeks===2?'双周':'单周'}图片`}</button>
+    </div>}
     {!season?<p className="schedule-message" role="alert">赛季信息暂时无法读取。<button onClick={()=>window.location.reload()}>重试</button></p>:<>
       <div aria-live="polite">
         {loading&&<p className="schedule-message">正在读取赛程…</p>}
