@@ -20,16 +20,23 @@ describe('schedule image export',()=>{
     expect(result.width).toBe(1200);expect(result.height).toBeGreaterThan(30*40);
   });
 
-  it('exports both weeks, shared total order and per-week counts without the adjacent days',()=>{
+  it('matches the page with both weeks side by side and one total per team, excluding adjacent days',()=>{
     const result=createScheduleExport(data(2,[game('2026-10-18'),game('2026-10-19'),game('2026-10-25'),game('2026-10-26'),game('2026-11-02')]),{season});
-    expect(result.svg.match(/>BOS<\/text>/g)).toHaveLength(2);
+    for(const team of NBA_TEAMS)expect(result.svg.match(new RegExp(`>${team.abbreviation}</text>`, 'g'))).toHaveLength(1);
     expect(result.svg).toContain('Week 1');expect(result.svg).toContain('Week 2');
     expect(result.svg).toContain('11/1');expect(result.svg).not.toContain('11/2');
-    // BOS and LAL total three games, repeated in both weekly panels.
-    expect(result.svg.match(/font-weight="600">3<\/text>/g)).toHaveLength(4);
+    // BOS and LAL each have one total covering all fourteen dates.
+    expect(result.svg.match(/font-weight="600">3<\/text>/g)).toHaveLength(2);
     expect(result.svg).not.toMatch(/font-weight="600">5<\/text>/);
     expect(result.svg.indexOf('>BOS<')).toBeLessThan(result.svg.indexOf('>ATL<'));
-    expect(result.height).toBeGreaterThan(30*40*2);
+    const single=createScheduleExport(data(1),{season});
+    expect(result.width).toBeGreaterThan(single.width);
+    expect(result.height-single.height).toBe(32);
+    const headers=[...result.svg.matchAll(/<text x="([\d.]+)" y="([\d.]+)"[^>]*>Week [12]<\/text>/g)];
+    expect(headers).toHaveLength(2);
+    expect(Number(headers[1][1])).toBeGreaterThan(Number(headers[0][1]));
+    expect(headers[1][2]).toBe(headers[0][2]);
+    expect(result.svg).not.toContain('>本周<');
     expect(result.filename).toContain('双周-W1-2');
     expect(result.svg).toContain('fill="#e4f3ea" rx="4"');
   });

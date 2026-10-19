@@ -60,7 +60,7 @@ export default function ScheduleTool({today,season}:{today:string;season?:Schedu
     setExporting(true);setExportResult(undefined);
     try{
       const {downloadSchedulePng}=await import('@/lib/schedule-export');
-      await downloadSchedulePng(data,{season,direction:sortDirection});
+      await downloadSchedulePng(data,{season,direction:sortDirection,today:todayET});
       setExportResult({key,message:'图片已生成'});
     }catch(error){
       setExportResult({key,error:error instanceof Error?error.message:'导出失败，请重试。'});
@@ -83,10 +83,6 @@ export default function ScheduleTool({today,season}:{today:string;season?:Schedu
         </div>
       </div>}
     </section>
-    {season&&<div className="schedule-export-actions">
-      {exportResult?.key===key&&(exportResult.error?<span role="alert" className="error">{exportResult.error}</span>:<span role="status">{exportResult.message}</span>)}
-      <button type="button" onClick={exportImage} disabled={!data||loading||exporting}>{exporting?'正在生成图片…':`导出${weeks===2?'双周':'单周'}图片`}</button>
-    </div>}
     {!season?<p className="schedule-message" role="alert">赛季信息暂时无法读取。<button onClick={()=>window.location.reload()}>重试</button></p>:<>
       <div aria-live="polite">
         {loading&&<p className="schedule-message">正在读取赛程…</p>}
@@ -110,7 +106,13 @@ export default function ScheduleTool({today,season}:{today:string;season?:Schedu
           </tr>)}</tbody>
         </table>
       </div>
-      <footer className="schedule-footnotes"><span><i className="b2b-key"/>背靠背</span><span>美东日期</span><a href={`https://www.espn.com/nba/schedule/_/date/${week.replaceAll('-','')}`} target="_blank" rel="noreferrer">ESPN</a></footer>
+      <footer className="schedule-footer">
+        <div className="schedule-footnotes"><a href={`https://www.espn.com/nba/schedule/_/date/${week.replaceAll('-','')}`} target="_blank" rel="noreferrer">ESPN</a><span><i className="b2b-key"/>背靠背</span><span>美东日期</span></div>
+        <div className="schedule-export-actions">
+          {exportResult?.key===key&&(exportResult.error?<span role="alert" className="error">{exportResult.error}</span>:<span role="status">{exportResult.message}</span>)}
+          <button type="button" onClick={exportImage} disabled={!data||loading||exporting}>{exporting?'正在生成图片…':`导出${weeks===2?'双周':'单周'}图片`}</button>
+        </div>
+      </footer>
     </>}
   </main>;
 }
