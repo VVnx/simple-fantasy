@@ -14,6 +14,11 @@ export interface BriefingView {
   nextDate: string | null;
 }
 
+export interface BriefingList {
+  items: Pick<Briefing, 'date' | 'title'>[];
+  nextBefore: string | null;
+}
+
 export class BriefingError extends Error {
   constructor(message: string, public status: number) { super(message); }
 }

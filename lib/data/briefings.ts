@@ -1,7 +1,17 @@
 import { getDb } from '@/db';
-import type { Briefing, BriefingView } from '@/lib/briefings';
+import type { Briefing, BriefingList, BriefingView } from '@/lib/briefings';
 
 const fields = 'date, title, content, created_at AS createdAt, updated_at AS updatedAt';
+
+export async function getBriefingList(before?: string): Promise<BriefingList> {
+  const db = getDb();
+  const query = before
+    ? db.prepare('SELECT date, title FROM daily_briefings WHERE date < ? ORDER BY date DESC LIMIT 31').bind(before)
+    : db.prepare('SELECT date, title FROM daily_briefings ORDER BY date DESC LIMIT 31');
+  const {results} = await query.all<BriefingList['items'][number]>();
+  const items = results.slice(0, 30);
+  return {items, nextBefore:results.length > 30 ? items[items.length - 1].date : null};
+}
 
 export async function getBriefingView(date?: string): Promise<BriefingView> {
   const db = getDb();

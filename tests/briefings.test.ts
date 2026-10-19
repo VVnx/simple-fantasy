@@ -7,6 +7,7 @@ import { GET, PUT } from '@/app/api/briefings/route';
 import BriefingsPage from '@/app/briefings/page';
 import { runWithBriefingEnv, type BriefingEnv } from '@/lib/briefing-runtime';
 import { MAX_BRIEFING_BYTES, type BriefingView } from '@/lib/briefings';
+import { getBriefingList } from '@/lib/data/briefings';
 
 const token = 'local-test-publisher-not-a-production-credential';
 const digest = createHash('sha256').update(token).digest('hex');
@@ -95,6 +96,19 @@ describe('daily briefings authorization and storage', () => {
     expect((await read()).data.nextDate).toBeNull();
   });
 
+  it('lists newest issues first and pages through history without loading article bodies', async () => {
+    expect(await runWithBriefingEnv(env, () => getBriefingList())).toEqual({items:[], nextBefore:null});
+    for (let day = 1; day <= 31; day++) {
+      await publish(write(`2026-10-${String(day).padStart(2, '0')}`, '正文仅在详情展示'));
+    }
+    const first = await runWithBriefingEnv(env, () => getBriefingList());
+    expect(first.items).toHaveLength(30);
+    expect(first.items[0]).toEqual({date:'2026-10-31', title:'每日简报'});
+    expect(first.nextBefore).toBe('2026-10-02');
+    const last = await runWithBriefingEnv(env, () => getBriefingList(first.nextBefore!));
+    expect(last).toEqual({items:[{date:'2026-10-01', title:'每日简报'}], nextBefore:null});
+  });
+
   it('keeps authorization scoped to each concurrent request', async () => {
     const responses = await Promise.all([
       publish(write('2026-10-19', '合法发布')),
@@ -152,7 +166,7 @@ describe('daily briefing input and rendering', () => {
 
   it('renders uploaded markup as text and has no upload control in the page', async () => {
     await publish(write(undefined, '<script>alert("x")</script>\n\n**纯文字**'));
-    const page = await runWithBriefingEnv(env, () => BriefingsPage({searchParams:Promise.resolve({})}));
+    const page = await runWithBriefingEnv(env, () => BriefingsPage({searchParams:Promise.resolve({date:'2026-10-19'})}));
     const html = renderToStaticMarkup(page);
     expect(html).toContain('&lt;script&gt;');
     expect(html).not.toContain('<script>');
@@ -161,5 +175,27 @@ describe('daily briefing input and rendering', () => {
     expect(html).not.toContain(token);
     expect(html).not.toContain(digest);
     expect(html).not.toContain('type="file"');
+    expect(html).toContain('href="/briefings">← 每日简报');
+  });
+
+  it('opens on a list of links and only shows full text for the selected issue', async () => {
+    await publish(write('2026-10-18', '旧一期正文'));
+    await publish(write('2026-10-19', '今日正文'));
+    const render = async (params:{date?:string; before?:string}) => renderToStaticMarkup(
+      await runWithBriefingEnv(env, () => BriefingsPage({searchParams:Promise.resolve(params)})),
+    );
+    const list = await render({});
+    expect(list).toContain('aria-label="每日简报列表"');
+    expect(list).toContain('href="/briefings?date=2026-10-19"');
+    expect(list.indexOf('2026-10-19')).toBeLessThan(list.indexOf('2026-10-18'));
+    expect(list).not.toContain('今日正文');
+    expect(list).not.toContain('旧一期正文');
+    expect(list).not.toContain('<article');
+    const detail = await render({date:'2026-10-18'});
+    expect(detail).toContain('旧一期正文');
+    expect(detail).not.toContain('今日正文');
+    expect(detail).toContain('下一篇');
+    expect(await render({date:'2026-10-20'})).toContain('暂无这篇简报');
+    expect(await render({before:'invalid'})).toContain('role="alert"');
   });
 });
