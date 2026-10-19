@@ -14,17 +14,21 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "verify:live": "tsx scripts/verify-live.ts",
+    "db:generate": "drizzle-kit generate",
+    "briefing:publish": "node scripts/publish-briefing.mjs",
     "dev:vercel": "next dev --hostname 127.0.0.1",
     "build:vercel": "next build",
     "start:vercel": "next start --hostname 127.0.0.1"
   },
   "dependencies": {
+    "drizzle-orm": "0.45.2",
     "next": "16.4.0",
     "react": "19.2.6",
     "react-dom": "19.2.6",
     "zod": "4.6.6"
   },
   "devDependencies": {
+    "drizzle-kit": "0.31.10",
     "@cloudflare/vite-plugin": "1.37.1",
     "@cloudflare/workers-types": "4.20260515.1",
     "@types/node": "22.19.19",

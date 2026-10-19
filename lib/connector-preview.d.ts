@@ -7,6 +7,8 @@ declare module "virtual:sites-connector-preview" {
 // request-scoped capability through ctx.props.CONNECTORS in sites-worker.ts.
 declare namespace Cloudflare {
   interface Env {
+    DB?: D1Database;
+    BRIEFING_PUBLISH_TOKEN_SHA256?: string;
     CONNECTORS?: import("./connector-contract.mjs").ConnectorBinding;
   }
 }

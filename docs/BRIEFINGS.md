@@ -1,0 +1,39 @@
+# 每日简报
+
+`/briefings` 默认显示最新一篇，可以按日期查询及前后翻页。正文为 UTF-8 纯文字，保留换行；HTML/Markdown 不作富文本渲染。历史数据保存在 Sites D1 `DB` 的 `daily_briefings` 表，日期唯一，重新部署不清空数据。
+
+## API
+
+- `GET /api/briefings`：最新简报及相邻日期；没有内容时 `briefing: null`。
+- `GET /api/briefings?date=YYYY-MM-DD`：指定日期及相邻日期，没有内容仍返回空值。
+- `PUT /api/briefings?date=YYYY-MM-DD&title=可选标题`：发布或更新当天简报。请求体是纯文字，`Content-Type: text/plain; charset=utf-8`，最大 64 KiB。默认标题“每日简报”，日期为编辑指定的简报归属日。NBA 比赛日报通常采用美东比赛日，页面更新时间采用北京时间。
+- 发布必须在 `Authorization: Bearer <token>` 携带发布凭证。匿名访问、访客登录、Cookie、伪造身份头、URL 参数均不授权写入。未配置返回 503；凭证错误返回 401；日期、标题或正文错误返回 400；过大返回 413；媒体类型错误返回 415。所有响应不缓存。
+- 日期是主键；重试相同内容不会重复创建，也不改变更新时间。修改正文/标题会更新该日期，保留首次创建时间。此版本保留每日历史，不保留同一日的修改版本。
+
+## 发布凭证
+
+当前发布凭证采用本项目 Sites 管理接口 `get_site` 返回的 `siwc_bypass_bearer_token`。发布接口**自行校验**该凭证的 SHA-256，服务端秘密环境变量名为 `BRIEFING_PUBLISH_TOKEN_SHA256`。公开网站不能只依赖 Sites 外层访问控制。上传使用标准 `Authorization` 头，不能仅用会被平台消费的 `OAI-Sites-Authorization` 头代替应用层认证。
+
+凭证由有权管理此 Site 的用户通过 Sites 工具取得。它不标识某个模型实例；这里的“只有助手上传”实际表示拥有此管理凭证的授权发布者可上传，网站普通访客不可上传。源代码、浏览器、仓库、命令行参数与文档均不包含凭证。若 Sites 凭证轮换，需由站点管理者通过原生 Sites 环境变量工具更新 SHA-256 并按平台要求重新部署；不要在失败后取消认证。
+
+后续在用户要求发布简报时：
+
+1. 读取 `.openai/hosting.json` 的项目 ID，用 Sites `get_site` 获取当前网站地址及服务凭证，仅保存在会话内存中。
+2. 将待发布的纯文字保存为本地 UTF-8 文件。检查日期及内容；不要把演示文本发布到正式网站。
+3. 从本项目执行 `npm run briefing:publish -- --site <current_live_url> --date YYYY-MM-DD --file <绝对路径> [--title <标题>]`，使用带终端的执行会话。
+4. 看到 `Ready for credential JSON on stdin (input is hidden).` 后，通过标准输入发送一行 `{"token":"<会话内凭证>"}`。不要通过命令行、环境文件或日志传递/打印凭证。
+5. 脚本在上传后回读核对内容，返回 `verified: true` 及简报链接后才报告成功。请求不跟随重定向，避免凭证发往其他主机。失败可能发生于保存后，请先回读再决定是否重试。
+
+## 本地及部署
+
+`.openai/hosting.json` 声明 D1 绑定 `DB`。`db/schema.ts` 定义表，`npm run db:generate` 生成 `drizzle/` 迁移；迁移只改结构，正式部署由 Sites 应用。数据库绑定和秘密值通过 Worker 的请求上下文传递，避免不同请求串用。
+
+先构建以生成 Wrangler 配置，再按照 Sites 技能的本地 D1 步骤应用生成的 SQL。本地预览可使用独立测试凭证的 SHA-256。不能使用正式凭证做浏览器测试。普通 Next.js / Vercel 环境没有 Sites D1，简报显示不可用并返回 503，其他工具不受影响；迁移到 Vercel 时必须另接持久化数据库及运行时认证配置。
+
+此功能仅提供阅读与上传，不会自行生成或定时发布简报。
+
+## 验证记录（2026-10-19）
+
+92 项测试通过，其中新增 12 项简报测试使用真实 SQLite 执行生成的迁移和生产 SQL，覆盖认证失败、请求隔离、日期与文本校验、字节上限、更新幂等性、历史查询、存储异常及脚本文字转义。TypeScript 检查、Sites Worker 与 Next.js 构建通过。
+
+在本地 Worker + D1 验证匿名上传返回 401、授权上传后原文回读一致；浏览器验证最新、历史、日期空状态、390px 手机排版，未发现浏览器警告或错误。测试正文仅写入本地数据库。

@@ -17,6 +17,10 @@
 
 实现：`lib/schedule.ts`（Week、日期与场次）、`lib/data/schedule.ts`（来源适配）、`components/schedule-tool.tsx`（界面）。测试覆盖开赛周、跨年与夏令时的 Week 编号、30 队、跨周背靠背、延期／取消、来源异常与路由参数。
 
+## 每日简报（2026-10-19）
+
+新增“每日简报”标签页 `/briefings`：纯文字、按日期查看、上一篇/下一篇、保留历史。`PUT /api/briefings?date=YYYY-MM-DD` 接收纯文字正文，以服务端凭证校验发布权限；普通访客只能读。数据存入 Sites D1，持久保留；同一天上传更新该篇。上传方式、认证与本地迁移见 [简报说明](docs/BRIEFINGS.md)。此功能不包含定时生成。
+
 ## 本地运行
 
 需要 Node.js 22.13+，无需数据密钥或付费账户。
@@ -69,11 +73,11 @@ npm run build:vercel
 
 ## Sites 发布
 
-`.openai/hosting.json` 已绑定现有 Fantasy - All Timeline 项目。沿用 Sites 插件的 source workflow、构建和发布步骤；不要再次创建项目。`build/` 与 `scripts/` 中的 Sites 集成来自官方 starter。无需 D1、R2 或运行时密钥。网站访问范围由 Sites 控制台管理。
+`.openai/hosting.json` 已绑定现有 Fantasy - All Timeline 项目。沿用 Sites 插件的 source workflow、构建和发布步骤；不要再次创建项目。`build/` 与 `scripts/` 中的 Sites 集成来自官方 starter。每日简报使用 D1 `DB` 和服务端秘密值 `BRIEFING_PUBLISH_TOKEN_SHA256`，不使用 R2。网站访问范围由 Sites 控制台管理。
 
 ## 后续部署 Vercel
 
-本项目保留标准 Next.js App Router 和 Node fetch 路径。导入 Git 仓库时选择 Next.js，Node.js 22，安装命令 `npm ci`，**Build Command 设为 `npm run build:vercel`**，输出目录保持 Next.js 默认。无需环境变量、数据库或登录服务。`npm run build` 是 Sites 构建，不用于 Vercel。
+本项目保留标准 Next.js App Router 和 Node fetch 路径。导入 Git 仓库时选择 Next.js，Node.js 22，安装命令 `npm ci`，**Build Command 设为 `npm run build:vercel`**，输出目录保持 Next.js 默认。球员数据与赛程无需额外服务；每日简报需另接持久化数据库及认证配置，不能直接使用 Sites D1。`npm run build` 是 Sites 构建，不用于 Vercel。
 
 本地 Next 构建可验证兼容性，但不等于验证 Vercel 云端出口对 ESPN 的访问；部署后需再检查搜索与四种赛季/赛事数据。未代用户部署 Vercel。
 
