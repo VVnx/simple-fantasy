@@ -67,9 +67,9 @@ export default function ScheduleTool({today,season}:{today:string;season?:Schedu
     }finally{setExporting(false);}
   }
   return <main className="schedule-page">
-    <header className="site-header"><h1>Fantasy - All Timeline</h1><ToolNavigation active="schedule"/></header>
+    <header className="site-header"><a className="site-brand" href="/">Fantasy - All Timeline</a><ToolNavigation active="schedule"/></header>
     <section className="schedule-heading">
-      <div><h2>每周赛程</h2>{season&&<p>{seasonLabel(season.year)} 常规赛</p>}</div>
+      <div><h1>NBA 每周赛程</h1>{season&&<p>{seasonLabel(season.year)} 常规赛 · 单周与双周、背靠背、图片导出</p>}</div>
       {season&&<div className="schedule-controls">
         <div className="period-toggle" role="group" aria-label="赛程范围">
           <button type="button" aria-pressed={weeks===1} onClick={()=>changeWeeks(1)}>单周</button>

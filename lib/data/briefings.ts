@@ -3,6 +3,12 @@ import type { Briefing, BriefingList, BriefingView } from '@/lib/briefings';
 
 const fields = 'date, title, content, created_at AS createdAt, updated_at AS updatedAt';
 
+export async function getBriefingIndex(): Promise<Pick<Briefing, 'date' | 'updatedAt'>[]> {
+  const {results} = await getDb().prepare('SELECT date, updated_at AS updatedAt FROM daily_briefings ORDER BY date DESC')
+    .all<Pick<Briefing, 'date' | 'updatedAt'>>();
+  return results;
+}
+
 export async function getBriefingList(before?: string): Promise<BriefingList> {
   const db = getDb();
   const query = before

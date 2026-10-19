@@ -4,7 +4,9 @@ import { DatabaseSync, type SQLInputValue } from 'node:sqlite';
 import { readFileSync, readdirSync } from 'node:fs';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { GET, PUT } from '@/app/api/briefings/route';
-import BriefingsPage from '@/app/briefings/page';
+import BriefingsPage, { generateMetadata } from '@/app/briefings/page';
+import sitemap from '@/app/sitemap';
+import { SITE_URL } from '@/lib/seo';
 import { runWithBriefingEnv, type BriefingEnv } from '@/lib/briefing-runtime';
 import { MAX_BRIEFING_BYTES, type BriefingView } from '@/lib/briefings';
 import { getBriefingList } from '@/lib/data/briefings';
@@ -195,7 +197,51 @@ describe('daily briefing input and rendering', () => {
     expect(detail).toContain('旧一期正文');
     expect(detail).not.toContain('今日正文');
     expect(detail).toContain('下一篇');
-    expect(await render({date:'2026-10-20'})).toContain('暂无这篇简报');
+    await expect(render({date:'2026-10-20'})).rejects.toThrow('NEXT_HTTP_ERROR_FALLBACK;404');
     expect(await render({before:'invalid'})).toContain('role="alert"');
+  });
+});
+
+describe('briefing search visibility', () => {
+  it('generates independent metadata and share images from the saved article', async () => {
+    await publish(new Request(`${write().url}&title=${encodeURIComponent('西帝倒了')}`, write(undefined, '1. 西帝倒了\n\n伤病消息与轮换建议。')));
+    const metadata = await runWithBriefingEnv(env, () => generateMetadata({searchParams:Promise.resolve({date:'2026-10-19'})}));
+    expect(metadata.title).toBe('西帝倒了 | All Timeline');
+    expect(metadata.description).toBe('伤病消息与轮换建议。');
+    expect(metadata.alternates?.canonical).toBe(`${SITE_URL}/briefings?date=2026-10-19`);
+    expect(metadata.openGraph).toMatchObject({type:'article',images:[{url:`${SITE_URL}/briefing-covers/2026-10-19.png`,width:1922,height:818}]});
+    expect(metadata.twitter).toMatchObject({card:'summary_large_image'});
+    const page = renderToStaticMarkup(await runWithBriefingEnv(env, () => BriefingsPage({searchParams:Promise.resolve({date:'2026-10-19'})})));
+    const json = page.match(/<script type="application\/ld\+json">(.*?)<\/script>/)?.[1];
+    expect(JSON.parse(json!)).toMatchObject({'@type':'Article',headline:'西帝倒了',mainEntityOfPage:`${SITE_URL}/briefings?date=2026-10-19`});
+    expect(page.match(/<h1[ >]/g)).toHaveLength(1);
+  });
+
+  it('excludes invalid/missing articles and keeps historical list canonicals distinct', async () => {
+    for (const date of ['2026-02-30','2026-10-18']) {
+      await expect(runWithBriefingEnv(env, () => generateMetadata({searchParams:Promise.resolve({date})})))
+        .rejects.toThrow('NEXT_HTTP_ERROR_FALLBACK;404');
+    }
+    const metadata=await generateMetadata({searchParams:Promise.resolve({before:'2026-10-01'})});
+    expect(metadata.alternates?.canonical).toBe(`${SITE_URL}/briefings?before=2026-10-01`);
+    const bad=await generateMetadata({searchParams:Promise.resolve({before:'invalid'})});
+    expect(bad.robots).toMatchObject({index:false});
+  });
+
+  it('includes every published date in the sitemap and tracks later edits without deployment', async () => {
+    const dates=Array.from({length:35},(_,i)=>new Date(Date.UTC(2026,8,1+i)).toISOString().slice(0,10));
+    for (const date of dates) await publish(write(date,'原文'));
+    const first=await runWithBriefingEnv(env,sitemap);
+    expect(first).toHaveLength(38);
+    expect(first.some(item=>item.url===`${SITE_URL}/briefings?date=${dates[0]}`)).toBe(true);
+    const previous=first.find(item=>item.url.endsWith(dates[0]))!.lastModified;
+    vi.useFakeTimers();vi.setSystemTime(new Date('2027-01-01T00:00:00Z'));
+    await publish(write(dates[0],'更新正文'));
+    const updated=await runWithBriefingEnv(env,sitemap);
+    expect(updated.find(item=>item.url.endsWith(dates[0]))!.lastModified).not.toBe(previous);
+    expect(updated.find(item=>item.url===`${SITE_URL}/briefings`)!.lastModified).toBe('2027-01-01T00:00:00.000Z');
+    expect((await read(dates[0])).response.headers.get('x-robots-tag')).toBe('noindex');
+    sqlite.exec('DROP TABLE daily_briefings');
+    await expect(runWithBriefingEnv(env,sitemap)).rejects.toThrow();
   });
 });

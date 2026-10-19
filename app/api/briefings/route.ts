@@ -1,10 +1,11 @@
 import { authorizeBriefingPublish } from '@/lib/briefing-auth';
 import { BriefingError, readBriefingText, validateBriefingDate, validateBriefingTitle } from '@/lib/briefings';
 import { getBriefingView, saveBriefing } from '@/lib/data/briefings';
+import { API_ROBOTS_HEADERS } from '@/lib/seo';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
-const headers = {'Cache-Control':'no-store', 'X-Content-Type-Options':'nosniff'};
+const headers = {...API_ROBOTS_HEADERS, 'Cache-Control':'no-store', 'X-Content-Type-Options':'nosniff'};
 
 function failure(error: unknown) {
   const known = error instanceof BriefingError;
