@@ -1,7 +1,9 @@
 /* eslint-disable @next/next/no-html-link-for-pages -- Keep navigation compatible with the Sites runtime. */
+/* eslint-disable @next/next/no-img-element -- Serve the original downloadable cover without an image optimizer. */
 import ToolNavigation from '@/components/tool-navigation';
 import { BriefingError, validateBriefingDate, type BriefingList, type BriefingView } from '@/lib/briefings';
 import { getBriefingList, getBriefingView } from '@/lib/data/briefings';
+import { getBriefingCover } from '@/lib/briefing-covers';
 
 export const dynamic = 'force-dynamic';
 export const metadata = {title:'每日简报 · Fantasy - All Timeline'};
@@ -26,6 +28,7 @@ export default async function BriefingsPage({searchParams}: {
     error = cause instanceof BriefingError ? cause.message : '简报暂时无法读取，请稍后重试。';
   }
   const briefing = view?.briefing;
+  const cover = briefing ? getBriefingCover(briefing.date) : undefined;
   return <main className="briefings-page">
     <header className="site-header"><h1>Fantasy - All Timeline</h1><ToolNavigation active="briefings"/></header>
     <div className="briefings-body">
@@ -39,6 +42,12 @@ export default async function BriefingsPage({searchParams}: {
               <time dateTime={briefing.date}>{briefing.date}</time>
               <h2>{briefing.title}</h2>
             </header>
+            {cover && <figure className="briefing-cover">
+              <img src={cover.src} alt={cover.alt} width={cover.width} height={cover.height} decoding="async"/>
+              <figcaption>
+                <a href={cover.src} download={`NBA-Fantasy-${briefing.date}-cover.png`}>下载封面 ↓</a>
+              </figcaption>
+            </figure>}
             <div className="briefing-content">{briefing.content}</div>
           </article> : <div className="briefings-empty"><p>暂无这篇简报</p></div>}
           {(view?.previousDate || view?.nextDate) && <nav className="briefings-pagination" aria-label="简报翻页">
