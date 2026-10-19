@@ -51,6 +51,8 @@ export default function ScheduleTool({today,season}:{today:string;season?:Schedu
     (sortDirection==='ascending'?a.total-b.total:b.total-a.total)||a.team.abbreviation.localeCompare(b.team.abbreviation)
   ):[];
   const hasGames=rows.some(row=>row.total>0);
+  const totals=rows.map(row=>row.total);
+  const minTotal=Math.min(...totals), maxTotal=Math.max(...totals);
   return <main className="schedule-page">
     <header className="site-header"><h1>Fantasy - All Timeline</h1><ToolNavigation active="schedule"/></header>
     <section className="schedule-heading">
@@ -86,7 +88,7 @@ export default function ScheduleTool({today,season}:{today:string;season?:Schedu
           {weeks===2&&<tr>{dayHeaders}</tr>}</thead>
           <tbody>{!data?NBA_TEAMS.map(team=><tr key={team.id}><th scope="row" className="team-column">{team.name}<small>{team.abbreviation}</small></th><td className="count-cell">—</td>{dates.map((date,i)=><td key={date} className={i===7?'week-boundary':''}><span className="no-game">{loading?'…':'—'}</span></td>)}</tr>):rows.map(row=><tr key={row.team.id}>
             <th scope="row" className="team-column">{row.team.name}<small>{row.team.abbreviation}</small></th>
-            <td className="count-cell"><strong>{row.total}</strong></td>
+            <td className={`count-cell${maxTotal>minTotal?(row.total===maxTotal?' is-most':row.total===minTotal?' is-fewest':''):''}`}><strong>{row.total}</strong></td>
             {row.days.map((games,i)=><td key={dates[i]} className={`${dates[i]===todayET?'is-today ':''}${i===7?'week-boundary':''}`}>{games.length?games.map(game=><GameCell key={game.id} game={game}/>):<span className="no-game" aria-label="无比赛">—</span>}</td>)}
           </tr>)}</tbody>
         </table>
