@@ -25,6 +25,12 @@ const covers: Record<string, BriefingCover | undefined> = {
     width: 1922,
     height: 818,
   },
+  '2026-10-20': {
+    src: '/briefing-covers/2026-10-20.png',
+    alt: '库里能打了 — 10月20日 NBA Fantasy 每日简报封面',
+    width: 1922,
+    height: 818,
+  },
 };
 
 export function getBriefingCover(date: string): BriefingCover | undefined {
