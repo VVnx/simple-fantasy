@@ -1,7 +1,7 @@
 import {describe,it,expect} from 'vitest';
 import {readFileSync} from 'node:fs';
 import {parseCardGame,parseCardScoreboard} from '../lib/data/player-cards';
-import {cardStatLine,cardFilename,localDate} from '../lib/player-cards';
+import {cardStatLine,cardFilename,formatMinutes,localDate} from '../lib/player-cards';
 import {GET as cardsRoute} from '../app/api/player-cards/route';
 import {GET as photoRoute} from '../app/api/player-headshot/route';
 import {NextRequest} from 'next/server';
@@ -11,7 +11,10 @@ describe('single-game player cards',()=>{
   it('reads a complete real game with shooting, threes, zero stats and the actual game team',()=>{
     const players=parseCardGame(fixture(),gameId,date);const george=players.find(p=>p.id==='4251')!;
     expect(george).toMatchObject({team:'凯尔特人',date,beijingDate:'2026-10-21',stats:{pts:38,reb:5,ast:3,three:7,threeAttempted:12,fgm:12,fga:21,ftm:7,fta:8,st:5,blk:0,to:3}});
-    expect(cardStatLine(george,'乔治')).toBe('凯尔特人 乔治 38分5板3助攻 7记三分 投篮21投12中 罚球7/8 5抢断0盖帽3失误');
+    expect(george.minutes).toBe('31');
+    expect(cardStatLine(george,'乔治')).toBe('凯尔特人 乔治 出场31分钟 38分5板3助攻 7记三分 投篮21投12中 罚球7/8 5抢断0盖帽3失误');
+    expect(formatMinutes('31:05')).toBe('31分05秒');
+    expect(formatMinutes('31.5')).toBe('31.5分钟');
     expect(cardFilename(george)).toBe('NBA-Fantasy-2026-10-20-Paul-George.png');
     expect(players.reduce((total,p)=>total+p.stats.pts,0)).toBe(234);
   });

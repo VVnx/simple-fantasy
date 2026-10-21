@@ -18,6 +18,13 @@ describe('daily surprise portrait board',()=>{
     const duplicates=[...players(),{...players().find(p=>p.name==='Paul George')!,id:'999999'}];
     expect(matchSurprisePlayers(appendix,duplicates).players.map(p=>p.name)).toEqual(['Javonte Green']);
   });
+  it('accepts both old appendices and explicit playing time, rejecting a mismatched time',()=>{
+    const withMinutes=appendix.replace('乔治 38分','乔治 出场31分钟 38分');
+    expect(matchSurprisePlayers(withMinutes,players()).warnings).toEqual([]);
+    expect(matchSurprisePlayers(withMinutes.replace('出场31分钟','出场32分钟'),players()).players.map(p=>p.name)).toEqual(['Javonte Green']);
+    const precise=players().map(p=>p.name==='Paul George'?{...p,minutes:'31:05'}:p);
+    expect(matchSurprisePlayers(withMinutes.replace('出场31分钟','出场31分05秒'),precise).warnings).toEqual([]);
+  });
   it('keeps full free movement including space above and below the tiers at different display scales',()=>{
     const rect={left:100,top:50,width:BOARD_WIDTH/2,height:BOARD_HEIGHT/2};
     expect(pointerOnBoard({x:250,y:90},rect)).toEqual({x:300,y:80});

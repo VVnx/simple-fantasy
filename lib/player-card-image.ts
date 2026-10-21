@@ -1,4 +1,4 @@
-import {CARD_WIDTH,CARD_HEIGHT,cardFilename,type PlayerGameCard} from './player-cards';
+import {CARD_WIDTH,CARD_HEIGHT,cardFilename,formatMinutes,type PlayerGameCard} from './player-cards';
 const FONT='Arial, "PingFang SC", "Microsoft YaHei", sans-serif';
 export async function loadCardPortrait(id:string,signal:AbortSignal):Promise<HTMLImageElement>{
   const response=await fetch(`/api/player-headshot?id=${id}`,{signal});
@@ -25,7 +25,9 @@ export function renderPlayerCard(player:PlayerGameCard,options:{name:string;capt
   text(options.name.trim()||player.chineseName||player.name,64,300,66,'#ffffff',700,'left',470);
   text(player.name,66,348,24,'#b6c8d1',400,'left',455);
   const caption=options.caption.trim();if(caption){rect(64,394,Math.min(440,Math.max(154,caption.length*29+40)),58,'#ffffff15',8);text(caption,84,433,27,'#d8f3ae',600,'left',400);}
-  text(`${player.minutes} 分钟  /  ${player.result}`,64,522,24,'#c7d6da',400);
+  text('出场时间',64,492,20,'#b6c8d1',500);
+  text(formatMinutes(player.minutes),64,541,36,'#ffffff',700,'left',290);
+  text(`本场${player.result==='胜'?'获胜':'失利'}`,395,538,21,'#c7d6da',400);
   if(options.portrait){
     const image=options.portrait;const width=650,height=width*image.naturalHeight/image.naturalWidth;
     ctx.save();ctx.beginPath();ctx.rect(530,120,550,530);ctx.clip();ctx.drawImage(image,470,650-height,width,height);ctx.restore();
