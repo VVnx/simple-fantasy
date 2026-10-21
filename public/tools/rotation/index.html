@@ -1,0 +1,547 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>NBA 首发与轮转配置工具</title>
+  <style>:root { color-scheme:light; font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif; color:#18212b; background:#f3f5f7; }
+* { box-sizing:border-box; }
+body { margin:0; }
+main { max-width:1600px; padding:34px 30px 24px; margin:auto; }
+.page-header { display:flex; justify-content:space-between; align-items:center; gap:20px; margin-bottom:24px; }
+.eyebrow { font-size:12px; font-weight:700; letter-spacing:2px; color:#5d6875; margin:0 0 8px; }
+h1 { margin:0; font-size:32px; letter-spacing:-1px; }
+.intro { color:#65717e; margin:10px 0 0; font-size:15px; }
+.pill { background:#e8eef5; border-radius:100px; padding:10px 16px; color:#465669; font-size:12px; white-space:nowrap; }
+.panel { border:1px solid #dfe5eb; background:white; border-radius:16px; margin-bottom:18px; padding:22px; box-shadow:0 3px 8px #18212b03; }
+.settings { display:grid; grid-template-columns:1.2fr 1.7fr 1.5fr .75fr .6fr .7fr; gap:14px; align-items:end; }
+label { display:flex; flex-direction:column; gap:8px; font-size:12px; font-weight:600; color:#5d6875; }
+input,select,button { font:inherit; }
+input:not([type="checkbox"]),select { border:1px solid #d8dfe6; border-radius:8px; min-width:0; width:100%; height:40px; padding:8px 10px; color:#1a2430; background:#fff; font-size:13px; }
+input[type="color"] { padding:4px; cursor:pointer; }
+input:focus,select:focus,button:focus-visible,summary:focus-visible { outline:2px solid #277bd2; outline-offset:2px; }
+.check { flex-direction:row; align-items:center; height:40px; gap:6px; }
+.check input { accent-color:#172e49; width:16px; height:16px; }
+.preview-heading { display:flex; justify-content:space-between; font-size:12px; color:#718093; margin-bottom:14px; }
+#preview { display:block; width:100%; height:auto; border-radius:10px; }
+.actions { display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-top:18px; }
+button { border:1px solid #d8dfe6; border-radius:8px; padding:10px 15px; background:white; color:#253649; cursor:pointer; font-size:13px; }
+button:hover { background:#f0f4f8; }
+button.primary { background:#172e49; border-color:#172e49; color:white; }
+button.primary:hover { background:#284664; }
+button.quiet { color:#6a7786; }
+button:disabled { opacity:.45; cursor:default; }
+#status { color:#5d6875; font-size:12px; margin-left:auto; }
+#status.error { color:#b1232b; }
+.section-heading { display:flex; align-items:center; justify-content:space-between; gap:16px; }
+h2 { font-size:17px; margin:0; }
+#saveState { font-size:12px; color:#728090; }
+.hint { font-size:12px; line-height:1.7; color:#718093; margin:10px 0 18px; }
+.lineup-groups { display:grid; grid-template-columns:5fr 3fr; gap:25px; }
+.rotation { border-left:1px solid #e1e7ed; padding-left:25px; }
+h3 { font-size:13px; margin:0 0 14px; }
+h3 span { font-size:11px; font-weight:400; color:#7c8895; margin-left:8px; }
+.slots { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:12px; }
+.rotation .slots { grid-template-columns:repeat(3,minmax(0,1fr)); }
+.slot { min-width:0; }
+.slot label { gap:7px; }
+.slot input { font-size:12px; }
+.portrait-button { display:flex; align-items:center; gap:8px; margin-top:9px; }
+.portrait-button img { width:34px; height:40px; object-fit:contain; background:#edf1f5; border-radius:6px; }
+.portrait-button button { padding:6px 8px; font-size:11px; }
+.slot .upload { display:none; }
+.slot .restore { display:none; }
+.slot.custom .restore { display:block; }
+.slot.custom .portrait-button { flex-wrap:wrap; }
+details { font-size:12px; color:#728090; line-height:1.8; border-top:1px solid #e9edf2; padding-top:14px; }
+summary { cursor:pointer; }
+details p { margin-bottom:0; }
+.page-footer { text-align:center; font-size:11px; color:#8893a0; line-height:1.7; margin:24px 0 0; }
+@media(max-width:1150px) { .settings { grid-template-columns:repeat(3,minmax(0,1fr)); } .lineup-groups { grid-template-columns:1fr; } .rotation { border-left:0; border-top:1px solid #e1e7ed; padding:18px 0 0; } .rotation .slots { grid-template-columns:repeat(3,minmax(0,1fr)); max-width:60%; } }
+@media(max-width:650px) { main { padding:24px 12px; } .page-header { align-items:flex-start; } .pill { display:none; } h1 { font-size:26px; } .panel { padding:16px; } .settings { grid-template-columns:repeat(2,minmax(0,1fr)); } .settings .wide { grid-column:span 2; } .slots { grid-template-columns:repeat(2,minmax(0,1fr)); } .rotation .slots { max-width:none; grid-template-columns:repeat(2,minmax(0,1fr)); } .section-heading { align-items:flex-start; flex-direction:column; gap:8px; } #status { margin-left:0; width:100%; } }
+h2 #teamMeta { font-size:11px; font-weight:400; color:#7c8895; margin-left:12px; }
+.slot { padding:12px 9px; border:1px solid #e1e7ed; border-radius:10px; background:#fbfcfd; }
+.slot .player-pick { margin-top:8px; font-size:11px; padding:6px; }
+.slot-actions { display:flex; flex-wrap:wrap; gap:5px; margin-top:9px; }
+.slot-actions button { padding:5px 7px; font-size:11px; }
+.swap-controls { display:flex; gap:5px; align-items:center; margin-top:9px; }
+.swap-controls select { height:31px; font-size:11px; padding:5px; flex:1; }
+.swap-controls button { padding:7px; font-size:11px; }
+.add-player { margin-top:12px; width:100%; border-style:dashed; }
+.note-label { margin-top:14px; }
+textarea { width:100%; resize:vertical; border:1px solid #d8dfe6; border-radius:8px; padding:10px; font:inherit; font-size:13px; color:#1a2430; line-height:1.6; }
+textarea:focus { outline:2px solid #277bd2; outline-offset:2px; }
+.preview-link { color:#285c89; text-decoration:none; font-size:12px; margin-left:auto; }
+#modifiedCount,#configStatus { font-size:12px; color:#728090; }
+#configStatus.error { color:#b1232b; }
+.configuration .actions { margin-top:0; }
+.rotation .slots { grid-template-columns:repeat(3,minmax(0,1fr)); }
+@media(max-width:1150px) { .rotation .slots { max-width:none; } }
+@media(max-width:650px) { h2 #teamMeta { display:block; margin:8px 0 0; } .rotation .slots { grid-template-columns:repeat(2,minmax(0,1fr)); } .preview-link { margin:0; width:100%; } }
+.original-lineup { border-top:3px solid var(--original-color,#172e49); }
+#originalTeamName { margin-left:10px; font-size:13px; color:#728090; font-weight:400; }
+.original-date { font-size:12px; color:#728090; background:#f1f4f7; border-radius:100px; padding:7px 12px; }
+.original-players { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:12px; margin-top:18px; }
+.original-player { min-width:0; display:flex; flex-direction:column; align-items:center; gap:10px; border:1px solid #e1e7ed; border-radius:10px; padding:14px 12px; background:#fbfcfd; }
+.original-position { font-size:11px; font-weight:650; color:#556577; border-radius:100px; background:#edf1f5; padding:4px 13px; }
+.original-player img { width:100%; max-width:150px; height:106px; object-fit:contain; }
+.original-name { font-size:14px; font-weight:600; line-height:1.5; text-align:center; overflow-wrap:anywhere; }
+.original-placeholder { height:106px; display:flex; align-items:center; font-size:20px; color:#728090; }
+@media(max-width:650px) { .original-players { grid-template-columns:repeat(2,minmax(0,1fr)); } .original-player { padding:12px 8px; } .original-player img,.original-placeholder { height:90px; } .original-name { font-size:12px; } }
+</style>
+</head>
+<body>
+<main>
+  <header class="page-header"><div><p class="eyebrow">NBA · 2026–27</p><h1>首发与轮转，按你的想法排</h1><p class="intro">选择球员、交换位置、调整轮转。保存你的30队方案，随时继续修改。</p></div><span class="pill">30 队历史方案 · 可自由编辑</span></header>
+  <section class="panel settings" aria-label="球队与图片设置">
+    <label>选择球队<select id="team"></select></label>
+    <label class="wide">图片标题<input id="title" maxlength="40"></label>
+    <label class="wide">副标题<input id="subtitle" maxlength="64"></label>
+    <label>风格<select id="theme"><option value="dark">深色</option><option value="light">浅色</option></select></label>
+    <label>球队强调色<input id="color" type="color"></label>
+    <label class="check"><input id="showHeader" type="checkbox" checked>显示标题</label>
+  </section>
+  <section class="panel original-lineup" id="originalSection" aria-label="原预测首发">
+    <div class="section-heading"><h2>原预测首发 <span id="originalTeamName"></span></h2><span id="originalDate" class="original-date"></span></div>
+    <div id="originalPlayers" class="original-players"></div>
+  </section>
+  <section class="panel editor" aria-label="配置首发与轮转">
+    <div class="section-heading"><h2>我的名单 <span id="teamMeta"></span></h2><span id="saveState">修改会保存在当前浏览器</span></div>
+    <p class="hint">从本队参考名单选人；已在名单中的球员会自动交换位置。也可手动填姓名，或用“交换”选择任意席位。首发固定5人，轮转可设0–10人。</p>
+    <div class="lineup-groups"><div class="starters"><h3>首发 <span>5 人 · PG / SG / SF / PF / C</span></h3><div id="starters" class="slots"></div></div><div class="rotation"><h3>主要轮转 <span id="rotationCount">3 人</span></h3><div id="rotation" class="slots"></div><button id="addRotation" class="add-player">＋ 添加轮转球员</button></div></div>
+    <p id="portraitNotice" class="hint" aria-live="polite"></p>
+    <label class="note-label">我的轮转想法（可选）<textarea id="note" maxlength="1000" rows="2" placeholder="例如：韦尔进入首发；沃克保留在主要轮转。备注随配置保存。"></textarea></label>
+    <div class="actions"><button id="undo">撤销上一步</button><button id="restoreOriginal">恢复9月24日原预测首发</button><button id="reset" class="quiet">恢复本队预载方案</button><a href="#previewPanel" class="preview-link">查看图片预览 ↓</a></div>
+    <details><summary>已有轮转观察</summary><p id="teamNote"></p><p>参考名单来自仓库中的历史阵容、替补登记和季前赛观察，可自由改动。修改以你的配置为准。</p></details>
+  </section>
+  <section class="panel preview" id="previewPanel" aria-label="图片预览">
+    <div class="preview-heading"><span>实时预览</span><span id="dimensions">2400 × 580 PNG</span></div>
+    <canvas id="preview" width="2400" height="580" role="img" aria-label="首发与轮转阵容预览"></canvas>
+    <div class="actions"><button id="download" class="primary">下载当前球队 PNG</button><button id="downloadAll">下载30队 ZIP</button><span id="status" role="status" aria-live="polite"></span></div>
+  </section>
+  <section class="panel configuration" aria-label="保存与导入配置">
+    <div class="section-heading"><h2>保存我的30队方案</h2><span id="modifiedCount"></span></div>
+    <p class="hint">修改会自动保存在当前浏览器。导出配置可留作备份、换设备继续编辑，或交给我更新文章和配图。</p>
+    <div class="actions"><button id="exportConfig" class="primary">导出30队配置</button><button id="importConfig">导入配置</button><button id="exportMarkdown">导出30队名单文字</button><input id="configFile" type="file" accept=".json,application/json" hidden></div>
+    <p id="configStatus" role="status" aria-live="polite"></p>
+  </section>
+  <footer class="page-footer">首发轮转工具 · 首发与主要轮转可自由配置 · 姓名与头像随交换一起移动<br>预载方案为10月9日汇总中的预测，比赛资料截至10月8日。图片可下载，配置可备份。</footer>
+  <datalist id="players"></datalist>
+</main>
+<script id="embedded-data" type="application/json">{"season":"2026–27","asOf":"2026-10-09","preseasonDataThrough":"2026-10-08","source":"projects/Yahoo-Fantasy-2026-27/data/30队季前赛观察汇总-2026-10-09.json","aliases":{"melton":"deanthonymelton","ykonanniederhauser":"yanickonanniederhauser","nalexanderwalker":"nickeilalexanderwalker","gantetokounmpo":"giannisantetokounmpo","nicolasclaxton":"nicclaxton","ronholland":"ronaldhollandii","moewagner":"moritzwagner","jimmybutleriii":"jimmybutler"},"portraits":{"stephencurry":"/tools/assets/aee3ba4a21a525d82c20aa52.webp","brandinpodziemski":"/tools/assets/30903f494af13fc9d80fddfb.webp","yaxellendeborg":"/tools/assets/dcd9c2ad2090a98a5f9add26.webp","draymondgreen":"/tools/assets/e050ec451211161a85adeda5.webp","alhorford":"/tools/assets/0cfd0b74173f9d10275713cb.webp","kristapsporzingis":"/tools/assets/18a8e51dfff06920f1946e2b.webp","dariusgarland":"/tools/assets/0eb795f1b8cd7c486e3c7d5b.webp","maxstrus":"/tools/assets/6dac8de6e5f4ab1cbafbe0af.webp","derrickjonesjr":"/tools/assets/45253f75216954d5540c7fa4.webp","ruihachimura":"/tools/assets/255790bf35180901437bf86e.webp","isaiahjackson":"/tools/assets/872207030bfb3c4e3e02e58e.webp","keatonwagler":"/tools/assets/1218ad10b8be4b9021aed79c.webp","brandoningram":"/tools/assets/7ad20ae09640506e7813a60a.webp","brooklopez":"/tools/assets/3946b845cab2143405340b76.webp","keyontegeorge":"/tools/assets/f69bbaccc32a23afd31b12b2.webp","darrynpeterson":"/tools/assets/3f72dbb5664e082e23cde66f.webp","laurimarkkanen":"/tools/assets/0b2cd831e9aff38d137f960a.webp","jarenjacksonjr":"/tools/assets/ef9612fcd717cf4b0a65c117.webp","jusufnurkic":"/tools/assets/b290ddc61f2052d5c893e1ec.webp","tyusjones":"/tools/assets/2f88fe71f67c3dbe329fff18.webp","christianbraun":"/tools/assets/679ff21224b6701a1ce93a81.webp","cameronjohnson":"/tools/assets/5660aa0c936c06c0f743de6d.webp","aarongordon":"/tools/assets/66461451d4ddd2dce98ce05d.webp","nikolajokic":"/tools/assets/96685bbe7f43c724a118a3fd.webp","jamalmurray":"/tools/assets/501e4f93439b5d713bfe7640.webp","anthonyedwards":"/tools/assets/6e54802644ca902733d09567.webp","arielhukporti":"/tools/assets/8aa00ea6fa4c626bfe705c75.webp","ausarthompson":"/tools/assets/d03ec5441e3f7108e3266442.webp","austinreaves":"/tools/assets/6cdcc973282f1109f587ae17.webp","cjmccollum":"/tools/assets/519eb4dc17987bb1396d089c.webp","cadecunningham":"/tools/assets/39ad4abc99674a050ebe1516.webp","cameronboozer":"/tools/assets/59600a84a80a9a65a05998a2.webp","cedriccoward":"/tools/assets/465a794537c38eef6aff8303.webp","codywilliams":"/tools/assets/86cc7d34586951924d521f6c.webp","dariusacuffjr":"/tools/assets/4e9fd6c396854a31db452ee3.webp","deandrehunter":"/tools/assets/c1dfefabf0d3241a6a0a1179.webp","deanwade":"/tools/assets/e6adc2a94acc92a6abfb7f70.webp","devinbooker":"/tools/assets/7d2a7c839724b135e8ba6fd5.webp","dillonbrooks":"/tools/assets/aa9876fc8c3d2aa404df2d7f.webp","domantassabonis":"/tools/assets/cc3e9ec2299e75b063e47bfe.webp","duncanrobinson":"/tools/assets/0514eff9bdb3e143aece5ef3.webp","dysondaniels":"/tools/assets/5e168a82ef512bed06212f23.webp","jadenmcdaniels":"/tools/assets/bd4fabbd038dd2f7f1270ae2.webp","jaimejaquezjr":"/tools/assets/bae1342b7b40471ee3fa649e.webp","jalenbrunson":"/tools/assets/b2c3b6b89f3da8a1e11ac347.webp","jalenduren":"/tools/assets/24fbafbdd58a7fcbb2650ed8.webp","jalengreen":"/tools/assets/fd9ecbd4c540c1a81bcba746.webp","jalenjohnson":"/tools/assets/f90f2bcb5a259a80bfa36d89.webp","jaylenbrown":"/tools/assets/6fbc46bc5499a9722973d80e.webp","jaylenwells":"/tools/assets/648d5907a81181fbe61079a7.webp","joelembiid":"/tools/assets/9209227a6744042cd2c8bfcb.webp","johncollins":"/tools/assets/af3cbc519f2d9802bfa95154.webp","jonathankuminga":"/tools/assets/74d4109809ba79667afbf1b2.webp","joshhart":"/tools/assets/f5be79fd1a41dfc91162c6a4.webp","karlanthonytowns":"/tools/assets/425ae2e93586ee88c75b1e16.webp","keeganmurray":"/tools/assets/fdae995163d09b5d7c2541fa.webp","kentaviouscaldwellpope":"/tools/assets/656d86db2e366d0742dca389.webp","kevonlooney":"/tools/assets/417aa44594729c305ec5582a.webp","kingstonflemings":"/tools/assets/092fdad99f511ec428917ddd.webp","kylekuzma":"/tools/assets/9f0626c38cc5fa4fb494ed11.webp","lameloball":"/tools/assets/1e3d32178698bd8399485274.webp","lebronjames":"/tools/assets/09ebb6c23ba02afdd96ecd89.webp","lukadoncic":"/tools/assets/7ead9b95384e58886277eb8e.webp","markwilliams":"/tools/assets/5bca0d1960ce7103eb668753.webp","matissethybulle":"/tools/assets/13a5a8cd87e1c82623dfb441.webp","mikalbridges":"/tools/assets/e6afe93de8407f9a732f4327.webp","milesbridges":"/tools/assets/f111f4cfac948250a89f3ad3.webp","mylesturner":"/tools/assets/2b79278e52fbf4af214e530d.webp","nickeilalexanderwalker":"/tools/assets/43a96d860486415fbafb7420.webp","oganunoby":"/tools/assets/7d5d2f62e37a9bf8063fa495.webp","onyekaokongwu":"/tools/assets/edadf05f5efc299540f78bc0.webp","osoighodaro":"/tools/assets/d5a4e3154e35bf0e108fdbf6.webp","paulreed":"/tools/assets/e8d0167cd719cd24ba7c11bd.webp","preciousachiuwa":"/tools/assets/7fa4b98609a2e425f073685d.webp","quentingrimes":"/tools/assets/1c9b19f059a0f2cfb6440512.webp","quintenpost":"/tools/assets/8e0cfaab0eb68f6a499e5611.webp","rudygobert":"/tools/assets/46b931e1be7f8640742cf3b1.webp","ryanrollins":"/tools/assets/e58c64fc598b43c1785b8b00.webp","sandromamukelashvili":"/tools/assets/9bc336a71ec8f0f40eac1c7e.webp","tyjerome":"/tools/assets/61d64c73b55c47844fbb5b56.webp","tylerherro":"/tools/assets/aa751009724535eb9d7be97d.webp","tyresemaxey":"/tools/assets/5c40a6e5fc33e641efbb4e2c.webp","vjedgecombe":"/tools/assets/2ba73c206e5899f5489b7171.webp","walkerkessler":"/tools/assets/da329b271ee54c7e7b96408a.webp","zachedey":"/tools/assets/7a520a77b3fbb505152f6c2e.webp","zachlavine":"/tools/assets/7577260530b6d9215e1aa359.webp","ziairewilliams":"/tools/assets/3cd235302fb4e5d7784073dc.webp","acebailey":"/tools/assets/025f9dc5563bee084ab11781.webp","adaymara":"/tools/assets/bf1a0f1865611b38588fe490.webp","adouthiero":"/tools/assets/aa6c6f582289dd7436669b96.webp","ajaymitchell":"/tools/assets/ff69f0d089a97b9a41266338.webp","bennettstirtz":"/tools/assets/5992067a77a464a85e9dd1b3.webp","brandonmiller":"/tools/assets/d62637057a598aca79272924.webp","bronnyjames":"/tools/assets/93bd3a6ddcbcc4c3449e6f3a.webp","casonwallace":"/tools/assets/f6299e3bda9675bb4017cedc.webp","chetholmgren":"/tools/assets/895ad72e4ca4deb55a65fde8.webp","cobywhite":"/tools/assets/36af4f26e7c6995749d53f08.webp","dayronsharpe":"/tools/assets/21dc9b45292fdbbed006cd82.webp","dejountemurray":"/tools/assets/5736f3f40d23561424bdd0c4.webp","dennisschroder":"/tools/assets/ffeb3defb9562d5753ce5230.webp","derikqueen":"/tools/assets/657eb54f86e9670d11324419.webp","egordemin":"/tools/assets/92bdcdae162d0a3c97aed3d5.webp","graysonallen":"/tools/assets/d3c9d14b6e891f64800a439c.webp","guisantos":"/tools/assets/508e029997951d2a834d19d9.webp","herbertjones":"/tools/assets/f2ee9195e5a3724f5c7b8b4f.webp","isaiahhartenstein":"/tools/assets/300ca6b1adcd58b868a75714.webp","jakelaravia":"/tools/assets/85b94ab9779869efebf5646d.webp","jalenwilliams":"/tools/assets/cf1b3fc6aa651abefdbc0cfb.webp","jaredmccain":"/tools/assets/bd72c91b883b2890dca972db.webp","jaxsonhayes":"/tools/assets/83e72d5437d256b207b23888.webp","juliusrandle":"/tools/assets/58c89e7947e9835c2b58c4fc.webp","kenrichwilliams":"/tools/assets/40179a8fd64fa3e1cd00b48d.webp","keonellis":"/tools/assets/9f1322d31917885eb68ad551.webp","konknueppel":"/tools/assets/9ddba8a40e15dc29a87f8e42.webp","liammcneeley":"/tools/assets/6de7f617739af9740445a2fb.webp","michaelporterjr":"/tools/assets/c3d315b3885cb9f3e8bd27b7.webp","mikelbrownjr":"/tools/assets/d9a9b4e1821e6831a2882b90.webp","moussadiabate":"/tools/assets/d79750f0eae1a884120ff33a.webp","nazreid":"/tools/assets/c12f030945dcfff7dc92933e.webp","shaigilgeousalexander":"/tools/assets/5edab6969a9ea0518f7ee8a1.webp","treymurphyiii":"/tools/assets/3b7aa684ee768c297c3d8f41.webp","yvesmissi":"/tools/assets/9eb0d96bed833b7249bcff09.webp","zionwilliamson":"/tools/assets/767b0780dd579d6635d69221.webp","kawhileonard":"/tools/assets/d4626bacea9e39a1f946ca2f.webp","scottiebarnes":"/tools/assets/ce12d996714816c156f23aad.webp","immanuelquickley":"/tools/assets/2c57222647fad53b90f5670f.webp","bamadebayo":"/tools/assets/08a803355eb5533f1fa81019.webp","davionmitchell":"/tools/assets/3f335b38fe801f7653b56d4c.webp","giannisantetokounmpo":"/tools/assets/7d1617d81375c09da02425d9.webp","andrewwiggins":"/tools/assets/02d73a2bc3c32ba16670eba4.webp","klaythompson":"/tools/assets/54a1472da9558f2676ec5dda.webp","pellelarsson":"/tools/assets/348eb2fe0b95b74e9432f7e4.webp","jakobewalter":"/tools/assets/26d4955f66c9788b519a07a3.webp","jakobpoeltl":"/tools/assets/6093b3adec4d849374348285.webp","rjbarrett":"/tools/assets/196bb85c622097c95a228297.webp","alphadiallo":"/tools/assets/bf411e73782d07c08d0eb595.webp","henriveesaar":"/tools/assets/42495fa34b5eb67df4cebe4b.webp","otegaoweh":"/tools/assets/d849a3769b88abde5ef5f94b.webp","thomassorber":"/tools/assets/1556d1e46da1575e73f081a8.webp","meleekthomas":"/tools/assets/8a864fc5c0320e90a7b90462.webp","ernestudehjr":"/tools/assets/85d320c7a73f754aa045e228.webp","jakobigillespie":"/tools/assets/492958868cd21230fc886ab4.webp","tarrisreedjr":"/tools/assets/043423a9013d26b31340d329.webp","hannessteinbach":"/tools/assets/1cbda5d074681bcd1edef66a.webp","allengraves":"/tools/assets/66faae90e80fda562f674f72.webp","braydenburries":"/tools/assets/9e53bb9b68ab72d879f690fe.webp","nateament":"/tools/assets/4aae6f39d5c6b6fcd7dab2d2.webp","ebukaokorie":"/tools/assets/7270f7f98d3c5d9083ce7e66.webp","isaiahevans":"/tools/assets/575fbb89683a2d7de2f038a1.webp","cameroncarr":"/tools/assets/cf5102242598e1c5c0597e03.webp","calebwilson":"/tools/assets/38fa9835ace002aa1ca6e68b.webp","dailynswain":"/tools/assets/97a203f9bfb329b42cbefbfe.webp","emanuelsharp":"/tools/assets/92142b649d89630524ff4f6a.webp","alexkaraban":"/tools/assets/378b291de89c549f7e9be8b5.webp","sergiodelarrea":"/tools/assets/43802891d9520388a96dbc90.webp","morezjohnsonjr":"/tools/assets/713c829566b326b42d2913ce.webp","ajdybantsa":"/tools/assets/318f33d782480d6504079b07.webp","chriscenacjr":"/tools/assets/bd3a515e9e3a1fbd385a610f.webp","labaronphilonjr":"/tools/assets/cc67d975f1573aadda2ae8d2.webp","brucethornton":"/tools/assets/4aeb85db2cb0cae09651f838.webp","trevonbrazile":"/tools/assets/68cb1dac7ff4bce983cf85b5.webp","joshuajefferson":"/tools/assets/7a9709a50ef9fd1a40e5281f.webp","ryanconwell":"/tools/assets/781ace54510ad54f8545f98a.webp","koapeat":"/tools/assets/f2fc6031fe9c775a11aa52c3.webp","jaydenquaintance":"/tools/assets/659c0a716cbe6233970850f3.webp","khalifadiop":"/tools/assets/4f041debaa891885e30cf023.webp","tarikbiberovic":"/tools/assets/7ff7c84eebe2a7fd274ae2e5.webp","ajgreen":"/tools/assets/bb2d027c94b7d1a33a33c1d7.webp","ajjohnson":"/tools/assets/4329d87915abb897542b1e51.webp","aaronnesmith":"/tools/assets/40f3bf114273761fcb13cf1f.webp","aaronwiggins":"/tools/assets/7b6981141127b5baa6225839.webp","adembona":"/tools/assets/085d6d9a6db121ddbaf6f13c.webp","alexcaruso":"/tools/assets/eedf29413fd2a50060b8070b.webp","alexsarr":"/tools/assets/35d1fec6cf489a64c5dd9856.webp","alijahmartin":"/tools/assets/18a4a75491bd637ab32fa73d.webp","alperensengun":"/tools/assets/497fd44ecdf5e957ca4826e7.webp","amariwilliams":"/tools/assets/300cc33228d7016019148910.webp","amenthompson":"/tools/assets/20ec34df91b5675c2dc2a458.webp","andredrummond":"/tools/assets/d4d473678efcb138103d90ff.webp","andrewnembhard":"/tools/assets/6ba5d5c04c950b7a5b36ef52.webp","anferneesimons":"/tools/assets/1abdbff84233f203fddc2b55.webp","anthonyblack":"/tools/assets/1169d5da88687c6442a42743.webp","anthonydavis":"/tools/assets/643b981bf20dea28417c81fa.webp","asanewell":"/tools/assets/9e7f0bf7a8bea9d28135b45d.webp","ayodosunmu":"/tools/assets/585d5e35f29ede4edcb16bd4.webp","baylorscheierman":"/tools/assets/08e3fa90786ef56210520272.webp","bensaraf":"/tools/assets/6051adafd2143f4502ede42b.webp","bensheppard":"/tools/assets/642c9d0c8f86d216bffff02a.webp","bennedictmathurin":"/tools/assets/98139af4971dfd3dd83c5b87.webp","bilalcoulibaly":"/tools/assets/692f299833d51681a52c0abe.webp","bobbyportis":"/tools/assets/bc24511683a04389abb73181.webp","bogdanbogdanovic":"/tools/assets/e3eb60b453ee392d46d0dc99.webp","boneshyland":"/tools/assets/df703f8e496f79678708f7b1.webp","bradleybeal":"/tools/assets/432440d1a6273dbef66bd196.webp","brandencarlson":"/tools/assets/c907e5f6724eee3f23795a3a.webp","brandonwilliams":"/tools/assets/e1b15dd81beaca3208e11c58.webp","bricesensabaugh":"/tools/assets/093ca73f853f35609d667c31.webp","brycemcgowens":"/tools/assets/b812988a6076cc3e3d06b0c1.webp","bubcarrington":"/tools/assets/d103858f7dffe3f8482fe71b.webp","buddyhield":"/tools/assets/b3a8cc2d7edb240a54207d43.webp","caleblove":"/tools/assets/628f38f5b34968dbc2a16d2e.webp","calebmartin":"/tools/assets/2f26b174c7519fef1db1fab6.webp","camspencer":"/tools/assets/d72f8597de8d56594053cf54.webp","carislevert":"/tools/assets/b3ea86f469a8848e5abc6c9b.webp","carterbryant":"/tools/assets/b48993c77e23904148707f84.webp","charlesbassey":"/tools/assets/cc1e2a823e453daa69514a6c.webp","chazlanier":"/tools/assets/2cdb1f883dc4d1780cc74c31.webp","clintcapela":"/tools/assets/6c03d9d73d594291bff8a79b.webp","collingillespie":"/tools/assets/f8160185c72c0072e9d8e152.webp","collinmurrayboyles":"/tools/assets/cbb5bedce9617c9edc64f5ca.webp","collinsexton":"/tools/assets/4567c4b5ba2d234e7e1285c3.webp","cooperflagg":"/tools/assets/b5528e47d43fa24bc7c8db28.webp","craigporterjr":"/tools/assets/306b2c213afa918c9bea18c9.webp","dangelorussell":"/tools/assets/829fb9252a2d35bec32e79f0.webp","daronholmesii":"/tools/assets/8e81a0091b0fe612e5ffcada.webp","daeqwonplowden":"/tools/assets/6461585c6b2fd80cfe4588b9.webp","dalenterry":"/tools/assets/143b4d18ef5cf19e781df3d8.webp","daltonknecht":"/tools/assets/65585efbd0d7fd41108f3f30.webp","damianlillard":"/tools/assets/6e5143d1094208729e46b07b.webp","danielgafford":"/tools/assets/1c7d7a591d529cc5ef512ea3.webp","danissjenkins":"/tools/assets/0f0f2d6c639745e1b3f26cd2.webp","dannywolf":"/tools/assets/4c97efaca43a9e0a3ee05daf.webp","deaaronfox":"/tools/assets/d03353c1854505adb5d53147.webp","deanthonymelton":"/tools/assets/58ccd0c311e39de07ec66622.webp","deandrejordan":"/tools/assets/25e1c96e1ce8c12810897976.webp","demarderozan":"/tools/assets/48962b051ddc6e6640dfc185.webp","deandreayton":"/tools/assets/1f9438ea7bec38bdfc0aa7ff.webp","deniavdija":"/tools/assets/24111097edde9b80a713a142.webp","derecklivelyii":"/tools/assets/9bbd239abc198505a43f4ac8.webp","derrickwhite":"/tools/assets/a633bd1ec7fd1bbebf5d30ee.webp","desmondbane":"/tools/assets/6ba55cb609e1bfb2d987c3a0.webp","devincarter":"/tools/assets/c52a1861048a46572e8285d3.webp","devinvassell":"/tools/assets/a2943415eab8ef0041dba64a.webp","dominickbarlow":"/tools/assets/b63e392ee981b5f7ffbf1c3b.webp","donovanclingan":"/tools/assets/190de8e523076b53ef2827f4.webp","donovanmitchell":"/tools/assets/28f7f45bb1408a53dd92b933.webp","dontedivincenzo":"/tools/assets/0d07afb73a6934897ee6b856.webp","dorianfinneysmith":"/tools/assets/3a0aa0cfd4a68e4e76bff119.webp","drakepowell":"/tools/assets/55d3e4b6ed700b1e4c26e3ab.webp","drusmith":"/tools/assets/7b58b4cd1011ca5628e1ce55.webp","dylancardwell":"/tools/assets/07793788fd3b33a6033115c7.webp","dylanharper":"/tools/assets/9d7ecd622550db976f2bd1fe.webp","evanmobley":"/tools/assets/93d0ddff54f990bcc2d984ed.webp","franzwagner":"/tools/assets/583593adac0f77d910a4c2a5.webp","fredvanvleet":"/tools/assets/80bd6d1d177fa75fbd6622d7.webp","ggjackson":"/tools/assets/d9f046368b622dbe238187e2.webp","garypaytonii":"/tools/assets/17d64876cc63a10e906cde89.webp","garytrentjr":"/tools/assets/48e837d71b78a51fac282620.webp","georgesniang":"/tools/assets/47c2438497a4fefef7057158.webp","gogabitadze":"/tools/assets/0aad3fa59a9c212f98b92400.webp","gradeydick":"/tools/assets/d23986c9955ab01c4fe9d381.webp","grantwilliams":"/tools/assets/98aa6aa017c35fdb20766105.webp","harrisonbarnes":"/tools/assets/79fe53f95d5540a65e108b06.webp","haywoodhighsmith":"/tools/assets/57a86005a2d7704122486c4e.webp","hugogonzalez":"/tools/assets/103195bd912e92f45bf91d39.webp","isaacokoro":"/tools/assets/ebb3f190a996dbb2d864565b.webp","isaiahcollier":"/tools/assets/d746cce8b742ec3db18d4b6d.webp","isaiahcrawford":"/tools/assets/f4c80f99c1367253775444cc.webp","isaiahjoe":"/tools/assets/d3243e240396142cdc50a440.webp","isaiahstewart":"/tools/assets/dbe633f263da862cf0567479.webp","ivicazubac":"/tools/assets/a032c58f74f8d8cdeb64de07.webp","jamorant":"/tools/assets/f0fc117e486dfaa109c9ab50.webp","jabarismithjr":"/tools/assets/e50ae276b7d93ec91cc5b2af.webp","jabariwalker":"/tools/assets/29c8bfd65908a6913f13c126.webp","jadenhardy":"/tools/assets/a030364b9fcf1bf594c8e4be.webp","jaeseantate":"/tools/assets/ea7b5e3ba636ed968a321ac8.webp","jalensmith":"/tools/assets/0bf53c851e478fe070e76f1f.webp","jalensuggs":"/tools/assets/9cc5f5ec9300d02be67121f5.webp","jamalcain":"/tools/assets/88362921ba5ab174948e731d.webp","jamalshead":"/tools/assets/8bb5e4f982b9bad104af276b.webp","jamareebouyea":"/tools/assets/b80190f7156e6c874c1958db.webp","jamesharden":"/tools/assets/d29307964692fb3cfe225ad1.webp","jamirwatkins":"/tools/assets/b4309dc85a27830b2fb6b82f.webp","jamisonbattle":"/tools/assets/f9b498471ddd0cc4de47a55c.webp","jaracewalker":"/tools/assets/e151e8e375223bfa7e22757a.webp","jarredvanderbilt":"/tools/assets/5f047e056737575f8a5feb7f.webp","jarrettallen":"/tools/assets/4cb429ab057a9aa3c53ad215.webp","jaserichardson":"/tools/assets/cc2452ef9535b64cb260b1ed.webp","javontegreen":"/tools/assets/86673127092bcb7a0bc5333b.webp","jayhuff":"/tools/assets/df0b0252cd10a5c6b27aec27.webp","jaylenclark":"/tools/assets/c6bb016366697ef642a8c6ec.webp","jaylinwilliams":"/tools/assets/8198a15d1304b7b11410a424.webp","jaylontyson":"/tools/assets/ed038923ee0f2cd86b1d36c0.webp","jaysontatum":"/tools/assets/86b618542add76004ece8bf4.webp","jeramigrant":"/tools/assets/04450275635b9ce2cf788e08.webp","jeremiahfears":"/tools/assets/a0f76a2aa5d48579874de7e9.webp","jeremysochan":"/tools/assets/51368b5b1a172618e86a7a24.webp","jerichosims":"/tools/assets/3481af1cfd29d71890289c2c.webp","jevoncarter":"/tools/assets/41da53d0f91a58b7c8e16cda.webp","jimmybutler":"/tools/assets/c0fccaef17e64b5a11e6800e.webp","joanberinger":"/tools/assets/33e0c27f589e95b040178b4f.webp","jocklandale":"/tools/assets/afb514574a998fe1004ce3ad.webp","johnibroome":"/tools/assets/edd84d4c19b1c6faf3e69051.webp","johnnyfurphy":"/tools/assets/78e9254d261709f91d129362.webp","jonathanisaac":"/tools/assets/560d053385ecabe4367bcddb.webp","jordanclarkson":"/tools/assets/a129a1f614c88784b3560b55.webp","jordangoodwin":"/tools/assets/cd1704184ab676fd4f98d912.webp","jordanmclaughlin":"/tools/assets/b1d7798e4c6ccb405bf2eb9e.webp","jordanmiller":"/tools/assets/8c47532855ae75f8bc0b2b0c.webp","jordanpoole":"/tools/assets/e5683596cfe44d50e596303b.webp","jordanwalsh":"/tools/assets/35b21c8bf163897f642b8f3b.webp","josealvarado":"/tools/assets/ba0b65c44b52c28e95da2201.webp","joshgiddey":"/tools/assets/f89b489a5382cadf2d4372b8.webp","joshgreen":"/tools/assets/dc6381b7db8240fc226ef621.webp","joshminott":"/tools/assets/390f95d22fe881ea8c784ff2.webp","joshokogie":"/tools/assets/fb8a0ed0b506bcf70dba745f.webp","jrueholiday":"/tools/assets/df74c134d3ce06fa610566cc.webp","julianchampagnie":"/tools/assets/ed121c167b98661f2f8d8edf.webp","julianstrawther":"/tools/assets/04e117b0572e87b3074a207f.webp","justinchampagnie":"/tools/assets/8d0ba716f79827731876ed93.webp","justinedwards":"/tools/assets/1b9c8484eca3b523652e8abb.webp","karimlopez":"/tools/assets/d068cef13d3f67cfdf338297.webp","karlomatkovic":"/tools/assets/e18a5a853790f2e86021a714.webp","kasparasjakucionis":"/tools/assets/4b7fc2eca295132d7c16caf1.webp","kelelware":"/tools/assets/4065e16f179160b7bf59ead0.webp","keldonjohnson":"/tools/assets/7a9de9f566ab48e0caf73001.webp","kellyoubrejr":"/tools/assets/f8d10a784d9cc76ab5a2d97c.webp","kevindurant":"/tools/assets/05281af73c85df17bd95a5d8.webp","kevinhuerter":"/tools/assets/62e08ff6221a8f510af9eef2.webp","kevinporterjr":"/tools/assets/0b6885b680f8e1ae40150e10.webp","khamanmaluach":"/tools/assets/8e9df115be2790a54ec661d9.webp","khrismiddleton":"/tools/assets/c294d4a7091687a02e93af7d.webp","kobesanders":"/tools/assets/4cc09c3117d74bff0b06ef9b.webp","krisdunn":"/tools/assets/05469a8db227b742dc683b7b.webp","kyleanderson":"/tools/assets/0ab3bbd164befd43f72c6e91.webp","kylefilipowski":"/tools/assets/c8bdfaa4535131a9ecaf5ab3.webp","kyrieirving":"/tools/assets/db3388aa6fdb542508c9a3a0.webp","kyshawngeorge":"/tools/assets/43d6ca358332f1fd7311504d.webp","landryshamet":"/tools/assets/636b3cd142d8079aa809189f.webp","larrynancejr":"/tools/assets/3f6c7afeea9cf8ed60cd0914.webp","leonardmiller":"/tools/assets/ffc8030e2a41f2276dace8ba.webp","luguentzdort":"/tools/assets/60db5890d6164455aa0158f4.webp","lukagarza":"/tools/assets/cbc055b9645e0620304f3af9.webp","lukekennard":"/tools/assets/dece9514953b569e495374a1.webp","lukekornet":"/tools/assets/deab606881d8cff85d8870cf.webp","malikmonk":"/tools/assets/92b8d2fb014223d9b91b8e7f.webp","marcussasser":"/tools/assets/ecfe88e1fb04bcb58425b025.webp","marcussmart":"/tools/assets/0595d31e0a179bf693e90e92.webp","mariohezonja":"/tools/assets/79a546ae1101b9086fa7cc46.webp","marvinbagleyiii":"/tools/assets/78807000aa2bd9bdb4d895c1.webp","matasbuzelis":"/tools/assets/0576a71f7857af48df25f9dc.webp","maxchristie":"/tools/assets/e204abc78bf1cc8fbff893f7.webp","maximeraynaud":"/tools/assets/b5a9643c7efc6b5a68e0b30a.webp","mikeconley":"/tools/assets/119c71d83ed10041c066f29d.webp","mileskelly":"/tools/assets/4a6daa3be5a8bfeb9c40dbdc.webp","milesmcbride":"/tools/assets/b42b540c2a27da4f5f96d2b2.webp","mitchellrobinson":"/tools/assets/e0660a2e839cbdf2aea18c2b.webp","mobamba":"/tools/assets/b3d4fb85a2775eebc838c983.webp","mohameddiawara":"/tools/assets/38fe5462254cd1749262b395.webp","moritzwagner":"/tools/assets/bd7a250294627cb794fbed90.webp","mosesmoody":"/tools/assets/c4bc5b5b1d7eab8a4bbb5b79.webp","mouhamedgueye":"/tools/assets/75ee906e214cd0843438b900.webp","moussacisse":"/tools/assets/5b41e8a6d64149249f0bad13.webp","myrongardner":"/tools/assets/6b806f233ff9e70b02e7a401.webp","naeqwantomlin":"/tools/assets/72e54f6fdc4d31795d4a87be.webp","najimarshall":"/tools/assets/df33f55c350700aa3d2c0f68.webp","neemiasqueta":"/tools/assets/5d43e22c7d557a240500e4b2.webp","nicclaxton":"/tools/assets/da63b657286cb00184314a4f.webp","nickrichards":"/tools/assets/12fb6253062b461e98238303.webp","nikolajovic":"/tools/assets/a286455cc43f41f38aea62c4.webp","nikolatopic":"/tools/assets/1b8470b5bf50a3a048b642ac.webp","nikolavucevic":"/tools/assets/732508032a4079266e73ec12.webp","niqueclifford":"/tools/assets/d8ea074a490bb5ccda77327d.webp","noaessengue":"/tools/assets/9714dd4e39ef961789f7003a.webp","noahclowney":"/tools/assets/fbb3abd9006f33fdd13b77a5.webp","noahpenda":"/tools/assets/6098e00171008fe1ac33542b.webp","nolantraore":"/tools/assets/93ab6a6054d098ba4ddb8645.webp","normanpowell":"/tools/assets/532166a28c768cb7595658f2.webp","obitoppin":"/tools/assets/f7d3a776c5a7e1efde7184b9.webp","ousmanedieng":"/tools/assets/2e64b8670de1a116eb970963.webp","pjwashington":"/tools/assets/12717519fbbf0a83ad474a1e.webp","pacomedadiet":"/tools/assets/ce6e12e4f8a0dc0c7b5da4ff.webp","paolobanchero":"/tools/assets/b60a9af0cd1ef8bfca8687b3.webp","pascalsiakam":"/tools/assets/491ce8cf3c01e49701b4faab.webp","patconnaughton":"/tools/assets/5b7f6316b7596791e1749e82.webp","patrickwilliams":"/tools/assets/2493bb819ac4f8bd2a7ae374.webp","paulgeorge":"/tools/assets/eb3842630b2b3a16e49898d3.webp","paytonpritchard":"/tools/assets/c577e725fe5ccd0d365ea980.webp","peytonwatson":"/tools/assets/f7161027d2edeea8a824735d.webp","quentonjackson":"/tools/assets/becbf41db151f5403b8d1412.webp","rasheerfleming":"/tools/assets/325255ed5628ae705790a82b.webp","rayanrupert":"/tools/assets/ff0a5cfd3638cc6ecc952765.webp","reedsheppard":"/tools/assets/045cc499d124f75fcf6b9b82.webp","robdillingham":"/tools/assets/dad42b3fec390b9ea053d413.webp","robertwilliamsiii":"/tools/assets/186e76a59a84cc4b8525b040.webp","ronharperjr":"/tools/assets/0c2406c4ee1f99906d99b233.webp","ronaldhollandii":"/tools/assets/a6ac4f4a8b7260d761d56062.webp","royceoneale":"/tools/assets/e568c8b91e641149e4f723dd.webp","ryandunn":"/tools/assets/f293282aea13c0e38478bbb3.webp","ryankalkbrenner":"/tools/assets/2f2300d8cdbeb462df9d5b6c.webp","ryannembhard":"/tools/assets/2bc1c93f9e576498b74bc33e.webp","saddiqbey":"/tools/assets/1f464e502bf9652696ab49d3.webp","samhauser":"/tools/assets/4e34cf73b444ec6c12a53ceb.webp","sammerrill":"/tools/assets/531f96802b05fec6e0390568.webp","santialdama":"/tools/assets/10f3e3d90e9a66535e729a85.webp","scoothenderson":"/tools/assets/2974b76736161c6f4a29ba95.webp","scottypippenjr":"/tools/assets/b37cd86a4501be67915703c6.webp","shaedonsharpe":"/tools/assets/3d1f22ea94d08e1688117230.webp","sidycissoko":"/tools/assets/09eb2361125628fa16f69937.webp","simonefontecchio":"/tools/assets/960d8ec25452c18a734c904a.webp","sionjames":"/tools/assets/4eea6469e0c4d97f7bd1ab91.webp","spencerjones":"/tools/assets/2c8f445931c19961055ae9e9.webp","stephoncastle":"/tools/assets/041be3f14e4a4f65419aab7a.webp","stevenadams":"/tools/assets/27bcb07c0ce77d44222c1407.webp","svimykhailiuk":"/tools/assets/e3a99fafb456b1705aa21b26.webp","tjmcconnell":"/tools/assets/989e63a09b17072fb12e63c0.webp","tarieason":"/tools/assets/e307fe82f7677a0f57e7704e.webp","taureanprince":"/tools/assets/7f88ec862ba5d35a93d15a59.webp","taylorhendricks":"/tools/assets/359eb9b74f74eac1a82bf861.webp","terancemann":"/tools/assets/d47bd20c25bfc9364de2673d.webp","terrenceshannonjr":"/tools/assets/dbc6df0f5acc50c98796b7f0.webp","thomasbryant":"/tools/assets/6873b52aac44d8942b95aad4.webp","tidjanesalaun":"/tools/assets/8e734f9df3ab552b1503a677.webp","timhardawayjr":"/tools/assets/288e854e63045571d03d79a8.webp","tobiasharris":"/tools/assets/0a6bed98bb0236f50b7a8790.webp","tolusmith":"/tools/assets/792bf98b4c6ef5c8bda4220e.webp","toumanicamara":"/tools/assets/5bdeb0d79f45bd70c55544e1.webp","traeyoung":"/tools/assets/b7b6ae0ba550cadc9612404f.webp","traycejacksondavis":"/tools/assets/f29acdb87c28a15894af2329.webp","trejohnson":"/tools/assets/017388bd6ccca1dccee1d43a.webp","trejones":"/tools/assets/234989056ace4eacdd21ff13.webp","tremann":"/tools/assets/ceb0b11689077869df8f6d86.webp","trendonwatford":"/tools/assets/a643ad83856c12f9d62ea95d.webp","treylyles":"/tools/assets/2f08d0625dfa309c727d4788.webp","tristanvukcevic":"/tools/assets/ee0e5c2fb2ac0a9a2e208a5f.webp","tristandasilva":"/tools/assets/166217fbf8648018bbc9b113.webp","tylerkolek":"/tools/assets/5e802fcb3f5dcc85fc5555a8.webp","tyresehaliburton":"/tools/assets/e08123a470a7dedf2ebd919c.webp","tyreseproctor":"/tools/assets/97388f3caaf5e463548ca744.webp","victorwembanyama":"/tools/assets/445522c760656add75f75a1a.webp","vitkrejci":"/tools/assets/735b7eacb149dfd94a51ad70.webp","walterclaytonjr":"/tools/assets/f1e4bb0b7988b55fc0c76a7c.webp","wendellcarterjr":"/tools/assets/3cf1c7666e25fdffee205e5f.webp","willrichard":"/tools/assets/0f24622aa3cb244100e4d80b.webp","willriley":"/tools/assets/f3bc78eed45b0b8e810c68b4.webp","yanickonanniederhauser":"/tools/assets/fb9347285d44b06edaefdf49.webp","yanghansen":"/tools/assets/b79c8dc4fec3c6cea5946c8e.webp","zaccharierisacher":"/tools/assets/2f09dd2f341c373a024fee29.webp","zachcollins":"/tools/assets/413d98d89dc0d60656770f74.webp","zekennaji":"/tools/assets/92b01c75a9840e31c54425a8.webp"},"divisions":[{"conference":"西部","division":"太平洋赛区","teams":["GSW","LAL","LAC","PHX","SAC"]},{"conference":"西部","division":"西北赛区","teams":["OKC","DEN","MIN","POR","UTA"]},{"conference":"西部","division":"西南赛区","teams":["HOU","SAS","MEM","DAL","NOP"]},{"conference":"东部","division":"大西洋赛区","teams":["BOS","NYK","PHI","BKN","TOR"]},{"conference":"东部","division":"中部赛区","teams":["CLE","IND","MIL","CHI","DET"]},{"conference":"东部","division":"东南赛区","teams":["ORL","MIA","ATL","CHA","WAS"]}],"baselineAsOf":"2026-09-24","missingReferencePortraits":["Ben Simmons","Tobe Awaka"],"catalog":["A.J. Lawson","AJ Dybantsa","AJ Green","AJ Johnson","AK Okereke","Aaron Gordon","Aaron Holiday","Aaron Nesmith","Aaron Wiggins","Ace Bailey","Adam Flagler","Adama Bal","Aday Mara","Adem Bona","Adou Thiero","Ajay Mitchell","Al Horford","Alex Antetokounmpo","Alex Caruso","Alex Karaban","Alex Morales","Alex Sarr","Alijah Martin","Allen Graves","Alondes Williams","Alperen Sengun","Alpha Diallo","Amari Williams","Amen Thompson","Amir Coffey","Andersson Garcia","Andre Drummond","Andre Jackson Jr.","Andrew Nembhard","Andrew Wiggins","Anfernee Simons","Anthony Black","Anthony Davis","Anthony Edwards","Anthony Gill","Antonio Reeves","Ariel Hukporti","Arthur Kaluma","Asa Newell","Ausar Thompson","Austin Reaves","Ayo Dosunmu","Baba Miller","Bam Adebayo","Baylor Scheierman","Ben Saraf","Ben Sheppard","Ben Simmons","Bennedict Mathurin","Bennett Stirtz","Bez Mbeng","Bilal Coulibaly","Bismack Biyombo","Blake Hinson","Blake Wesley","Bobby Portis","Bobi Klintman","Bogdan Bogdanovic","Bogoljub Marković","Bones Hyland","Braden Smith","Bradley Beal","Branden Carlson","Brandin Podziemski","Brandon Ingram","Brandon Miller","Brandon Williams","Brayden Burries","Brice Sensabaugh","Bronny James","Brook Lopez","Brooks Barnhizer","Bruce Brown","Bruce Thornton","Bryce Hopkins","Bryce McGowens","Bub Carrington","Buddy Boeheim","Buddy Hield","CJ Huntley","CJ McCollum","Cade Cunningham","Caleb Houstan","Caleb Love","Caleb Martin","Caleb Wilson","Cam Christie","Cam Spencer","Cam Thomas","Cam Whitmore","Cameron Boozer","Cameron Carr","Cameron Johnson","Cameron Payne","Caris LeVert","Carson Cooper","Carter Bryant","Cason Wallace","Cedric Coward","Chaney Johnson","Charles Bassey","Chaz Lanier","Chet Holmgren","Chris Boucher","Chris Cenac Jr.","Chris Livingston","Chris Mañon","Chris Youngblood","Christian Anderson Jr.","Christian Braun","Christian Koloko","Chucky Hepburn","Clint Capela","Coby White","Cody Martin","Cody Williams","Colby Jones","Cole Anthony","Colin Castleton","Collin Gillespie","Collin Murray-Boyles","Collin Sexton","Cooper Flagg","Corey Kispert","Cormac Ryan","Craig Porter Jr.","Curtis Jones","D'Angelo Russell","DaQuan Jeffries","DaRon Holmes II","Daeqwon Plowden","Dailyn Swain","Dalano Banton","Dalen Terry","Dalton Knecht","Damian Lillard","Daniel Gafford","Daniss Jenkins","Danny Wolf","Dario Šarić","Dariq Whitehead","Darius Acuff Jr.","Darius Brown","Darius Garland","Darryn Peterson","David Jones Garcia","David Roddy","Davion Mitchell","Day'Ron Sharpe","De'Aaron Fox","De'Andre Hunter","De'Anthony Melton","DeAndre Jordan","DeJon Jarreau","DeMar DeRozan","Dean Wade","Deandre Ayton","Dejounte Murray","Deni Avdija","Dennis Schroder","Dereck Lively II","Derik Queen","Derrick Jones Jr.","Derrick White","Desmond Bane","Devin Booker","Devin Carter","Devin Vassell","Dillon Brooks","Dillon Jones","Dillon Mitchell","Domantas Sabonis","Dominick Barlow","Donovan Clingan","Donovan Mitchell","Donte DiVincenzo","Dorian Finney-Smith","Doug McDermott","Drake Powell","Draymond Green","Drew Eubanks","Drew Peterson","Drew Timme","Dru Smith","Duncan Robinson","Duop Reath","Dwight Powell","Dylan Cardwell","Dylan Harper","Dyson Daniels","E.J. Liddell","Ebuka Okorie","Egor Dëmin","Elijah Harkless","Emanuel Sharp","Enrique Freeman","Eric Gordon","Ernest Udeh Jr.","Ethan Thompson","Evan Mobley","Felix Okpara","Franz Wagner","Fred VanVleet","GG Jackson","Gabe Vincent","Garrett Temple","Garrison Mathews","Gary Harris","Gary Payton II","Gary Trent Jr.","Georges Niang","Giannis Antetokounmpo","Goga Bitadze","Gradey Dick","Grant Nelson","Grant Williams","Grayson Allen","Guerschon Yabusele","Gui Santos","Hannes Steinbach","Harrison Barnes","Harrison Ingram","Hayden Gray","Haywood Highsmith","Henri Veesaar","Herbert Jones","Hugo González","Hunter Dickinson","Hunter Sallis","Hunter Tyson","Immanuel Quickley","Isaac Jones","Isaac Okoro","Isaiah Collier","Isaiah Crawford","Isaiah Evans","Isaiah Hartenstein","Isaiah Jackson","Isaiah Joe","Isaiah Livers","Isaiah Stewart","Ivica Zubac","Izaiyah Nelson","JD Davison","Ja Morant","Ja'Kobe Walter","Ja'Kobi Gillespie","Jabari Smith Jr.","Jabari Walker","Jack Kayil","Jacob Toppin","Jaden Bradley","Jaden Hardy","Jaden Ivey","Jaden McDaniels","Jae'Sean Tate","Jahmai Mashack","Jahmir Young","Jahmyl Telfort","Jaime Jaquez Jr.","Jake LaRavia","Jakob Poeltl","Jalen Brunson","Jalen Duren","Jalen Green","Jalen Johnson","Jalen Pickett","Jalen Slawson","Jalen Smith","Jalen Suggs","Jalen Williams","Jalen Wilson","Jamal Cain","Jamal Murray","Jamal Shead","Jamaree Bouyea","Jamarion Sharp","James Harden","James Wiseman","Jamir Watkins","Jamison Battle","Jarace Walker","Jared McCain","Jaren Jackson Jr.","Jaron Pierre Jr.","Jarred Vanderbilt","Jarrett Allen","Jase Richardson","Javon Small","Javonte Cooke","Javonte Green","Jaxson Hayes","Jay Huff","Jayden Quaintance","Jaylen Brown","Jaylen Clark","Jaylen Wells","Jaylin Sellers","Jaylin Williams","Jaylon Tyson","Jayson Kent","Jayson Tatum","Jeff Green","Jerami Grant","Jeremiah Fears","Jeremiah Robinson-Earl","Jeremy Sochan","Jericho Sims","Jett Howard","Jevon Carter","Jimmy Butler III","Joan Beringer","Jock Landale","Joe Ingles","Joel Embiid","John Butler Jr.","John Collins","John Konchar","John Poulakidas","John Tonje","Johni Broome","Johnny Furphy","Johnny Juzang","Jonas Valančiūnas","Jonathan Isaac","Jonathan Kuminga","Jonathan Mogbo","Jordan Clarkson","Jordan Goodwin","Jordan Hawkins","Jordan McLaughlin","Jordan Miller","Jordan Poole","Jordan Walsh","Jose Alvarado","Josh Dix","Josh Giddey","Josh Green","Josh Hart","Josh Minott","Josh Oduro","Josh Okogie","Joshua Jefferson","Jrue Holiday","Julian Champagnie","Julian Phillips","Julian Reese","Julian Strawther","Julius Randle","Justin Champagnie","Justin Edwards","Jusuf Nurkić","KJ Simpson","Kadary Richmond","Kam Jones","Karim Lopez","Karl-Anthony Towns","Karlo Matković","Kasparas Jakučionis","Kawhi Leonard","Keaton Wagler","Keaton Wallace","Keegan Murray","Kel'el Ware","Keldon Johnson","Kelly Olynyk","Kelly Oubre Jr.","Kennedy Chandler","Kenrich Williams","Kentavious Caldwell-Pope","Keon Ellis","Keshad Johnson","Keshon Gilbert","Kevin Durant","Kevin Huerter","Kevin Love","Kevin McCullar Jr.","Kevin Porter Jr.","Kevon Looney","Keyonte George","Khalifa Diop","Khaman Maluach","Khris Middleton","Killian Hayes","Kingston Flemings","Klay Thompson","Koa Peat","Kobe Brown","Kobe Bufkin","Kobe Sanders","Kobe Stewart","Koby Brea","Kon Knueppel","Kris Dunn","Kris Murray","Kristaps Porziņģis","Kylan Boswell","Kyle Anderson","Kyle Filipowski","Kyle Kuzma","Kyrie Irving","Kyshawn George","LJ Cryer","LaMelo Ball","Labaron Philon Jr.","Lachlan Olbrich","Lajae Jones","Landry Shamet","Larry Nance Jr.","Lauri Markkanen","Lawson Lovering","LeBron James","Leaky Black","Leonard Miller","Liam McNeeley","Lindy Waters III","Lonzo Ball","Lucas Williamson","Luguentz Dort","Luka Dončić","Luka Garza","Luke Kennard","Luke Kornet","Luke Travers","Mac McClung","Malachi Smith","Malaki Branham","Malevy Leons","Malik Dia","Malik Monk","Maliq Brown","Malique Lewis","MarJon Beauchamp","Marcus Sasser","Marcus Smart","Mario Hezonja","Mark Sears","Mark Williams","Markelle Fultz","Marvin Bagley III","Mason Plumlee","Matas Buzelis","Matisse Thybulle","Max Christie","Max Shulga","Max Strus","Maxi Kleber","Maxime Raynaud","Meleek Thomas","Micah Peavy","Micah Potter","Michael Ajayi","Michael Porter Jr.","Mikal Bridges","Mike Conley","Mikel Brown Jr.","Miles Bridges","Miles Kelly","Miles McBride","Mitchell Robinson","Mo Bamba","Mohamed Diawara","Monté Morris","Morez Johnson Jr.","Moritz Wagner","Moses Moody","Mouhamadou Gueye","Mouhamed Gueye（伤）","Moussa Cisse","Moussa Diabaté","Myles Turner","Myron Gardner","N'Faly Dante","Nae'Qwan Tomlin","Naji Marshall","Nate Ament","Nate Williams","Naz Reid","Neemias Queta","Nic Claxton","Nick Martinelli","Nick Richards","Nick Smith Jr.","Nickeil Alexander-Walker","Nicolas Batum","Nigel Hayes-Davis","Nikola Jokić","Nikola Jovic","Nikola Topić","Nikola Vucevic","Nique Clifford","Noa Essengue","Noah Clowney","Noah Penda","Nolan Traore","Norchad Omier","Norman Powell","OG Anunoby","Obi Toppin","Ochai Agbaji","Olivier Sarr","Olivier-Maxence Prosper","Onyeka Okongwu","Orlando Robinson","Oscar Tshiebwe","Oso Ighodaro","Otega Oweh","Ousmane Dieng","P.J. Washington","PJ Hall","Pacôme Dadiet","Paolo Banchero","Pascal Siakam","Pat Connaughton","Pat Spencer","Patrick Baldwin Jr.","Patrick Williams","Paul George","Paul Reed","Payton Pritchard","Payton Sandfort","Pelle Larsson","Pete Nance","Peyton Watson","Precious Achiuwa","Quadir Copeland","Quentin Grimes","Quenton Jackson","Quinten Post","RJ Barrett","Rafael Castro","Rasheer Fleming","RayJ Dennis","Rayan Rupert","Reed Sheppard","Richie Saunders","Riley Minix","Rob Dillingham","Robert Williams III","Rocco Zikarsky","Ron Harper Jr.","Ronald Holland II","Royce O'Neale","Rudy Gobert","Rui Hachimura","Russell Westbrook","Ryan Conwell","Ryan Dunn","Ryan Kalkbrenner","Ryan Nembhard","Ryan Rollins","Saddiq Bey","Sam Hauser","Sam Merrill","Sandro Mamukelashvili","Santi Aldama","Scoot Henderson","Scottie Barnes","Scotty Pippen Jr.","Sean Pedulla","Sergio De Larrea","Seth Curry","Shaedon Sharpe","Shai Gilgeous-Alexander","Sharife Cooper","Sidy Cissoko","Simone Fontecchio","Sion James","Skal Labissière","Spencer Jones","Stanley Umude","Stephen Curry","Stephon Castle","Steven Adams","Svi Mykhailiuk","T.J. McConnell","Taelon Peter","Taj Gibson","Tamar Bates","Tari Eason","Tarik Biberović","Tarris Reed Jr.","Taurean Prince","Taylor Hendricks","Terance Mann","Terrence Shannon Jr.","Thanasis Antetokounmpo","Thomas Bryant","Thomas Sorber","Tidjane Salaun","Tim Hardaway Jr.","Tobe Awaka","Tobi Lawal","Tobias Harris","Toby Okani","Tolu Smith","Tony Bradley","Tosan Evbuomwan","Toumani Camara","Trae Young","Trayce Jackson-Davis","Tre Donaldson","Tre Johnson","Tre Jones","Tre Mann","Trendon Watford","Trentyn Flowers","Trevon Brazile","Trevor Keels","Trey Alexander","Trey Jemison III","Trey Kaufman-Renn","Trey Lyles","Trey Murphy III","Trey Townsend","Tristan Enaruna","Tristan Vukcevic","Tristan da Silva","Tristen Newton","Ty Jerome","TyTy Washington Jr.","Tyler Bilodeau","Tyler Burton","Tyler Herro","Tyler Kolek","Tyler Nickel","Tyler Smith","Tyrese Haliburton","Tyrese Martin","Tyrese Maxey","Tyrese Proctor","Tyson Etienne","Tyus Jones","Ugonna Onyenso","VJ Edgecombe","Victor Wembanyama","Vince Williams Jr.","Vladislav Goldin","Vsevolod Ishchenko","Vít Krejčí","Walker Kessler","Walter Clayton Jr.","Wendell Carter Jr.","Wendell Moore Jr.","Will Richard","Will Riley","Xavier Tillman","Y. Konan Niederhäuser","Yang Hansen","Yaxel Lendeborg","Yuki Kawamura","Yves Missi","Zaccharie Risacher","Zach Collins（伤）","Zach Edey","Zach LaVine","Zeke Nnaji","Ziaire Williams","Zion Williamson","Zuby Ejiofor","Zyon Pullin","Ömer Yurtseven"],"teams":[{"id":"GSW","name":"金州勇士","conference":"西部","division":"太平洋赛区","color":"#FFC72C","players":["Stephen Curry","Brandin Podziemski","Yaxel Lendeborg","Draymond Green","Kristaps Porziņģis","Brandon Williams","Gui Santos","Al Horford"],"originalStarters":["Stephen Curry","Brandin Podziemski","Yaxel Lendeborg","Draymond Green","Kristaps Porziņģis"],"candidates":["Stephen Curry","Brandin Podziemski","Yaxel Lendeborg","Draymond Green","Kristaps Porziņģis","Brandon Williams","Gui Santos","Al Horford","Dalen Terry","Miles Kelly","Charles Bassey","De'Anthony Melton","Gary Payton II","Moses Moody","Will Richard","Jimmy Butler III","Georges Niang"],"gamesPlayed":3,"todayLabel":"今日无比赛","note":"10月5日、7日Santos等人已参与主力轮换；10月8日Curry、Green、Horford、Podziemski等多人未随队，全队只有9人出场，实际首发为B威、Will Richard、Dalen Terry、Malevy Leons、Bassey。图中仍是齐员预测，本场长时间数据必须带上缺员背景，不能直接重排正常八人。","status":"阵容图为10月8日汇总版八人预测；最新实际首发和竞争信号见轮换分析，非教练确认的固定八人"},{"id":"LAL","name":"洛杉矶湖人","conference":"西部","division":"太平洋赛区","color":"#FDB927","players":["Luka Dončić","Austin Reaves","Quentin Grimes","Sandro Mamukelashvili","Walker Kessler","Collin Sexton","Jake LaRavia","Matisse Thybulle"],"originalStarters":["Luka Dončić","Austin Reaves","Quentin Grimes","Sandro Mamukelashvili","Walker Kessler"],"candidates":["Luka Dončić","Austin Reaves","Quentin Grimes","Sandro Mamukelashvili","Walker Kessler","Collin Sexton","Jake LaRavia","Matisse Thybulle","Jaden Hardy","Dalton Knecht","Jarred Vanderbilt","Cameron Carr","Ziaire Williams","Adou Thiero","Kevon Looney"],"gamesPlayed":2,"todayLabel":"今日有比赛","note":"保留9月24日马穆先发的最终预测。Sexton、LaRavia、Thybulle暂列主要轮换；两场均有主力缺席，LaRavia的防守数据比单纯比较首发称号更值得关注。","status":"阵容图为10月8日汇总版八人预测；最新实际首发和竞争信号见轮换分析，非教练确认的固定八人"},{"id":"LAC","name":"洛杉矶快船","conference":"西部","division":"太平洋赛区","color":"#C8102E","players":["Darius Garland","Keaton Wagler","Brandon Ingram","Rui Hachimura","Isaiah Jackson","Kris Dunn","Derrick Jones Jr.","Brook Lopez"],"originalStarters":["Darius Garland","Keaton Wagler","Brandon Ingram","Rui Hachimura","Brook Lopez"],"candidates":["Darius Garland","Keaton Wagler","Brandon Ingram","Rui Hachimura","Isaiah Jackson","Kris Dunn","Derrick Jones Jr.","Brook Lopez","Bradley Beal","Kobe Sanders","Jordan Miller","Max Strus","Gradey Dick","Johni Broome","Y. Konan Niederhäuser"],"gamesPlayed":1,"todayLabel":"今日无比赛","note":"这版先把Jackson放到先发C、Lopez移到轮换，依据是首场Jackson实际先发而Lopez替补。Wagler的SG席位仍只是旧预测，首场并未兑现；Ingram缺席、Strus伤退让完整后场顺位还需复核。","status":"阵容图为10月8日汇总版八人预测；最新实际首发和竞争信号见轮换分析，非教练确认的固定八人"},{"id":"PHX","name":"菲尼克斯太阳","conference":"西部","division":"太平洋赛区","color":"#E56020","players":["Devin Booker","Jalen Green","Miles Bridges","Dillon Brooks","Mark Williams","Collin Gillespie","Jordan Goodwin","Oso Ighodaro"],"originalStarters":["Devin Booker","Jalen Green","Miles Bridges","Dillon Brooks","Mark Williams"],"candidates":["Devin Booker","Jalen Green","Miles Bridges","Dillon Brooks","Mark Williams","Collin Gillespie","Jordan Goodwin","Oso Ighodaro","Khaman Maluach","Jamaree Bouyea","Luke Kennard","Rasheer Fleming","Haywood Highsmith","Ryan Dunn","Koa Peat"],"gamesPlayed":2,"todayLabel":"今日无比赛","note":"10月8日Mark Williams未出场，Ighodaro继续顶入首发，与Booker、Jalen Green、Miles Bridges、Brooks搭档。Goodwin首节剩5分12秒登场，前两节已有4抢断，连续有早期轮换使用；Maluach约25分钟的数据也比首场完整。图中八人先留齐员预测，内线顺位等Mark可用时检验。","status":"阵容图为10月8日汇总版八人预测；最新实际首发和竞争信号见轮换分析，非教练确认的固定八人"},{"id":"SAC","name":"萨克拉门托国王","conference":"西部","division":"太平洋赛区","color":"#9B6DD6","players":["Darius Acuff Jr.","Zach LaVine","De'Andre Hunter","Keegan Murray","Domantas Sabonis","Malik Monk","Nique Clifford","Maxime Raynaud"],"originalStarters":["Darius Acuff Jr.","Zach LaVine","De'Andre Hunter","Keegan Murray","Domantas Sabonis"],"candidates":["Darius Acuff Jr.","Zach LaVine","De'Andre Hunter","Keegan Murray","Domantas Sabonis","Malik Monk","Nique Clifford","Maxime Raynaud","Dylan Cardwell","Ben Simmons","Emanuel Sharp","Daeqwon Plowden","Alex Karaban","Precious Achiuwa"],"gamesPlayed":1,"todayLabel":"今日有比赛","note":"Hunter先发以9月24日最终排阵为准。Monk、Clifford、Raynaud暂列轮换；Clifford的23分9板让他进入这一版八人，Cardwell与Achiuwa仍在争前场机会。","status":"阵容图为10月8日汇总版八人预测；最新实际首发和竞争信号见轮换分析，非教练确认的固定八人"},{"id":"OKC","name":"俄克拉荷马城雷霆","conference":"西部","division":"西北赛区","color":"#EF7C30","players":["Shai Gilgeous-Alexander","Cason Wallace","Jalen Williams","Chet Holmgren","Isaiah Hartenstein","Ajay Mitchell","Alex Caruso","Jaylin Williams"],"originalStarters":["Shai Gilgeous-Alexander","Cason Wallace","Jalen Williams","Chet Holmgren","Isaiah Hartenstein"],"candidates":["Shai Gilgeous-Alexander","Cason Wallace","Jalen Williams","Chet Holmgren","Isaiah Hartenstein","Ajay Mitchell","Alex Caruso","Jaylin Williams","Aday Mara","Bennett Stirtz","Nikola Topić","Jared McCain","Kenrich Williams","Thomas Sorber"],"gamesPlayed":2,"todayLabel":"今日无比赛","note":"10月7日主力五人全部缺席，10月8日SGA、Cason Wallace、Jalen Williams回到首发，但Chet与Hartenstein未出场，Caruso和Mara补入五人组。Mara已连续打出效率，仍不能把缺员机会当作Hartenstein让位；正常八人图保留为齐员预测。","status":"阵容图为10月8日汇总版八人预测；最新实际首发和竞争信号见轮换分析，非教练确认的固定八人"},{"id":"DEN","name":"丹佛掘金","conference":"西部","division":"西北赛区","color":"#FEC524","players":["Jamal Murray","Christian Braun","Cameron Johnson","Aaron Gordon","Nikola Jokić","DeMar DeRozan","Tyus Jones","Marvin Bagley III"],"originalStarters":["Jamal Murray","Christian Braun","Cameron Johnson","Aaron Gordon","Nikola Jokić"],"candidates":["Jamal Murray","Christian Braun","Cameron Johnson","Aaron Gordon","Nikola Jokić","DeMar DeRozan","Tyus Jones","Marvin Bagley III","Julian Strawther","Spencer Jones","Alpha Diallo","DaRon Holmes II","Trevon Brazile","Zeke Nnaji"],"gamesPlayed":2,"todayLabel":"今日无比赛","note":"齐员首发已与旧预测五人重合。轮换先留DeRozan、Tyus、Bagley；Strawther两场得分都在两位数，是我最想继续看能否挤进八人的球员。","status":"阵容图为10月8日汇总版八人预测；最新实际首发和竞争信号见轮换分析，非教练确认的固定八人"},{"id":"MIN","name":"明尼苏达森林狼","conference":"西部","division":"西北赛区","color":"#78BE20","players":["LaMelo Ball","Anthony Edwards","Jaden McDaniels","Jonathan Kuminga","Rudy Gobert","Ayo Dosunmu","Cody Williams","Joan Beringer"],"originalStarters":["LaMelo Ball","Anthony Edwards","Jaden McDaniels","Cody Williams","Rudy Gobert"],"candidates":["LaMelo Ball","Anthony Edwards","Jaden McDaniels","Jonathan Kuminga","Rudy Gobert","Ayo Dosunmu","Cody Williams","Joan Beringer","Terrence Shannon Jr.","Trey Lyles","Bones Hyland","Jaylen Clark","Isaiah Evans","Donte DiVincenzo"],"gamesPlayed":2,"todayLabel":"今日无比赛","note":"10月6日、8日连续由Kuminga先发，Cody打替补，原来的先发竞争信号得到延续。10月8日五人是LaMelo、Edwards、McDaniels、Kuminga、Gobert；Ayo和Beringer在首节剩6分37秒同批登场。八人预测保留，但Kuminga的进攻效率没有跟上先发机会。","status":"阵容图为10月8日汇总版八人预测；最新实际首发和竞争信号见轮换分析，非教练确认的固定八人"},{"id":"POR","name":"波特兰开拓者","conference":"西部","division":"西北赛区","color":"#E03A3E","players":["Ja Morant","Damian Lillard","Deni Avdija","Toumani Camara","Donovan Clingan","Jrue Holiday","Scoot Henderson","Robert Williams III"],"originalStarters":["Ja Morant","Damian Lillard","Deni Avdija","Toumani Camara","Donovan Clingan"],"candidates":["Ja Morant","Damian Lillard","Deni Avdija","Toumani Camara","Donovan Clingan","Jrue Holiday","Scoot Henderson","Robert Williams III","Yang Hansen","Vít Krejčí","Jeremy Sochan","Shaedon Sharpe","Sidy Cissoko","Branden Carlson"],"gamesPlayed":1,"todayLabel":"今日无比赛","note":"10月8日Morant、Lillard、Avdija、Camara、Clingan五人首发，与原预测全中。首节剩6分40秒Holiday与Cissoko同批登场，剩4分31秒Scoot与Robert Williams同批上场；杨瀚森到第四节开局才登场。八人图已有实际出场样本，仍要用更多比赛确认正常分钟和后场球权。","status":"阵容图为10月8日汇总版八人预测；最新实际首发和竞争信号见轮换分析，非教练确认的固定八人"},{"id":"UTA","name":"犹他爵士","conference":"西部","division":"西北赛区","color":"#8357FF","players":["Keyonte George","Darryn Peterson","Lauri Markkanen","Jaren Jackson Jr.","Jusuf Nurkić","Isaiah Collier","Ace Bailey","Kyle Filipowski"],"originalStarters":["Keyonte George","Darryn Peterson","Lauri Markkanen","Jaren Jackson Jr.","Jusuf Nurkić"],"candidates":["Keyonte George","Darryn Peterson","Lauri Markkanen","Jaren Jackson Jr.","Jusuf Nurkić","Isaiah Collier","Ace Bailey","Kyle Filipowski","Josh Okogie","Josh Green","Brice Sensabaugh","Jaxson Hayes","Svi Mykhailiuk","Mo Bamba"],"gamesPlayed":2,"todayLabel":"今日无比赛","note":"五名旧预测先发在首场全部兑现，次场缺员不直接改全年排阵。Collier、Bailey、Filipowski先进入八人；Bailey的临时先发与正常齐员顺位分开看。","status":"阵容图为10月8日汇总版八人预测；最新实际首发和竞争信号见轮换分析，非教练确认的固定八人"},{"id":"HOU","name":"休斯顿火箭","conference":"西部","division":"西南赛区","color":"#CE1141","players":["Fred VanVleet","Amen Thompson","Kevin Durant","Jabari Smith Jr.","Alperen Sengun","Reed Sheppard","Tari Eason","Marcus Smart"],"originalStarters":["Fred VanVleet","Amen Thompson","Kevin Durant","Jabari Smith Jr.","Alperen Sengun"],"candidates":["Fred VanVleet","Amen Thompson","Kevin Durant","Jabari Smith Jr.","Alperen Sengun","Reed Sheppard","Tari Eason","Marcus Smart","Bogdan Bogdanovic","Jae'Sean Tate","Steven Adams","Bruce Thornton","Isaiah Crawford","Clint Capela"],"gamesPlayed":0,"todayLabel":"今日有比赛","note":"先发沿用9月24日预测。Sheppard、Eason、Smart暂列主要轮换；这组三人偏向后场与锋线，Adams、Capela的内线使用可能改变第八人的选择。","status":"阵容图为10月8日汇总版八人预测；最新实际首发和竞争信号见轮换分析，非教练确认的固定八人"},{"id":"SAS","name":"圣安东尼奥马刺","conference":"西部","division":"西南赛区","color":"#8DA5B5","players":["De'Aaron Fox","Stephon Castle","Devin Vassell","Tobias Harris","Victor Wembanyama","Dylan Harper","Julian Champagnie","Luke Kornet"],"originalStarters":["De'Aaron Fox","Stephon Castle","Devin Vassell","Tobias Harris","Victor Wembanyama"],"candidates":["De'Aaron Fox","Stephon Castle","Devin Vassell","Tobias Harris","Victor Wembanyama","Dylan Harper","Julian Champagnie","Luke Kornet","Keldon Johnson","Harrison Barnes","Jordan McLaughlin","Carter Bryant","Jayden Quaintance","Tarris Reed Jr."],"gamesPlayed":0,"todayLabel":"今日有比赛","note":"先发沿用9月24日预测。轮换暂排Harper、Champagnie、Kornet，Keldon Johnson与Harrison Barnes仍是竞争者；未录入季前赛样本时不把八人当成最终答案。","status":"阵容图为10月8日汇总版八人预测；最新实际首发和竞争信号见轮换分析，非教练确认的固定八人"},{"id":"MEM","name":"孟菲斯灰熊","conference":"西部","division":"西南赛区","color":"#5D76A9","players":["Ty Jerome","Jaylen Wells","Cedric Coward","Cameron Boozer","Zach Edey","Cam Spencer","Jerami Grant","Isaiah Stewart"],"originalStarters":["Ty Jerome","Jaylen Wells","Cedric Coward","Cameron Boozer","Zach Edey"],"candidates":["Ty Jerome","Jaylen Wells","Cedric Coward","Cameron Boozer","Zach Edey","Cam Spencer","Jerami Grant","Isaiah Stewart","Scotty Pippen Jr.","Taylor Hendricks","Walter Clayton Jr.","D'Angelo Russell","Karim Lopez","GG Jackson","Quinten Post"],"gamesPlayed":2,"todayLabel":"今日无比赛","note":"10月8日Jerome、Wells、Coward、Boozer、Edey五人先发，与原预测全中；Edey约10分钟，本场使用时间较短。首节剩6分56秒Grant和Cam Spencer同批登场，支持二人的早期轮换观察，仍不能据此固定唯一第六人。八人图保留，前场时间继续看后续安排。","status":"阵容图为10月8日汇总版八人预测；最新实际首发和竞争信号见轮换分析，非教练确认的固定八人"},{"id":"DAL","name":"达拉斯独行侠","conference":"西部","division":"西南赛区","color":"#007DC5","players":["Kyrie Irving","Zaccharie Risacher","Cooper Flagg","P.J. Washington","Daniel Gafford","Naji Marshall","Santi Aldama","Morez Johnson Jr."],"originalStarters":["Kyrie Irving","Zaccharie Risacher","Cooper Flagg","P.J. Washington","Daniel Gafford"],"candidates":["Kyrie Irving","Zaccharie Risacher","Cooper Flagg","P.J. Washington","Daniel Gafford","Naji Marshall","Santi Aldama","Morez Johnson Jr.","Marcus Sasser","Sergio De Larrea","Tarik Biberović","Max Christie","Caleb Martin","Dereck Lively II","Moussa Cisse"],"gamesPlayed":0,"todayLabel":"今日有比赛","note":"先发沿用9月24日最后修正，Risacher在SG、Flagg在SF。轮换暂留Marshall、Aldama、Morez；Lively的恢复条件未由本版比赛验证，先作为名单变化的观察项。","status":"阵容图为10月8日汇总版八人预测；最新实际首发和竞争信号见轮换分析，非教练确认的固定八人"},{"id":"NOP","name":"新奥尔良鹈鹕","conference":"西部","division":"西南赛区","color":"#B4975A","players":["Dejounte Murray","Herbert Jones","Trey Murphy III","Zion Williamson","Yves Missi","Derik Queen","Bennedict Mathurin","Jeremiah Fears"],"originalStarters":["Dejounte Murray","Herbert Jones","Trey Murphy III","Zion Williamson","Derik Queen"],"candidates":["Dejounte Murray","Herbert Jones","Trey Murphy III","Zion Williamson","Yves Missi","Derik Queen","Bennedict Mathurin","Jeremiah Fears","Saddiq Bey","Jordan Poole","AJ Johnson","Bryce McGowens","Karlo Matković","Trendon Watford","DeAndre Jordan"],"gamesPlayed":1,"todayLabel":"今日有比赛","note":"这版先把Missi提到先发C，Queen移到轮换，依据是10月7日的实际先发。Mathurin和Fears一起进入八人，Bey暂放在名单外；这处调整仍要看后续正常阵容是否延续。","status":"阵容图为10月8日汇总版八人预测；最新实际首发和竞争信号见轮换分析，非教练确认的固定八人"},{"id":"BOS","name":"波士顿凯尔特人","conference":"东部","division":"大西洋赛区","color":"#008348","players":["Derrick White","Baylor Scheierman","Paul George","Jayson Tatum","Neemias Queta","Payton Pritchard","Sam Hauser","Mitchell Robinson"],"originalStarters":["Derrick White","Baylor Scheierman","Paul George","Jayson Tatum","Neemias Queta"],"candidates":["Derrick White","Baylor Scheierman","Paul George","Jayson Tatum","Neemias Queta","Payton Pritchard","Sam Hauser","Mitchell Robinson","Mike Conley","Hugo González","Ron Harper Jr.","Luka Garza","Chris Cenac Jr.","Jordan Walsh","Amari Williams"],"gamesPlayed":0,"todayLabel":"今日有比赛","note":"先发沿用9月24日预测。Pritchard是这组替补里最值得盯的数据点，Hauser补投射，Robinson补内线；Scheierman与Hugo Gonzalez的竞争还要等比赛验证。","status":"阵容图为10月8日汇总版八人预测；最新实际首发和竞争信号见轮换分析，非教练确认的固定八人"},{"id":"NYK","name":"纽约尼克斯","conference":"东部","division":"大西洋赛区","color":"#F58426","players":["Jalen Brunson","Josh Hart","Mikal Bridges","OG Anunoby","Karl-Anthony Towns","Miles McBride","Jose Alvarado","Andre Drummond"],"originalStarters":["Jalen Brunson","Josh Hart","Mikal Bridges","OG Anunoby","Karl-Anthony Towns"],"candidates":["Jalen Brunson","Josh Hart","Mikal Bridges","OG Anunoby","Karl-Anthony Towns","Miles McBride","Jose Alvarado","Andre Drummond","Tyler Kolek","Jordan Clarkson","Landry Shamet","Pacôme Dadiet","Mohamed Diawara"],"gamesPlayed":1,"todayLabel":"今日有比赛","note":"五名预测先发全部兑现过。替补先留McBride、Alvarado和Drummond；Kolek的组织是新增观察点，但单场5助攻还不足以挤掉已有后场安排。","status":"阵容图为10月8日汇总版八人预测；最新实际首发和竞争信号见轮换分析，非教练确认的固定八人"},{"id":"PHI","name":"费城76人","conference":"东部","division":"大西洋赛区","color":"#006BB6","players":["Tyrese Maxey","VJ Edgecombe","Jaylen Brown","LeBron James","Joel Embiid","Anfernee Simons","Dean Wade","Jabari Walker"],"originalStarters":["Tyrese Maxey","VJ Edgecombe","Jaylen Brown","LeBron James","Joel Embiid"],"candidates":["Tyrese Maxey","VJ Edgecombe","Jaylen Brown","LeBron James","Joel Embiid","Anfernee Simons","Dean Wade","Jabari Walker","Caleb Love","Labaron Philon Jr.","Kentavious Caldwell-Pope","Rayan Rupert","Dominick Barlow","Adem Bona","Justin Edwards","Ariel Hukporti"],"gamesPlayed":1,"todayLabel":"今日有比赛","note":"先发沿用齐员预测，已存比赛没有检验这五人同时上场。轮换第三席暂给Walker，依据是首节登场及11分11板的样本；这是一处待验证的取舍，Bona、Barlow和Hukporti仍在竞争。","status":"阵容图为10月8日汇总版八人预测；最新实际首发和竞争信号见轮换分析，非教练确认的固定八人"},{"id":"BKN","name":"布鲁克林篮网","conference":"东部","division":"大西洋赛区","color":"#777777","players":["Mikel Brown Jr.","Egor Dëmin","Michael Porter Jr.","Julius Randle","Day'Ron Sharpe","Keon Ellis","Noah Clowney","Danny Wolf"],"originalStarters":["Mikel Brown Jr.","Egor Dëmin","Michael Porter Jr.","Julius Randle","Day'Ron Sharpe"],"candidates":["Mikel Brown Jr.","Egor Dëmin","Michael Porter Jr.","Julius Randle","Day'Ron Sharpe","Keon Ellis","Noah Clowney","Danny Wolf","Moritz Wagner","Nolan Traore","Terance Mann","Ben Saraf","Josh Minott","Drake Powell","Joshua Jefferson"],"gamesPlayed":1,"todayLabel":"今日有比赛","note":"Brown缺席的样本里，Ellis顶进首发；这版先保留Brown归队后的排阵。Wolf与Wagner都交出了5助攻的亮点，我先给Wolf一个八人观察位，Clowney的前场顺位仍要接受竞争。","status":"阵容图为10月8日汇总版八人预测；最新实际首发和竞争信号见轮换分析，非教练确认的固定八人"},{"id":"TOR","name":"多伦多猛龙","conference":"东部","division":"大西洋赛区","color":"#CE1141","players":["Immanuel Quickley","RJ Barrett","Kawhi Leonard","Scottie Barnes","Jakob Poeltl","Jamal Shead","Ja'Kobe Walter","Collin Murray-Boyles"],"originalStarters":["Immanuel Quickley","RJ Barrett","Kawhi Leonard","Scottie Barnes","Jakob Poeltl"],"candidates":["Immanuel Quickley","RJ Barrett","Kawhi Leonard","Scottie Barnes","Jakob Poeltl","Jamal Shead","Ja'Kobe Walter","Collin Murray-Boyles","Alijah Martin","Kyle Anderson","Jamison Battle","Trayce Jackson-Davis","Allen Graves"],"gamesPlayed":1,"todayLabel":"今日无比赛","note":"Kawhi缺席时Walter顶班，不据此把Kawhi移出先发预测。Shead、Walter、CMB都拿到过与主力搭配的机会，三人先进入这版八人名单。","status":"阵容图为10月8日汇总版八人预测；最新实际首发和竞争信号见轮换分析，非教练确认的固定八人"},{"id":"CLE","name":"克利夫兰骑士","conference":"东部","division":"中部赛区","color":"#FDBB30","players":["James Harden","Donovan Mitchell","Peyton Watson","Evan Mobley","Jarrett Allen","Craig Porter Jr.","Sam Merrill","Jaylon Tyson"],"originalStarters":["James Harden","Donovan Mitchell","Peyton Watson","Evan Mobley","Jarrett Allen"],"candidates":["James Harden","Donovan Mitchell","Peyton Watson","Evan Mobley","Jarrett Allen","Craig Porter Jr.","Sam Merrill","Jaylon Tyson","Tyrese Proctor","Meleek Thomas","Nae'Qwan Tomlin","Thomas Bryant","Mario Hezonja","Khalifa Diop"],"gamesPlayed":0,"todayLabel":"今日有比赛","note":"先发沿用9月24日预测。替补暂排Porter、Merrill、Tyson，先看后场组织、投射和侧翼竞争；前场备份仍可能让八人名单重新分配。","status":"阵容图为10月8日汇总版八人预测；最新实际首发和竞争信号见轮换分析，非教练确认的固定八人"},{"id":"IND","name":"印第安纳步行者","conference":"东部","division":"中部赛区","color":"#FDBB30","players":["Tyrese Haliburton","Andrew Nembhard","Aaron Nesmith","Pascal Siakam","Ivica Zubac","T.J. McConnell","Kelly Oubre Jr.","Obi Toppin"],"originalStarters":["Tyrese Haliburton","Andrew Nembhard","Aaron Nesmith","Pascal Siakam","Ivica Zubac"],"candidates":["Tyrese Haliburton","Andrew Nembhard","Aaron Nesmith","Pascal Siakam","Ivica Zubac","T.J. McConnell","Kelly Oubre Jr.","Obi Toppin","Jarace Walker","Jay Huff","Quenton Jackson","Ben Sheppard","Johnny Furphy","Larry Nance Jr."],"gamesPlayed":1,"todayLabel":"今日无比赛","note":"10月8日首发Haliburton、Nembhard、Nesmith、Siakam、Zubac，与9月24日预测五人全中。首节剩6分37秒，Jarace Walker、Toppin、Oubre同批上场；Jarace上半场已有6助攻。图中的McConnell、Oubre、Toppin仍是10月8日汇总版预测，最新比赛让Jarace和Huff的八人竞争明显升温。","status":"阵容图为10月8日汇总版八人预测；最新实际首发和竞争信号见轮换分析，非教练确认的固定八人"},{"id":"MIL","name":"密尔沃基雄鹿","conference":"东部","division":"中部赛区","color":"#7AC143","players":["Ryan Rollins","Tyler Herro","Jaime Jaquez Jr.","Kyle Kuzma","Myles Turner","Kevin Porter Jr.","Brayden Burries","Kel'el Ware"],"originalStarters":["Ryan Rollins","Tyler Herro","Jaime Jaquez Jr.","Kyle Kuzma","Myles Turner"],"candidates":["Ryan Rollins","Tyler Herro","Jaime Jaquez Jr.","Kyle Kuzma","Myles Turner","Kevin Porter Jr.","Brayden Burries","Kel'el Ware","Ousmane Dieng","Kasparas Jakučionis","Gary Trent Jr.","AJ Green","Caris LeVert","Nate Ament","Jericho Sims"],"gamesPlayed":2,"todayLabel":"今日无比赛","note":"10月6日Turner先发、Ware替补，10月8日变成Rollins、Herro、Jaquez、Ware、Turner的双塔首发，Kuzma离开本场五人组。图中Ware仍在替补栏，是昨天汇总版的预测；最新比赛已经给出同时先发的证据。接下来重点确认双塔能否延续，以及前场篮板和DD如何分配。","status":"阵容图为10月8日汇总版八人预测；最新实际首发和竞争信号见轮换分析，非教练确认的固定八人"},{"id":"CHI","name":"芝加哥公牛","conference":"东部","division":"中部赛区","color":"#CE1141","players":["Josh Giddey","Norman Powell","Matas Buzelis","Caleb Wilson","Nic Claxton","Tre Jones","Patrick Williams","Jalen Smith"],"originalStarters":["Josh Giddey","Norman Powell","Matas Buzelis","Caleb Wilson","Nic Claxton"],"candidates":["Josh Giddey","Norman Powell","Matas Buzelis","Caleb Wilson","Nic Claxton","Tre Jones","Patrick Williams","Jalen Smith","Tobe Awaka","Dailyn Swain","Rob Dillingham","Isaac Okoro","Zach Collins（伤）","Noa Essengue","Leonard Miller"],"gamesPlayed":1,"todayLabel":"今日无比赛","note":"10月8日Claxton未出场，Jalen Smith顶入首发，与Giddey、Powell、Buzelis、Caleb Wilson搭档。Buzelis约26分钟、Caleb约29分钟，年轻锋线拿到较多机会；图中八人仍保留齐员预测，Awaka、Swain、Leonard Miller的表现则增加了轮换边缘竞争。","status":"阵容图为10月8日汇总版八人预测；最新实际首发和竞争信号见轮换分析，非教练确认的固定八人"},{"id":"DET","name":"底特律活塞","conference":"东部","division":"中部赛区","color":"#C8102E","players":["Cade Cunningham","Duncan Robinson","Ausar Thompson","John Collins","Jalen Duren","Ronald Holland II","Isaiah Joe","Paul Reed"],"originalStarters":["Cade Cunningham","Duncan Robinson","Ausar Thompson","John Collins","Jalen Duren"],"candidates":["Cade Cunningham","Duncan Robinson","Ausar Thompson","John Collins","Jalen Duren","Ronald Holland II","Isaiah Joe","Paul Reed","Daniss Jenkins","Ebuka Okorie","Kevin Huerter","Chaz Lanier","Taurean Prince","Javonte Green","Tolu Smith"],"gamesPlayed":1,"todayLabel":"今日无比赛","note":"Robinson的先发以9月24日最终排阵为准。Holland的防守数据最值得跟，Joe补投射，Reed保留内线位置；Duren缺席时Reed已经顶过先发。","status":"阵容图为10月8日汇总版八人预测；最新实际首发和竞争信号见轮换分析，非教练确认的固定八人"},{"id":"ORL","name":"奥兰多魔术","conference":"东部","division":"东南赛区","color":"#0077C0","players":["Jalen Suggs","Desmond Bane","Franz Wagner","Paolo Banchero","Wendell Carter Jr.","Anthony Black","Tristan da Silva","Nikola Vucevic"],"originalStarters":["Jalen Suggs","Desmond Bane","Franz Wagner","Paolo Banchero","Wendell Carter Jr."],"candidates":["Jalen Suggs","Desmond Bane","Franz Wagner","Paolo Banchero","Wendell Carter Jr.","Anthony Black","Tristan da Silva","Nikola Vucevic","Jase Richardson","Jevon Carter","Noah Penda","Jamal Cain","Jonathan Isaac","Goga Bitadze"],"gamesPlayed":1,"todayLabel":"今日无比赛","note":"10月8日Suggs与Anthony Black未出场，Jase Richardson顶入首发，与Bane、Franz、Banchero、WCJ搭档；缺席本身不用于推断伤因。内线首节剩7分50秒先由Goga替下WCJ，剩3分25秒Vucevic再替下Goga。原八人图是齐员预测，最新登场次序说明Goga也必须纳入内线竞争。","status":"阵容图为10月8日汇总版八人预测；最新实际首发和竞争信号见轮换分析，非教练确认的固定八人"},{"id":"MIA","name":"迈阿密热火","conference":"东部","division":"东南赛区","color":"#F9A01B","players":["Davion Mitchell","Pelle Larsson","Andrew Wiggins","Giannis Antetokounmpo","Bam Adebayo","Klay Thompson","Bobby Portis","Nikola Jovic"],"originalStarters":["Davion Mitchell","Pelle Larsson","Andrew Wiggins","Giannis Antetokounmpo","Bam Adebayo"],"candidates":["Davion Mitchell","Pelle Larsson","Andrew Wiggins","Giannis Antetokounmpo","Bam Adebayo","Klay Thompson","Bobby Portis","Nikola Jovic","Tim Hardaway Jr.","Ryan Conwell","Dru Smith","Myron Gardner","Nick Richards","Simone Fontecchio"],"gamesPlayed":1,"todayLabel":"今日有比赛","note":"Klay在首场先发，Larsson从替补打出更好的数据；这版暂保留Larsson的旧先发预测，二人顺位仍开放。Portis与Jovic先留在八人内，Hardaway的投射让最后一席存在竞争。","status":"阵容图为10月8日汇总版八人预测；最新实际首发和竞争信号见轮换分析，非教练确认的固定八人"},{"id":"ATL","name":"亚特兰大老鹰","conference":"东部","division":"东南赛区","color":"#E03A3E","players":["CJ McCollum","Nickeil Alexander-Walker","Dyson Daniels","Jalen Johnson","Onyeka Okongwu","Kingston Flemings","Aaron Wiggins","Jock Landale"],"originalStarters":["CJ McCollum","Nickeil Alexander-Walker","Dyson Daniels","Jalen Johnson","Onyeka Okongwu"],"candidates":["CJ McCollum","Nickeil Alexander-Walker","Dyson Daniels","Jalen Johnson","Onyeka Okongwu","Kingston Flemings","Aaron Wiggins","Jock Landale","Asa Newell","Ryan Nembhard","Devin Carter","Luguentz Dort","Buddy Hield","Mouhamed Gueye（伤）","Henri Veesaar"],"gamesPlayed":1,"todayLabel":"今日有比赛","note":"CJ缺席时Flemings拿到先发机会，齐员预测暂不改。Aaron Wiggins和Landale先留在八人内；Newell的两双样本让前场替补竞争多了一个值得追踪的名字。","status":"阵容图为10月8日汇总版八人预测；最新实际首发和竞争信号见轮换分析，非教练确认的固定八人"},{"id":"CHA","name":"夏洛特黄蜂","conference":"东部","division":"东南赛区","color":"#00B8B8","players":["Coby White","Kon Knueppel","Brandon Miller","Naz Reid","Moussa Diabaté","Dennis Schroder","Grayson Allen","Ryan Kalkbrenner"],"originalStarters":["Coby White","Kon Knueppel","Brandon Miller","Naz Reid","Moussa Diabaté"],"candidates":["Coby White","Kon Knueppel","Brandon Miller","Naz Reid","Moussa Diabaté","Dennis Schroder","Grayson Allen","Ryan Kalkbrenner","Tidjane Salaun","Pat Connaughton","Royce O'Neale","Sion James","Grant Williams","Dorian Finney-Smith","Hannes Steinbach"],"gamesPlayed":1,"todayLabel":"今日无比赛","note":"White、Knueppel、Miller同时缺席的样本里，无法检验正常先发。Diabate已有实际先发样本，Kalkbrenner仍列主要轮换，八人表暂不因残阵一场重新洗牌。","status":"阵容图为10月8日汇总版八人预测；最新实际首发和竞争信号见轮换分析，非教练确认的固定八人"},{"id":"WAS","name":"华盛顿奇才","conference":"东部","division":"东南赛区","color":"#E31837","players":["Trae Young","Kyshawn George","AJ Dybantsa","Anthony Davis","Alex Sarr","Tre Johnson","Bilal Coulibaly","Deandre Ayton"],"originalStarters":["Trae Young","Kyshawn George","AJ Dybantsa","Anthony Davis","Alex Sarr"],"candidates":["Trae Young","Kyshawn George","AJ Dybantsa","Anthony Davis","Alex Sarr","Tre Johnson","Bilal Coulibaly","Deandre Ayton","Bub Carrington","Tre Mann","Jamir Watkins","Will Riley","Justin Champagnie","Khris Middleton","Tristan Vukcevic"],"gamesPlayed":0,"todayLabel":"今日有比赛","note":"先发沿用9月24日预测。轮换暂留Tre Johnson、Coulibaly、Ayton；Trae缺席时Bub的组织角色会改变这份名单，不能把这三个名字理解成固定第六至第八人。","status":"阵容图为10月8日汇总版八人预测；最新实际首发和竞争信号见轮换分析，非教练确认的固定八人"}]}</script>
+<script>'use strict';
+const DATA = JSON.parse(document.getElementById('embedded-data').textContent);
+const $ = id => document.getElementById(id);
+const POSITIONS = ['PG', 'SG', 'SF', 'PF', 'C'];
+const STORAGE_KEY = 'nba-eight-man-generator-v1';
+const MAX_ROTATION = 10;
+const FONT = '-apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif';
+const WIDTH = 2400;
+const imageCache = new Map();
+let drafts = {}, histories = {}, current, previewVersion = 0, busy = false;
+function role(i) { return i < 5 ? POSITIONS[i] : `轮转 ${i - 4}`; }
+function key(name) {
+  const normalized = name.normalize('NFKD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
+    .replace(/ø/g, 'o').replace(/ł/g, 'l').replace(/[đð]/g, 'd').replace(/þ/g, 'th')
+    .replace(/æ/g, 'ae').replace(/œ/g, 'oe').replace(/ß/g, 'ss').replace(/[^a-z0-9]/g, '');
+  return DATA.aliases[normalized] || normalized;
+}
+function identity(name) { return key(name) || name.trim().toLowerCase(); }
+function defaultState(team) {
+  return {id:team.id, title:team.name, subtitle:`${DATA.season} · 预测阵容`, color:team.color,
+    theme:'dark', showHeader:true, note:'', players:team.players.map(name => ({name, custom:null}))};
+}
+function validDraft(d, id) {
+  return d && d.id === id && typeof d.title === 'string' && d.title.length <= 40
+    && typeof d.subtitle === 'string' && d.subtitle.length <= 64
+    && /^#[a-f\d]{6}$/i.test(d.color) && ['dark','light'].includes(d.theme)
+    && typeof d.showHeader === 'boolean' && (d.note === undefined || (typeof d.note === 'string' && d.note.length <= 1000))
+    && Array.isArray(d.players) && d.players.length >= 5 && d.players.length <= 5 + MAX_ROTATION
+    && d.players.every(p => p && typeof p.name === 'string' && p.name.length <= 64
+      && (p.custom === null || (typeof p.custom === 'string' && p.custom.length <= 512000
+        && /^data:image\/(png|jpeg|webp);base64,[A-Za-z0-9+/=]+$/.test(p.custom))));
+}
+function normalizedState(d) {
+  return {id:d.id,title:d.title,subtitle:d.subtitle,color:d.color,theme:d.theme,showHeader:d.showHeader,
+    note:d.note || '',players:d.players.map(p=>({name:p.name,custom:p.custom}))};
+}
+try {
+  const stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+  for (const team of DATA.teams) if (validDraft(stored[team.id],team.id)) drafts[team.id] = normalizedState(stored[team.id]);
+} catch (_) { /* Editing and backup downloads still work if local storage is blocked. */ }
+function allStates() {
+  return DATA.teams.map(team=>structuredClone(current?.id === team.id ? current : (drafts[team.id] || defaultState(team))));
+}
+function modifiedCount() {
+  return allStates().filter((state,i)=>JSON.stringify(state)!==JSON.stringify(defaultState(DATA.teams[i]))).length;
+}
+function refreshControls() {
+  $('undo').disabled = busy || !(histories[current.id] || []).length;
+  $('addRotation').disabled = busy || current.players.length >= 5 + MAX_ROTATION;
+  $('download').disabled = busy || Boolean(validation(current));
+  $('modifiedCount').textContent = `${modifiedCount()} / 30 队已调整`;
+  document.querySelectorAll('[data-move]').forEach(button=>{
+    const i=Number(button.dataset.slotIndex),step=Number(button.dataset.move),bound=i<5?[0,4]:[5,current.players.length-1];
+    button.disabled=busy || i+step<bound[0] || i+step>bound[1];
+  });
+}
+function persist() {
+  drafts[current.id] = structuredClone(current);
+  try {
+    localStorage.setItem(STORAGE_KEY,JSON.stringify(drafts));
+    localStorage.setItem(STORAGE_KEY+'-team',current.id);
+    $('saveState').textContent = '已保存在当前浏览器';
+  } catch (_) { $('saveState').textContent = '浏览器未保存草稿，请导出配置备份'; }
+  refreshControls();
+}
+function message(text, error=false) {
+  $('status').textContent=text; $('status').classList.toggle('error',error);
+}
+function configMessage(text,error=false) {
+  $('configStatus').textContent=text; $('configStatus').classList.toggle('error',error);
+}
+function portrait(player) { return player.custom || DATA.portraits[key(player.name)] || null; }
+function loadImage(src) {
+  if (!src) return Promise.resolve(null);
+  if (!imageCache.has(src)) imageCache.set(src,new Promise(resolve=>{
+    const image=new Image(); image.onload=()=>resolve(image); image.onerror=()=>resolve(null); image.src=src;
+  }));
+  return imageCache.get(src);
+}
+function validation(state) {
+  if (!state.title.trim() && state.showHeader) return '请填写图片标题，或关闭标题显示。';
+  if (state.players.some(p=>!p.name.trim())) return '请填满所有姓名，或移除空的轮转位置。';
+  if (new Set(state.players.map(p=>identity(p.name))).size !== state.players.length) return '名单有重复，请调整后再下载或导出配置。';
+  return '';
+}
+function updateFaces() {
+  current.players.forEach((p,i)=>{
+    const slot=document.querySelector(`[data-slot="${i}"]`),src=portrait(p); if (!slot) return;
+    slot.classList.toggle('custom',Boolean(p.custom));
+    const img=slot.querySelector('img'); img.hidden=!src;
+    if (src) img.src=src; else img.removeAttribute('src'); img.alt=`${p.name || '待填写'}头像`;
+  });
+  const missing=current.players.filter(p=>!portrait(p)).map(p=>p.name.trim()).filter(Boolean);
+  $('portraitNotice').textContent=missing.length
+    ? `未内置头像：${missing.join('、')}。图片会显示姓名首字母，可点击“换头像”上传照片。`
+    : `${current.players.length}人的真人头像均已就绪。上传照片随配置备份保存。`;
+  document.querySelectorAll('.swap-target').forEach(select=>{
+    const index=Number(select.dataset.index);
+    for (const option of select.options) if (option.value!=='') {
+      const i=Number(option.value); option.textContent=`${role(i)} · ${current.players[i].name || '待填写'}`;
+      option.disabled=i===index;
+    }
+  });
+}
+function edit(mutator,refresh=false) {
+  const before=structuredClone(current); mutator();
+  if (JSON.stringify(before)!==JSON.stringify(current)) {
+    (histories[current.id] ||= []).push(before); if (histories[current.id].length>30) histories[current.id].shift();
+  }
+  if (refresh) renderEditor();
+  persist(); updateFaces(); schedulePreview();
+}
+function setPlayer(i,name,swapExisting=false) {
+  edit(()=>{
+    const other=swapExisting && identity(name) ? current.players.findIndex((p,j)=>j!==i && identity(p.name)===identity(name)) : -1;
+    if (other>=0) [current.players[i],current.players[other]]=[current.players[other],current.players[i]];
+    else current.players[i]={name,custom:identity(name)===identity(current.players[i].name)?current.players[i].custom:null};
+  },swapExisting);
+}
+function swapPlayers(i,j) {
+  if (!Number.isInteger(j) || j<0 || j>=current.players.length || j===i) return;
+  edit(()=>{[current.players[i],current.players[j]]=[current.players[j],current.players[i]];},true);
+}
+function option(value,label) { const node=document.createElement('option'); node.value=value; node.textContent=label; return node; }
+function renderOriginalLineup(team) {
+  $('originalTeamName').textContent=team.name;
+  $('originalDate').textContent=DATA.baselineAsOf.replace(/^(\d{4})-(\d{2})-(\d{2})$/,(_,year,month,day)=>`${year}年${Number(month)}月${Number(day)}日`);
+  $('originalSection').style.setProperty('--original-color',team.color);
+  const cards=team.originalStarters.map((name,i)=>{
+    const card=document.createElement('article');card.className='original-player';
+    const position=document.createElement('span');position.className='original-position';position.textContent=POSITIONS[i];
+    const src=portrait({name,custom:null});
+    const face=document.createElement(src?'img':'span');
+    if(src){face.src=src;face.alt=`${name}头像`;}
+    else{face.className='original-placeholder';face.textContent='待补头像';}
+    const label=document.createElement('span');label.className='original-name';label.textContent=name;
+    card.append(position,face,label);return card;
+  });
+  $('originalPlayers').replaceChildren(...cards);
+}
+function renderEditor() {
+  $('starters').replaceChildren(); $('rotation').replaceChildren();
+  const team=DATA.teams.find(t=>t.id===current.id);
+  current.players.forEach((player,i)=>{
+    const slot=document.createElement('div'); slot.className='slot'; slot.dataset.slot=i;
+    slot.innerHTML=`<label for="player-${i}">${role(i)}<input id="player-${i}" maxlength="64" list="players" autocomplete="off" spellcheck="false"></label><select class="player-pick" aria-label="选择${role(i)}球员"></select><div class="portrait-button"><img alt="球员头像"><button type="button" class="choose">换头像</button><button type="button" class="restore">恢复</button></div><div class="slot-actions"><button data-move="-1" data-slot-index="${i}" aria-label="${role(i)}前移">← 前移</button><button data-move="1" data-slot-index="${i}" aria-label="${role(i)}后移">后移 →</button>${i>=5?'<button class="remove-player">移除</button>':''}</div><div class="swap-controls"><select class="swap-target" data-index="${i}" aria-label="${role(i)}交换目标"></select><button class="swap" aria-label="交换${role(i)}球员">交换</button></div><input type="file" class="upload" accept="image/png,image/jpeg,image/webp" aria-label="上传${role(i)}头像">`;
+    $(i<5?'starters':'rotation').append(slot);
+    const input=$(`player-${i}`); input.value=player.name;
+    input.addEventListener('input',event=>setPlayer(i,event.target.value));
+    const picker=slot.querySelector('.player-pick'); picker.append(option('','从本队参考名单选人'));
+    for (const name of team.candidates) picker.append(option(name,portrait({name,custom:null})?name:`${name}（待补头像）`));
+    picker.addEventListener('change',event=>{if(event.target.value)setPlayer(i,event.target.value,true);});
+    const target=slot.querySelector('.swap-target'); target.append(option('','与谁交换…'));
+    current.players.forEach((p,j)=>target.append(option(String(j),`${role(j)} · ${p.name || '待填写'}`)));
+    slot.querySelector('.swap').addEventListener('click',()=>{if(target.value!=='')swapPlayers(i,Number(target.value));});
+    slot.querySelectorAll('[data-move]').forEach(button=>button.addEventListener('click',()=>swapPlayers(i,i+Number(button.dataset.move))));
+    slot.querySelector('.remove-player')?.addEventListener('click',()=>edit(()=>current.players.splice(i,1),true));
+    slot.querySelector('.choose').addEventListener('click',()=>slot.querySelector('.upload').click());
+    slot.querySelector('.restore').addEventListener('click',()=>edit(()=>{current.players[i].custom=null;}));
+    slot.querySelector('.upload').addEventListener('change',event=>{uploadPortrait(i,event.target.files[0]).catch(error=>message(error.message,true));event.target.value='';});
+  });
+  for (const field of ['title','subtitle','color','theme','note']) $(field).value=current[field];
+  $('showHeader').checked=current.showHeader;
+  $('rotationCount').textContent=`${current.players.length-5} 人`;
+  $('teamMeta').textContent=`截至10月8日已打${team.gamesPlayed}场 · ${team.todayLabel}（10月9日）`;
+  $('teamNote').textContent=team.note;
+  updateFaces(); refreshControls();
+}
+function selectTeam(id) {
+  const team=DATA.teams.find(t=>t.id===id); if (!team) return;
+  current=structuredClone(drafts[id] || defaultState(team)); $('team').value=id;
+  renderOriginalLineup(team);renderEditor(); $('saveState').textContent=drafts[id]?'已载入本队浏览器草稿':'修改会保存在当前浏览器';
+  try {localStorage.setItem(STORAGE_KEY+'-team',id);} catch (_) {}
+  schedulePreview();
+}
+function rounded(ctx, x, y, width, height, radius, fill) {
+  ctx.beginPath(); ctx.roundRect(x, y, width, height, radius); ctx.fillStyle = fill; ctx.fill();
+}
+function text(ctx, value, x, y, size, color, weight = 500, align = 'left') {
+  ctx.font = `${weight} ${size}px ${FONT}`; ctx.fillStyle = color; ctx.textAlign = align;
+  ctx.fillText(value, x, y);
+}
+function fitText(ctx, value, maxWidth, size, minSize = 18) {
+  while (size > minSize && ctx.measureText(value).width > maxWidth) {
+    size--; ctx.font = `700 ${size}px ${FONT}`;
+  }
+  return size;
+}
+function wrapName(ctx, name, maxWidth) {
+  // Hyphens remain attached to the preceding part, and names never get ellipsized.
+  const parts = name.trim().replace(/-/g, '- ').split(/\s+/);
+  const lines = []; let line = '';
+  for (const part of parts) {
+    const next = line ? line + (line.endsWith('-') ? '' : ' ') + part : part;
+    if (ctx.measureText(next).width <= maxWidth) { line = next; continue; }
+    if (line) lines.push(line);
+    line = part;
+    if (ctx.measureText(line).width > maxWidth) {
+      let piece = '';
+      for (const character of line) {
+        if (piece && ctx.measureText(piece + character).width > maxWidth) { lines.push(piece); piece = ''; }
+        piece += character;
+      }
+      line = piece;
+    }
+  }
+  if (line) lines.push(line);
+  return lines;
+}
+function drawName(ctx, name, center, y, maxWidth, color) {
+  let size = 29, lines;
+  do { ctx.font = `650 ${size}px ${FONT}`; lines = wrapName(ctx, name || '待填写', maxWidth); if (lines.length <= 2) break; size--; } while (size >= 7);
+  // With the 64-character input limit the fitted name occupies at most two lines.
+  lines.forEach((line, i) => text(ctx, line, center, y + i * (size + 7), size, color, 650, 'center'));
+}
+async function draw(state) {
+  const canvas = document.createElement('canvas');
+  const offset = state.showHeader ? 0 : -130;
+  const count = state.players.length, rotationCount = count - 5;
+  const width = Math.round(Math.max(WIDTH, 128 + (count - 1) * 16 + 34 + count * 265.75));
+  canvas.width = width; canvas.height = 580 + offset;
+  const ctx = canvas.getContext('2d');
+  const dark = state.theme === 'dark';
+  const ink = dark ? '#F5F7FB' : '#142338', muted = dark ? '#9AA9BC' : '#627286';
+  ctx.fillStyle = dark ? '#101820' : '#F5F7FA'; ctx.fillRect(0, 0, width, canvas.height);
+  const wash = ctx.createLinearGradient(0, 0, width, 580);
+  wash.addColorStop(0, state.color + (dark ? '34' : '18')); wash.addColorStop(1, state.color + '00');
+  ctx.fillStyle = wash; ctx.fillRect(0, 0, width, canvas.height);
+  ctx.fillStyle = state.color; ctx.fillRect(0, 0, width, 7);
+  if (state.showHeader) {
+    ctx.font = `700 56px ${FONT}`;
+    const size = fitText(ctx, state.title, width - 530, 56);
+    text(ctx, state.title, 64, 84, size, ink, 700);
+    ctx.font = `500 24px ${FONT}`;
+    const subtitleSize = fitText(ctx, state.subtitle, width - 500, 24, 12);
+    text(ctx, state.subtitle, 66, 124, subtitleSize, muted);
+    rounded(ctx, width - 244, 46, 180, 66, 33, dark ? '#FFFFFF10' : '#14233809');
+    text(ctx, `5 + ${rotationCount}`, width - 154, 91, 37, ink, 650, 'center');
+  }
+  const margin = 64, gap = 16, dividerGap = rotationCount ? 34 : 0;
+  const cellWidth = (width - 2 * margin - (count - 1) * gap - dividerGap) / count;
+  const rotationX = margin + 5 * (cellWidth + gap) + dividerGap;
+  text(ctx, '首发', margin, 176 + offset, 26, ink, 650);
+  text(ctx, 'STARTING FIVE', margin + 78, 174 + offset, 18, muted, 500);
+  if (rotationCount) {
+  text(ctx, '主要轮转', rotationX, 176 + offset, 26, ink, 650);
+  text(ctx, 'ROTATION', rotationX + 128, 174 + offset, 18, muted, 500);
+  const divider = rotationX - gap - dividerGap / 2;
+  ctx.strokeStyle = dark ? '#FFFFFF22' : '#14233822'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(divider, 198 + offset); ctx.lineTo(divider, 535 + offset); ctx.stroke();
+  }
+  const images = await Promise.all(state.players.map(p => loadImage(portrait(p))));
+  const missing = [];
+  state.players.forEach((p, i) => {
+    const x = margin + i * (cellWidth + gap) + (i >= 5 ? dividerGap : 0), center = x + cellWidth / 2;
+    rounded(ctx, x, 199 + offset, cellWidth, 340, 22, dark ? '#FFFFFF08' : '#FFFFFF');
+    rounded(ctx, center - 45, 210 + offset, 90, 30, 15, i < 5 ? state.color + '28' : (dark ? '#FFFFFF10' : '#1423380B'));
+    text(ctx, role(i), center, 232 + offset, 17, ink, 650, 'center');
+    if (images[i]) {
+      const image = images[i], maxWidth = cellWidth - 36, maxHeight = 208;
+      const scale = Math.min(maxWidth / image.naturalWidth, maxHeight / image.naturalHeight);
+      const w = image.naturalWidth * scale, h = image.naturalHeight * scale;
+      ctx.drawImage(image, center - w / 2, 247 + offset + (maxHeight - h), w, h);
+    } else {
+      missing.push(p.name);
+      rounded(ctx, center - 78, 258 + offset, 156, 184, 22, dark ? '#FFFFFF0B' : '#E9EEF4');
+      const initials = p.name.trim().split(/\s+/).map(s => s[0] || '').slice(0, 2).join('').toUpperCase() || '?';
+      text(ctx, initials, center, 365 + offset, 52, muted, 600, 'center');
+      text(ctx, '待补头像', center, 409 + offset, 18, muted, 400, 'center');
+    }
+    drawName(ctx, p.name, center, 484 + offset, cellWidth - 22, ink);
+  });
+  return {canvas, missing};
+}
+
+async function schedulePreview() {
+  const version=++previewVersion,snapshot=structuredClone(current),problem=validation(snapshot);
+  refreshControls(); if(problem)message(problem,true);else message('正在更新预览…');
+  const result=await draw(snapshot);if(version!==previewVersion)return;
+  const canvas=$('preview');canvas.width=result.canvas.width;canvas.height=result.canvas.height;
+  canvas.getContext('2d').drawImage(result.canvas,0,0);
+  canvas.setAttribute('aria-label',`${snapshot.title}，首发：${snapshot.players.slice(0,5).map(p=>p.name).join('、')}；轮转：${snapshot.players.slice(5).map(p=>p.name).join('、')}`);
+  $('dimensions').textContent=`${canvas.width} × ${canvas.height} PNG`;
+  if(!problem)message(result.missing.length?`有${result.missing.length}张头像待补，也可下载占位图`:'预览已更新');
+}
+function png(canvas) {return new Promise((resolve,reject)=>canvas.toBlob(blob=>blob?resolve(blob):reject(new Error('PNG生成失败')),'image/png'));}
+function filename(state) {return `${state.id}-${state.title.replace(/[\\/:*?"<>|]/g,'_')}-${state.players.length===8?'八人轮换':'首发与轮转'}.png`;}
+function download(blob,name) {
+  const url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download=name;
+  document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),30000);
+}
+function setBusy(value) {
+  busy=value;document.querySelectorAll('input,select,button,textarea').forEach(element=>element.disabled=value);
+  if(!value)refreshControls();
+}
+async function downloadCurrent() {
+  const snapshot=structuredClone(current),problem=validation(snapshot);if(problem){message(problem,true);return;}
+  setBusy(true);try{const {canvas}=await draw(snapshot);download(await png(canvas),filename(snapshot));message('PNG已生成');}
+  catch(error){message(error.message,true);}finally{setBusy(false);}
+}
+// Stored ZIP entries avoid dependencies, multiple-download prompts and network calls.
+const crcTable = new Uint32Array(256);
+for (let n = 0; n < 256; n++) { let c = n; for (let k = 0; k < 8; k++) c = (c & 1) ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; crcTable[n] = c; }
+function crc32(bytes) { let c = 0xFFFFFFFF; for (const b of bytes) c = crcTable[(c ^ b) & 255] ^ (c >>> 8); return (c ^ 0xFFFFFFFF) >>> 0; }
+function zip(entries) {
+  const local = [], central = [], encoder = new TextEncoder(); let offset = 0, centralSize = 0;
+  for (const entry of entries) {
+    const name = encoder.encode(entry.name), bytes = entry.bytes, crc = crc32(bytes);
+    const head = new Uint8Array(30 + name.length), h = new DataView(head.buffer);
+    h.setUint32(0,0x04034B50,true); h.setUint16(4,20,true); h.setUint16(6,0x0800,true);
+    h.setUint16(12,0x0021,true); h.setUint32(14,crc,true); h.setUint32(18,bytes.length,true); h.setUint32(22,bytes.length,true); h.setUint16(26,name.length,true); head.set(name,30);
+    local.push(head,bytes);
+    const index = new Uint8Array(46 + name.length), c = new DataView(index.buffer);
+    c.setUint32(0,0x02014B50,true); c.setUint16(4,20,true); c.setUint16(6,20,true); c.setUint16(8,0x0800,true);
+    c.setUint16(14,0x0021,true); c.setUint32(16,crc,true); c.setUint32(20,bytes.length,true); c.setUint32(24,bytes.length,true); c.setUint16(28,name.length,true); c.setUint32(42,offset,true); index.set(name,46);
+    central.push(index); offset += head.length + bytes.length; centralSize += index.length;
+  }
+  const end = new Uint8Array(22), e = new DataView(end.buffer);
+  e.setUint32(0,0x06054B50,true); e.setUint16(8,entries.length,true); e.setUint16(10,entries.length,true); e.setUint32(12,centralSize,true); e.setUint32(16,offset,true);
+  return new Blob([...local,...central,end],{type:'application/zip'});
+}
+
+async function downloadAll() {
+  const states=allStates();for(const state of states){const problem=validation(state);if(problem){message(`${state.title || state.id}：${problem}`,true);return;}}
+  setBusy(true);
+  try {
+    const entries=[];let missing=0;
+    for(let i=0;i<states.length;i++){
+      message(`正在生成 ${i+1}/30 · ${states[i].title}`);const result=await draw(states[i]);missing+=result.missing.length;
+      entries.push({name:filename(states[i]),bytes:new Uint8Array(await(await png(result.canvas)).arrayBuffer())});
+    }
+    download(zip(entries),`NBA-30队-八人轮换-${DATA.asOf}.zip`);
+    message(missing?`30张PNG已生成；${missing}个位置使用待补头像`:'30张PNG已打包完成');
+  }catch(error){message(error.message,true);}finally{setBusy(false);}
+}
+async function uploadPortrait(i,file) {
+  const teamId=current.id,player=current.players[i];if(!file)return;
+  if(!['image/png','image/jpeg','image/webp'].includes(file.type)||file.size>8*1024*1024){message('请选择8MB以内的PNG、JPG或WebP图片。',true);return;}
+  const url=URL.createObjectURL(file),image=await loadImage(url);URL.revokeObjectURL(url);imageCache.delete(url);
+  if(!image){message('无法读取这张图片。',true);return;}
+  if(current.id!==teamId||current.players[i]!==player){message('名单已变动，请为当前球员重新上传。',true);return;}
+  const canvas=document.createElement('canvas'),scale=Math.min(1,360/image.naturalWidth,360/image.naturalHeight);
+  canvas.width=Math.max(1,Math.round(image.naturalWidth*scale));canvas.height=Math.max(1,Math.round(image.naturalHeight*scale));
+  canvas.getContext('2d').drawImage(image,0,0,canvas.width,canvas.height);
+  edit(()=>{current.players[i].custom=canvas.toDataURL('image/webp',.92);});
+}
+function configuration() {
+  return {schema:'nba-lineup-config',version:2,season:DATA.season,exportedAt:new Date().toISOString(),selectedTeam:current.id,teams:allStates()};
+}
+function checkedStates() {
+  const states=allStates();for(const state of states){const problem=validation(state);if(problem)throw new Error(`${state.title || state.id}：${problem}`);}return states;
+}
+function exportConfig() {
+  try{checkedStates();download(new Blob([JSON.stringify(configuration(),null,2)+'\n'],{type:'application/json'}),`NBA-30队-我的首发与轮转-${DATA.asOf}.json`);configMessage('30队配置已导出，包含姓名、顺序、备注和上传头像。');}
+  catch(error){configMessage(error.message,true);}
+}
+async function importConfig(file) {
+  if(!file)return;
+  if(file.size>20*1024*1024){configMessage('配置文件请控制在20MB以内。',true);return;}
+  setBusy(true);
+  try {
+    const value=JSON.parse(await file.text());
+    if(value.schema!=='nba-lineup-config'||value.version!==2||value.season!==DATA.season||!Array.isArray(value.teams)||!value.teams.length||value.teams.length>30)throw new Error('请选择本赛季从工具导出的配置文件。');
+    const incoming={},seen=new Set();
+    for(const state of value.teams){
+      if(!DATA.teams.some(t=>t.id===state.id)||seen.has(state.id)||!validDraft(state,state.id))throw new Error('配置中有重复球队、未知球队或无效名单，未导入任何修改。');
+      const clean=normalizedState(state),problem=validation(clean);if(problem)throw new Error(`${state.id}：${problem} 未导入任何修改。`);
+      seen.add(state.id);incoming[state.id]=clean;
+    }
+    // All records pass before changing any draft. Unmentioned teams keep their settings.
+    drafts={...drafts,...incoming};histories={};
+    const selected=seen.has(value.selectedTeam)?value.selectedTeam:current.id;
+    selectTeam(selected);persist();configMessage(`已导入${seen.size}队配置，姓名、顺序、备注和头像均已恢复。`);
+  }catch(error){configMessage(error instanceof SyntaxError?'文件不是有效配置，未导入任何修改。':error.message,true);}
+  finally{setBusy(false);}
+}
+function exportMarkdown() {
+  try {
+    const states=checkedStates();const lines=[`# ${DATA.season} 我的首发与轮转`,''];
+    for(const division of DATA.divisions){
+      lines.push(`## ${division.conference} - ${division.division}`,'');
+      for(const id of division.teams){const state=states.find(t=>t.id===id);lines.push(`### ${state.title || id}`,'','| 位置 | 球员 |','|---|---|');
+        state.players.forEach((p,i)=>lines.push(`| ${role(i)} | ${p.name.replace(/\|/g,'\\|').replace(/\n/g,' ')} |`));
+        if(state.note)lines.push('',state.note);lines.push('');}
+    }
+    download(new Blob([lines.join('\n')],{type:'text/markdown;charset=utf-8'}),`NBA-30队-我的首发与轮转-${DATA.asOf}.md`);configMessage('30队名单文字已导出，可用于更新汇总文章。');
+  }catch(error){configMessage(error.message,true);}
+}
+function restoreOriginal() {
+  const team=DATA.teams.find(t=>t.id===current.id),used=new Set(team.originalStarters.map(identity));
+  const first=team.originalStarters.map(name=>current.players.find(p=>identity(p.name)===identity(name))||{name,custom:null});
+  const rest=current.players.filter(p=>!used.has(identity(p.name)));
+  if(rest.length>MAX_ROTATION){message('恢复原首发后轮转会超过10人，请先减少轮转球员。',true);return;}
+  edit(()=>{current.players=[...first,...rest];},true);
+}
+for(const division of DATA.divisions){
+  const group=document.createElement('optgroup');group.label=`${division.conference} - ${division.division}`;
+  for(const id of division.teams){const team=DATA.teams.find(t=>t.id===id);group.append(option(id,team.name));}$('team').append(group);
+}
+DATA.catalog.forEach(name=>$('players').append(option(name,name)));
+$('team').addEventListener('change',event=>selectTeam(event.target.value));
+for(const field of ['title','subtitle','color','theme','note'])$(field).addEventListener('input',event=>edit(()=>{current[field]=event.target.value;}));
+$('showHeader').addEventListener('change',event=>edit(()=>{current.showHeader=event.target.checked;}));
+$('addRotation').addEventListener('click',()=>{if(current.players.length<5+MAX_ROTATION)edit(()=>current.players.push({name:'',custom:null}),true);});
+$('undo').addEventListener('click',()=>{const previous=(histories[current.id]||[]).pop();if(!previous)return;current=previous;renderEditor();persist();schedulePreview();});
+$('restoreOriginal').addEventListener('click',restoreOriginal);
+$('download').addEventListener('click',downloadCurrent);$('downloadAll').addEventListener('click',downloadAll);
+$('exportConfig').addEventListener('click',exportConfig);$('exportMarkdown').addEventListener('click',exportMarkdown);
+$('importConfig').addEventListener('click',()=>$('configFile').click());
+$('configFile').addEventListener('change',event=>{importConfig(event.target.files[0]);event.target.value='';});
+$('reset').addEventListener('click',()=>edit(()=>{current=defaultState(DATA.teams.find(t=>t.id===current.id));},true));
+let selected=DATA.teams[0].id;try{const stored=localStorage.getItem(STORAGE_KEY+'-team');if(DATA.teams.some(t=>t.id===stored))selected=stored;}catch(_){}
+selectTeam(selected);
+</script>
+</body>
+</html>

@@ -1,0 +1,998 @@
+{
+  "version": 1,
+  "season": "2026–27",
+  "asOf": "2026-09-24",
+  "teams": [
+    {
+      "id": "BOS",
+      "name": "波士顿凯尔特人",
+      "short": "凯尔特人",
+      "english": "Boston Celtics",
+      "conference": "东部",
+      "status": "published",
+      "publishedAt": "",
+      "title": "",
+      "url": "",
+      "note": "",
+      "source": "用户确认：选秀计划对应文章已发表",
+      "draftPlan": {
+        "image": "/tools/assets/483e5ec4ada21099d38b0d96.png",
+        "width": 1502,
+        "height": 974,
+        "batch": 2,
+        "receivedAt": "2026-09-09"
+      },
+      "startingFive": {
+        "players": {
+          "PG": "Derrick White",
+          "SG": "Baylor Scheierman",
+          "SF": "Paul George",
+          "PF": "Jayson Tatum",
+          "C": "Neemias Queta"
+        },
+        "image": "/tools/assets/5d66aea3e49ccfba411390d8.png",
+        "width": 1080,
+        "height": 627,
+        "receivedAt": "2026-09-24"
+      }
+    },
+    {
+      "id": "BKN",
+      "name": "布鲁克林篮网",
+      "short": "篮网",
+      "english": "Brooklyn Nets",
+      "conference": "东部",
+      "status": "published",
+      "publishedAt": "",
+      "title": "",
+      "url": "",
+      "note": "原9月8日排期；9月10日用户确认已发表，具体发表时间未知。",
+      "source": "用户确认：选秀计划对应文章已发表",
+      "draftPlan": {
+        "image": "/tools/assets/4c5190a3f659bbaa663235d4.png",
+        "width": 1552,
+        "height": 996,
+        "batch": 5,
+        "receivedAt": "2026-09-10"
+      },
+      "startingFive": {
+        "players": {
+          "PG": "Mikel Brown Jr.",
+          "SG": "Egor Dëmin",
+          "SF": "Michael Porter Jr.",
+          "PF": "Julius Randle",
+          "C": "Day'Ron Sharpe"
+        },
+        "image": "/tools/assets/ba3e43371609701f58c82782.png",
+        "width": 1080,
+        "height": 663,
+        "receivedAt": "2026-09-24"
+      }
+    },
+    {
+      "id": "NYK",
+      "name": "纽约尼克斯",
+      "short": "尼克斯",
+      "english": "New York Knicks",
+      "conference": "东部",
+      "status": "published",
+      "publishedAt": "",
+      "title": "",
+      "url": "",
+      "note": "",
+      "source": "用户确认：选秀计划对应文章已发表",
+      "draftPlan": {
+        "image": "/tools/assets/1e95926a6be0c8701f552f7e.png",
+        "width": 1508,
+        "height": 938,
+        "batch": 2,
+        "receivedAt": "2026-09-09"
+      },
+      "startingFive": {
+        "players": {
+          "PG": "Jalen Brunson",
+          "SG": "Josh Hart",
+          "SF": "Mikal Bridges",
+          "PF": "OG Anunoby",
+          "C": "Karl-Anthony Towns"
+        },
+        "image": "/tools/assets/31c4e11adf21ca46f176f94d.png",
+        "width": 1080,
+        "height": 665,
+        "receivedAt": "2026-09-24"
+      }
+    },
+    {
+      "id": "PHI",
+      "name": "费城76人",
+      "short": "76人",
+      "english": "Philadelphia 76ers",
+      "conference": "东部",
+      "status": "published",
+      "publishedAt": "",
+      "title": "",
+      "url": "",
+      "note": "",
+      "source": "用户确认：选秀计划对应文章已发表",
+      "draftPlan": {
+        "image": "/tools/assets/cf99f9bc0838ea7f3371409f.png",
+        "width": 1462,
+        "height": 938,
+        "batch": 2,
+        "receivedAt": "2026-09-09"
+      },
+      "startingFive": {
+        "players": {
+          "PG": "Tyrese Maxey",
+          "SG": "VJ Edgecombe",
+          "SF": "Jaylen Brown",
+          "PF": "LeBron James",
+          "C": "Joel Embiid"
+        },
+        "image": "/tools/assets/35a33324b8273805b53c44ad.png",
+        "width": 1080,
+        "height": 667,
+        "receivedAt": "2026-09-24"
+      }
+    },
+    {
+      "id": "TOR",
+      "name": "多伦多猛龙",
+      "short": "猛龙",
+      "english": "Toronto Raptors",
+      "conference": "东部",
+      "status": "published",
+      "publishedAt": "",
+      "title": "",
+      "url": "",
+      "note": "",
+      "source": "用户第八批选秀计划截图，并明确最后两篇快船、猛龙已发表",
+      "draftPlan": {
+        "image": "/tools/assets/15d963572b63f84dd44be6bd.png",
+        "width": 1482,
+        "height": 1000,
+        "batch": 8,
+        "receivedAt": "2026-09-15"
+      },
+      "startingFive": {
+        "players": {
+          "PG": "Immanuel Quickley",
+          "SG": "RJ Barrett",
+          "SF": "Kawhi Leonard",
+          "PF": "Scottie Barnes",
+          "C": "Jakob Poeltl"
+        },
+        "image": "/tools/assets/5bdad997b7ea64811e25cb05.png",
+        "width": 1080,
+        "height": 664,
+        "receivedAt": "2026-09-24"
+      }
+    },
+    {
+      "id": "CHI",
+      "name": "芝加哥公牛",
+      "short": "公牛",
+      "english": "Chicago Bulls",
+      "conference": "东部",
+      "status": "published",
+      "publishedAt": "2026-09-05T22:36:00+08:00",
+      "title": "",
+      "url": "",
+      "note": "",
+      "source": "用户确认：选秀计划对应文章已发表",
+      "draftPlan": {
+        "image": "/tools/assets/a6ececef8299aaaa4658010e.png",
+        "width": 1470,
+        "height": 1060,
+        "batch": 1,
+        "receivedAt": "2026-09-09"
+      },
+      "startingFive": {
+        "players": {
+          "PG": "Josh Giddey",
+          "SG": "Norman Powell",
+          "SF": "Matas Buzelis",
+          "PF": "Caleb Wilson",
+          "C": "Nic Claxton"
+        },
+        "image": "/tools/assets/23731d842a938a6675a7d49d.png",
+        "width": 1080,
+        "height": 748,
+        "receivedAt": "2026-09-24"
+      }
+    },
+    {
+      "id": "CLE",
+      "name": "克利夫兰骑士",
+      "short": "骑士",
+      "english": "Cleveland Cavaliers",
+      "conference": "东部",
+      "status": "published",
+      "publishedAt": "",
+      "title": "",
+      "url": "",
+      "note": "",
+      "source": "用户确认：选秀计划对应文章已发表",
+      "draftPlan": {
+        "image": "/tools/assets/4d308b589f73fe5c6e47652f.png",
+        "width": 1480,
+        "height": 960,
+        "batch": 4,
+        "receivedAt": "2026-09-09"
+      },
+      "startingFive": {
+        "players": {
+          "PG": "James Harden",
+          "SG": "Donovan Mitchell",
+          "SF": "Peyton Watson",
+          "PF": "Evan Mobley",
+          "C": "Jarrett Allen"
+        },
+        "image": "/tools/assets/eb32463f04b20d25f6f47d5e.png",
+        "width": 1080,
+        "height": 665,
+        "receivedAt": "2026-09-24"
+      }
+    },
+    {
+      "id": "DET",
+      "name": "底特律活塞",
+      "short": "活塞",
+      "english": "Detroit Pistons",
+      "conference": "东部",
+      "status": "published",
+      "publishedAt": "",
+      "title": "",
+      "url": "",
+      "note": "",
+      "source": "用户第七批选秀计划截图，并明确国王、活塞两篇已发表",
+      "draftPlan": {
+        "image": "/tools/assets/c897e3c5e82e76d62ac3c4ca.png",
+        "width": 1442,
+        "height": 954,
+        "batch": 7,
+        "receivedAt": "2026-09-14"
+      },
+      "startingFive": {
+        "players": {
+          "PG": "Cade Cunningham",
+          "SG": "Duncan Robinson",
+          "SF": "Ausar Thompson",
+          "PF": "John Collins",
+          "C": "Jalen Duren"
+        },
+        "image": "/tools/assets/29c85b4f635b781d462d5ccc.png",
+        "width": 1080,
+        "height": 665,
+        "receivedAt": "2026-09-24"
+      }
+    },
+    {
+      "id": "IND",
+      "name": "印第安纳步行者",
+      "short": "步行者",
+      "english": "Indiana Pacers",
+      "conference": "东部",
+      "status": "published",
+      "publishedAt": "2026-09-09T13:26:00+08:00",
+      "title": "",
+      "url": "",
+      "note": "",
+      "source": "用户确认：选秀计划对应文章已发表",
+      "draftPlan": {
+        "image": "/tools/assets/f4d1195f28018e8f51887ead.png",
+        "width": 1424,
+        "height": 978,
+        "batch": 1,
+        "receivedAt": "2026-09-09"
+      },
+      "startingFive": {
+        "players": {
+          "PG": "Tyrese Haliburton",
+          "SG": "Andrew Nembhard",
+          "SF": "Aaron Nesmith",
+          "PF": "Pascal Siakam",
+          "C": "Ivica Zubac"
+        },
+        "image": "/tools/assets/3b575d8693d928596d5fe100.png",
+        "width": 1080,
+        "height": 669,
+        "receivedAt": "2026-09-24"
+      }
+    },
+    {
+      "id": "MIL",
+      "name": "密尔沃基雄鹿",
+      "short": "雄鹿",
+      "english": "Milwaukee Bucks",
+      "conference": "东部",
+      "status": "published",
+      "publishedAt": "",
+      "title": "",
+      "url": "",
+      "note": "",
+      "source": "用户确认：选秀计划对应文章已发表",
+      "draftPlan": {
+        "image": "/tools/assets/87ee905163a5667320439a24.png",
+        "width": 1496,
+        "height": 946,
+        "batch": 5,
+        "receivedAt": "2026-09-10"
+      },
+      "startingFive": {
+        "players": {
+          "PG": "Ryan Rollins",
+          "SG": "Tyler Herro",
+          "SF": "Jaime Jaquez Jr.",
+          "PF": "Kyle Kuzma",
+          "C": "Myles Turner"
+        },
+        "image": "/tools/assets/3f7fbeacb21041efec37bf38.png",
+        "width": 1080,
+        "height": 670,
+        "receivedAt": "2026-09-24"
+      }
+    },
+    {
+      "id": "ATL",
+      "name": "亚特兰大老鹰",
+      "short": "老鹰",
+      "english": "Atlanta Hawks",
+      "conference": "东部",
+      "status": "published",
+      "publishedAt": "2026-09-08T13:48:00+08:00",
+      "title": "",
+      "url": "",
+      "note": "",
+      "source": "用户确认：选秀计划对应文章已发表",
+      "draftPlan": {
+        "image": "/tools/assets/f3382b73bfd2168b05a67d4c.png",
+        "width": 1588,
+        "height": 1042,
+        "batch": 1,
+        "receivedAt": "2026-09-09"
+      },
+      "startingFive": {
+        "players": {
+          "PG": "CJ McCollum",
+          "SG": "Nickeil Alexander-Walker",
+          "SF": "Dyson Daniels",
+          "PF": "Jalen Johnson",
+          "C": "Onyeka Okongwu"
+        },
+        "image": "/tools/assets/7b4ddd47175c16a3a8cd2dd6.png",
+        "width": 1080,
+        "height": 658,
+        "receivedAt": "2026-09-24"
+      }
+    },
+    {
+      "id": "CHA",
+      "name": "夏洛特黄蜂",
+      "short": "黄蜂",
+      "english": "Charlotte Hornets",
+      "conference": "东部",
+      "status": "published",
+      "publishedAt": "2026-09-09T13:17:00+08:00",
+      "title": "",
+      "url": "",
+      "note": "",
+      "source": "用户确认：选秀计划对应文章已发表",
+      "draftPlan": {
+        "image": "/tools/assets/4d4b0867d6a4b5a40f3eb98a.png",
+        "width": 1428,
+        "height": 944,
+        "batch": 1,
+        "receivedAt": "2026-09-09"
+      },
+      "startingFive": {
+        "players": {
+          "PG": "Coby White",
+          "SG": "Kon Knueppel",
+          "SF": "Brandon Miller",
+          "PF": "Naz Reid",
+          "C": "Moussa Diabaté"
+        },
+        "image": "/tools/assets/e0ec52a58f9e5e766e1b2bb0.png",
+        "width": 1080,
+        "height": 668,
+        "receivedAt": "2026-09-24"
+      }
+    },
+    {
+      "id": "MIA",
+      "name": "迈阿密热火",
+      "short": "热火",
+      "english": "Miami Heat",
+      "conference": "东部",
+      "status": "published",
+      "publishedAt": "2026-09-07T18:50:00+08:00",
+      "title": "",
+      "url": "",
+      "note": "后台显示时间，非审核通过时刻。",
+      "source": "用户确认：选秀计划对应文章已发表",
+      "draftPlan": {
+        "image": "/tools/assets/c459b16263323b19b2f54f86.png",
+        "width": 1472,
+        "height": 988,
+        "batch": 1,
+        "receivedAt": "2026-09-09"
+      },
+      "startingFive": {
+        "players": {
+          "PG": "Davion Mitchell",
+          "SG": "Pelle Larsson",
+          "SF": "Andrew Wiggins",
+          "PF": "Giannis Antetokounmpo",
+          "C": "Bam Adebayo"
+        },
+        "image": "/tools/assets/1b60fd3a48f505825d73bed7.png",
+        "width": 1080,
+        "height": 669,
+        "receivedAt": "2026-09-24"
+      }
+    },
+    {
+      "id": "ORL",
+      "name": "奥兰多魔术",
+      "short": "魔术",
+      "english": "Orlando Magic",
+      "conference": "东部",
+      "status": "published",
+      "publishedAt": "2026-09-05T22:41:00+08:00",
+      "title": "",
+      "url": "",
+      "note": "",
+      "source": "用户确认：选秀计划对应文章已发表",
+      "draftPlan": {
+        "image": "/tools/assets/fba80b1b4e17721968aa7be8.png",
+        "width": 1466,
+        "height": 1290,
+        "batch": 1,
+        "receivedAt": "2026-09-09"
+      },
+      "startingFive": {
+        "players": {
+          "PG": "Jalen Suggs",
+          "SG": "Desmond Bane",
+          "SF": "Franz Wagner",
+          "PF": "Paolo Banchero",
+          "C": "Wendell Carter Jr."
+        },
+        "image": "/tools/assets/9a4d3e9a4f12358b176298cb.png",
+        "width": 1080,
+        "height": 510,
+        "receivedAt": "2026-09-24"
+      }
+    },
+    {
+      "id": "WAS",
+      "name": "华盛顿奇才",
+      "short": "奇才",
+      "english": "Washington Wizards",
+      "conference": "东部",
+      "status": "published",
+      "publishedAt": "",
+      "title": "",
+      "url": "",
+      "note": "",
+      "source": "用户确认：选秀计划对应文章已发表",
+      "draftPlan": {
+        "image": "/tools/assets/2eacd46befd44ff7fc3f97cf.png",
+        "width": 1442,
+        "height": 1116,
+        "batch": 2,
+        "receivedAt": "2026-09-09"
+      },
+      "startingFive": {
+        "players": {
+          "PG": "Trae Young",
+          "SG": "Kyshawn George",
+          "SF": "AJ Dybantsa",
+          "PF": "Anthony Davis",
+          "C": "Alex Sarr"
+        },
+        "image": "/tools/assets/b539d2c21f9cda3d3d7dafaf.png",
+        "width": 1080,
+        "height": 633,
+        "receivedAt": "2026-09-24"
+      }
+    },
+    {
+      "id": "DEN",
+      "name": "丹佛掘金",
+      "short": "掘金",
+      "english": "Denver Nuggets",
+      "conference": "西部",
+      "status": "published",
+      "publishedAt": "",
+      "title": "",
+      "url": "",
+      "note": "",
+      "source": "用户确认：选秀计划对应文章已发表",
+      "draftPlan": {
+        "image": "/tools/assets/445287171c24e088a0a5cf9f.png",
+        "width": 1468,
+        "height": 930,
+        "batch": 3,
+        "receivedAt": "2026-09-09"
+      },
+      "startingFive": {
+        "players": {
+          "PG": "Jamal Murray",
+          "SG": "Christian Braun",
+          "SF": "Cameron Johnson",
+          "PF": "Aaron Gordon",
+          "C": "Nikola Jokić"
+        },
+        "image": "/tools/assets/414ceb2bd39518dba85ecc48.png",
+        "width": 1080,
+        "height": 662,
+        "receivedAt": "2026-09-24"
+      }
+    },
+    {
+      "id": "MIN",
+      "name": "明尼苏达森林狼",
+      "short": "森林狼",
+      "english": "Minnesota Timberwolves",
+      "conference": "西部",
+      "status": "published",
+      "publishedAt": "2026-09-07T17:45:00+08:00",
+      "title": "",
+      "url": "",
+      "note": "旧版本已删除；这里仅计入17:45版本。",
+      "source": "用户确认：选秀计划对应文章已发表",
+      "draftPlan": {
+        "image": "/tools/assets/ae4ea7ef4636f4df572ced34.png",
+        "width": 1508,
+        "height": 1002,
+        "batch": 1,
+        "receivedAt": "2026-09-09"
+      },
+      "startingFive": {
+        "players": {
+          "PG": "LaMelo Ball",
+          "SG": "Anthony Edwards",
+          "SF": "Jaden McDaniels",
+          "PF": "Cody Williams",
+          "C": "Rudy Gobert"
+        },
+        "image": "/tools/assets/4bba18bdbec9a8a93a14bff3.png",
+        "width": 1080,
+        "height": 459,
+        "receivedAt": "2026-09-24"
+      }
+    },
+    {
+      "id": "OKC",
+      "name": "俄克拉荷马城雷霆",
+      "short": "雷霆",
+      "english": "Oklahoma City Thunder",
+      "conference": "西部",
+      "status": "published",
+      "publishedAt": "2026-09-08T13:09:00+08:00",
+      "title": "",
+      "url": "",
+      "note": "",
+      "source": "用户确认：选秀计划对应文章已发表",
+      "draftPlan": {
+        "image": "/tools/assets/cd620b27473be43b092c06cf.png",
+        "width": 1522,
+        "height": 962,
+        "batch": 1,
+        "receivedAt": "2026-09-09"
+      },
+      "startingFive": {
+        "players": {
+          "PG": "Shai Gilgeous-Alexander",
+          "SG": "Cason Wallace",
+          "SF": "Jalen Williams",
+          "PF": "Chet Holmgren",
+          "C": "Isaiah Hartenstein"
+        },
+        "image": "/tools/assets/9763746c8371fb43d8735425.png",
+        "width": 1080,
+        "height": 661,
+        "receivedAt": "2026-09-24",
+        "note": "后续确认：SGA 打 PG，卡森·华莱士打 SG；阵容深度原图保留首次排阵。"
+      }
+    },
+    {
+      "id": "POR",
+      "name": "波特兰开拓者",
+      "short": "开拓者",
+      "english": "Portland Trail Blazers",
+      "conference": "西部",
+      "status": "published",
+      "publishedAt": "",
+      "title": "",
+      "url": "",
+      "note": "",
+      "source": "用户确认：选秀计划对应文章已发表",
+      "draftPlan": {
+        "image": "/tools/assets/9686dc07ac72b455293b6365.png",
+        "width": 1444,
+        "height": 934,
+        "batch": 2,
+        "receivedAt": "2026-09-09"
+      },
+      "startingFive": {
+        "players": {
+          "PG": "Ja Morant",
+          "SG": "Damian Lillard",
+          "SF": "Deni Avdija",
+          "PF": "Toumani Camara",
+          "C": "Donovan Clingan"
+        },
+        "image": "/tools/assets/4515e6cf47472e366416004f.png",
+        "width": 1080,
+        "height": 454,
+        "receivedAt": "2026-09-24"
+      }
+    },
+    {
+      "id": "UTA",
+      "name": "犹他爵士",
+      "short": "爵士",
+      "english": "Utah Jazz",
+      "conference": "西部",
+      "status": "published",
+      "publishedAt": "",
+      "title": "",
+      "url": "",
+      "note": "",
+      "source": "用户确认：选秀计划对应文章已发表",
+      "draftPlan": {
+        "image": "/tools/assets/bb35c6a898f93c42525a409b.png",
+        "width": 1476,
+        "height": 942,
+        "batch": 2,
+        "receivedAt": "2026-09-09"
+      },
+      "startingFive": {
+        "players": {
+          "PG": "Keyonte George",
+          "SG": "Darryn Peterson",
+          "SF": "Lauri Markkanen",
+          "PF": "Jaren Jackson Jr.",
+          "C": "Jusuf Nurkić"
+        },
+        "image": "/tools/assets/2c3a46a3de83d63a8e31df4f.png",
+        "width": 1080,
+        "height": 664,
+        "receivedAt": "2026-09-24"
+      }
+    },
+    {
+      "id": "GSW",
+      "name": "金州勇士",
+      "short": "勇士",
+      "english": "Golden State Warriors",
+      "conference": "西部",
+      "status": "published",
+      "publishedAt": "",
+      "title": "",
+      "url": "",
+      "note": "",
+      "source": "用户确认：选秀计划对应文章已发表",
+      "draftPlan": {
+        "image": "/tools/assets/dcde21ee624d1a0b14dc74c5.png",
+        "width": 1422,
+        "height": 1134,
+        "batch": 4,
+        "receivedAt": "2026-09-09"
+      },
+      "startingFive": {
+        "players": {
+          "PG": "Stephen Curry",
+          "SG": "Brandin Podziemski",
+          "SF": "Yaxel Lendeborg",
+          "PF": "Draymond Green",
+          "C": "Kristaps Porziņģis"
+        },
+        "image": "/tools/assets/ccfd4a30ff03c38d20038030.png",
+        "width": 1080,
+        "height": 665,
+        "receivedAt": "2026-09-24"
+      }
+    },
+    {
+      "id": "LAC",
+      "name": "洛杉矶快船",
+      "short": "快船",
+      "english": "Los Angeles Clippers",
+      "conference": "西部",
+      "status": "published",
+      "publishedAt": "",
+      "title": "",
+      "url": "",
+      "note": "",
+      "source": "用户第八批选秀计划截图，并明确最后两篇快船、猛龙已发表",
+      "draftPlan": {
+        "image": "/tools/assets/40e1502d0143307f4391afc2.png",
+        "width": 1494,
+        "height": 950,
+        "batch": 8,
+        "receivedAt": "2026-09-15"
+      },
+      "startingFive": {
+        "players": {
+          "PG": "Darius Garland",
+          "SG": "Keaton Wagler",
+          "SF": "Brandon Ingram",
+          "PF": "Rui Hachimura",
+          "C": "Brook Lopez"
+        },
+        "image": "/tools/assets/3fa4fe1c84a00007ca27829c.png",
+        "width": 1080,
+        "height": 663,
+        "receivedAt": "2026-09-24"
+      }
+    },
+    {
+      "id": "LAL",
+      "name": "洛杉矶湖人",
+      "short": "湖人",
+      "english": "Los Angeles Lakers",
+      "conference": "西部",
+      "status": "published",
+      "publishedAt": "",
+      "title": "",
+      "url": "",
+      "note": "",
+      "source": "用户确认：选秀计划对应文章已发表",
+      "draftPlan": {
+        "image": "/tools/assets/e3a574a63defde66b93bfeb1.png",
+        "width": 1466,
+        "height": 976,
+        "batch": 2,
+        "receivedAt": "2026-09-09"
+      },
+      "startingFive": {
+        "players": {
+          "PG": "Luka Dončić",
+          "SG": "Austin Reaves",
+          "SF": "Quentin Grimes",
+          "PF": "Sandro Mamukelashvili",
+          "C": "Walker Kessler"
+        },
+        "image": "/tools/assets/c0a5a810e1128f05797e6f77.png",
+        "width": 1080,
+        "height": 457,
+        "receivedAt": "2026-09-24"
+      }
+    },
+    {
+      "id": "PHX",
+      "name": "菲尼克斯太阳",
+      "short": "太阳",
+      "english": "Phoenix Suns",
+      "conference": "西部",
+      "status": "published",
+      "publishedAt": "2026-09-06T10:42:00+08:00",
+      "title": "",
+      "url": "",
+      "note": "",
+      "source": "用户确认：选秀计划对应文章已发表",
+      "draftPlan": {
+        "image": "/tools/assets/e808161986056befdb9e44d7.png",
+        "width": 1480,
+        "height": 1088,
+        "batch": 1,
+        "receivedAt": "2026-09-09"
+      },
+      "startingFive": {
+        "players": {
+          "PG": "Devin Booker",
+          "SG": "Jalen Green",
+          "SF": "Miles Bridges",
+          "PF": "Dillon Brooks",
+          "C": "Mark Williams"
+        },
+        "image": "/tools/assets/184211a9500a1e5bcb05c63b.png",
+        "width": 1080,
+        "height": 744,
+        "receivedAt": "2026-09-24"
+      }
+    },
+    {
+      "id": "SAC",
+      "name": "萨克拉门托国王",
+      "short": "国王",
+      "english": "Sacramento Kings",
+      "conference": "西部",
+      "status": "published",
+      "publishedAt": "",
+      "title": "",
+      "url": "",
+      "note": "",
+      "source": "用户第七批选秀计划截图，并明确国王、活塞两篇已发表",
+      "draftPlan": {
+        "image": "/tools/assets/21ff934a6c91f6b977ba9cdb.png",
+        "width": 1456,
+        "height": 974,
+        "batch": 7,
+        "receivedAt": "2026-09-14"
+      },
+      "startingFive": {
+        "players": {
+          "PG": "Darius Acuff Jr.",
+          "SG": "Zach LaVine",
+          "SF": "De'Andre Hunter",
+          "PF": "Keegan Murray",
+          "C": "Domantas Sabonis"
+        },
+        "image": "/tools/assets/96427589c1308509a92a1caa.png",
+        "width": 1080,
+        "height": 665,
+        "receivedAt": "2026-09-24"
+      }
+    },
+    {
+      "id": "DAL",
+      "name": "达拉斯独行侠",
+      "short": "独行侠",
+      "english": "Dallas Mavericks",
+      "conference": "西部",
+      "status": "published",
+      "publishedAt": "",
+      "title": "",
+      "url": "",
+      "note": "",
+      "source": "用户确认：选秀计划对应文章已发表",
+      "draftPlan": {
+        "image": "/tools/assets/02fa57a3354f05c935c002c2.png",
+        "width": 1446,
+        "height": 1126,
+        "batch": 3,
+        "receivedAt": "2026-09-09"
+      },
+      "startingFive": {
+        "players": {
+          "PG": "Kyrie Irving",
+          "SG": "Zaccharie Risacher",
+          "SF": "Cooper Flagg",
+          "PF": "P.J. Washington",
+          "C": "Daniel Gafford"
+        },
+        "image": "/tools/assets/2a047d3d02cab66c0662bbbe.png",
+        "width": 1080,
+        "height": 666,
+        "receivedAt": "2026-09-24"
+      }
+    },
+    {
+      "id": "HOU",
+      "name": "休斯顿火箭",
+      "short": "火箭",
+      "english": "Houston Rockets",
+      "conference": "西部",
+      "status": "published",
+      "publishedAt": "",
+      "title": "",
+      "url": "",
+      "note": "",
+      "source": "用户确认：选秀计划对应文章已发表",
+      "draftPlan": {
+        "image": "/tools/assets/13ed75516b9a0b292a12669f.png",
+        "width": 1472,
+        "height": 932,
+        "batch": 2,
+        "receivedAt": "2026-09-09"
+      },
+      "startingFive": {
+        "players": {
+          "PG": "Fred VanVleet",
+          "SG": "Amen Thompson",
+          "SF": "Kevin Durant",
+          "PF": "Jabari Smith Jr.",
+          "C": "Alperen Sengun"
+        },
+        "image": "/tools/assets/33937002dcb4fc101b295662.png",
+        "width": 1080,
+        "height": 466,
+        "receivedAt": "2026-09-24"
+      }
+    },
+    {
+      "id": "MEM",
+      "name": "孟菲斯灰熊",
+      "short": "灰熊",
+      "english": "Memphis Grizzlies",
+      "conference": "西部",
+      "status": "published",
+      "publishedAt": "",
+      "title": "",
+      "url": "",
+      "note": "",
+      "source": "用户第六批选秀计划截图确认：对应文章已发表",
+      "draftPlan": {
+        "image": "/tools/assets/456b68e97415bef643de4ff5.png",
+        "width": 1558,
+        "height": 1062,
+        "batch": 6,
+        "receivedAt": "2026-09-14"
+      },
+      "startingFive": {
+        "players": {
+          "PG": "Ty Jerome",
+          "SG": "Jaylen Wells",
+          "SF": "Cedric Coward",
+          "PF": "Cameron Boozer",
+          "C": "Zach Edey"
+        },
+        "image": "/tools/assets/219dd7686d195af3e3a0cf2d.png",
+        "width": 1080,
+        "height": 507,
+        "receivedAt": "2026-09-24"
+      }
+    },
+    {
+      "id": "NOP",
+      "name": "新奥尔良鹈鹕",
+      "short": "鹈鹕",
+      "english": "New Orleans Pelicans",
+      "conference": "西部",
+      "status": "published",
+      "publishedAt": "",
+      "title": "",
+      "url": "",
+      "note": "",
+      "source": "用户第六批选秀计划截图确认：对应文章已发表",
+      "draftPlan": {
+        "image": "/tools/assets/bdedcc0814421bfee2d277c1.png",
+        "width": 1478,
+        "height": 1324,
+        "batch": 6,
+        "receivedAt": "2026-09-14"
+      },
+      "startingFive": {
+        "players": {
+          "PG": "Dejounte Murray",
+          "SG": "Herbert Jones",
+          "SF": "Trey Murphy III",
+          "PF": "Zion Williamson",
+          "C": "Derik Queen"
+        },
+        "image": "/tools/assets/ecb944ef8eec3eb3fae1df70.png",
+        "width": 1080,
+        "height": 745,
+        "receivedAt": "2026-09-24"
+      }
+    },
+    {
+      "id": "SAS",
+      "name": "圣安东尼奥马刺",
+      "short": "马刺",
+      "english": "San Antonio Spurs",
+      "conference": "西部",
+      "status": "published",
+      "publishedAt": "2026-09-05T19:56:00+08:00",
+      "title": "",
+      "url": "",
+      "note": "",
+      "source": "用户确认：选秀计划对应文章已发表",
+      "draftPlan": {
+        "image": "/tools/assets/611546eb4dcf9c24bbf32e3e.png",
+        "width": 1490,
+        "height": 1096,
+        "batch": 2,
+        "receivedAt": "2026-09-09"
+      },
+      "startingFive": {
+        "players": {
+          "PG": "De'Aaron Fox",
+          "SG": "Stephon Castle",
+          "SF": "Devin Vassell",
+          "PF": "Tobias Harris",
+          "C": "Victor Wembanyama"
+        },
+        "image": "/tools/assets/1bb1ac1337897df33c1e450d.png",
+        "width": 1080,
+        "height": 512,
+        "receivedAt": "2026-09-24"
+      }
+    }
+  ]
+}

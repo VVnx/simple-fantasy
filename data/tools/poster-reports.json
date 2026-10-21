@@ -1,0 +1,2500 @@
+[
+  {
+    "schemaVersion": 1,
+    "reportDate": "2026-10-08",
+    "cards": [
+      {
+        "id": "min",
+        "team": {
+          "code": "MIN",
+          "name": "明尼苏达森林狼"
+        },
+        "game": {
+          "opponent": "印第安纳步行者",
+          "score": "112–123"
+        },
+        "prediction": {
+          "players": [
+            {
+              "name": "LaMelo Ball",
+              "position": "PG",
+              "avatar": "/tools/assets/badbbfc1c29ff0c3b126814b.png"
+            },
+            {
+              "name": "Anthony Edwards",
+              "position": "SG",
+              "avatar": "/tools/assets/78472e95db1b6b62776c89cf.png"
+            },
+            {
+              "name": "Jaden McDaniels",
+              "position": "SF",
+              "avatar": "/tools/assets/0ac4350ddfc905d98b1f7602.png"
+            },
+            {
+              "name": "Cody Williams",
+              "position": "PF",
+              "avatar": "/tools/assets/59eeb74ff5816b033ad1c1c7.png"
+            },
+            {
+              "name": "Rudy Gobert",
+              "position": "C",
+              "avatar": "/tools/assets/207ea34bc466104743e97eec.png"
+            }
+          ],
+          "version": "2026-09-24 最终首发修正版"
+        },
+        "actual": {
+          "players": [
+            {
+              "name": "LaMelo Ball",
+              "position": "PG",
+              "avatar": "/tools/assets/badbbfc1c29ff0c3b126814b.png"
+            },
+            {
+              "name": "Anthony Edwards",
+              "position": "SG",
+              "avatar": "/tools/assets/78472e95db1b6b62776c89cf.png"
+            },
+            {
+              "name": "Jaden McDaniels",
+              "position": "SF",
+              "avatar": "/tools/assets/0ac4350ddfc905d98b1f7602.png"
+            },
+            {
+              "name": "Jonathan Kuminga",
+              "position": "PF",
+              "avatar": "/tools/assets/d782ae6f53269479e02c4f6c.png"
+            },
+            {
+              "name": "Rudy Gobert",
+              "position": "C",
+              "avatar": "/tools/assets/207ea34bc466104743e97eec.png"
+            }
+          ],
+          "status": "confirmed"
+        },
+        "poster": {
+          "paragraphs": [
+            "森林狼的阵容轮转也很清晰了，库明加再拉下去，爱将科迪就有机会上位了。",
+            "核心轮换观察：\n多孙穆 17分钟 10分1板3助1断 1失误 FG 3/7 FT 3/4【看着稳坐第六人了】\n小香农 17分钟 9分1板2助1断 1失误 FG 2/4 FT 4/5【拉了，没选秀价值】\nCody 17分钟 6分3板1助1帽 1失误 FG 2/7 FT 2/2【也拉了，等一个上位】\nBeringer 19分钟 2分 8板 1帽 2失误 FG 1/3【加入收藏，等一手伤病】"
+          ]
+        }
+      },
+      {
+        "id": "ind",
+        "team": {
+          "code": "IND",
+          "name": "印第安纳步行者"
+        },
+        "game": {
+          "opponent": "明尼苏达森林狼",
+          "score": "123–112"
+        },
+        "prediction": {
+          "players": [
+            {
+              "name": "Tyrese Haliburton",
+              "position": "PG",
+              "avatar": "/tools/assets/e08123a470a7dedf2ebd919c.webp"
+            },
+            {
+              "name": "Andrew Nembhard",
+              "position": "SG",
+              "avatar": "/tools/assets/6ba5d5c04c950b7a5b36ef52.webp"
+            },
+            {
+              "name": "Aaron Nesmith",
+              "position": "SF",
+              "avatar": "/tools/assets/40f3bf114273761fcb13cf1f.webp"
+            },
+            {
+              "name": "Pascal Siakam",
+              "position": "PF",
+              "avatar": "/tools/assets/491ce8cf3c01e49701b4faab.webp"
+            },
+            {
+              "name": "Ivica Zubac",
+              "position": "C",
+              "avatar": "/tools/assets/a032c58f74f8d8cdeb64de07.webp"
+            }
+          ],
+          "version": "2026-09-24 最终首发修正版"
+        },
+        "actual": {
+          "players": [
+            {
+              "name": "Tyrese Haliburton",
+              "position": "PG",
+              "avatar": "/tools/assets/e08123a470a7dedf2ebd919c.webp"
+            },
+            {
+              "name": "Andrew Nembhard",
+              "position": "SG",
+              "avatar": "/tools/assets/6ba5d5c04c950b7a5b36ef52.webp"
+            },
+            {
+              "name": "Aaron Nesmith",
+              "position": "SF",
+              "avatar": "/tools/assets/40f3bf114273761fcb13cf1f.webp"
+            },
+            {
+              "name": "Pascal Siakam",
+              "position": "PF",
+              "avatar": "/tools/assets/491ce8cf3c01e49701b4faab.webp"
+            },
+            {
+              "name": "Ivica Zubac",
+              "position": "C",
+              "avatar": "/tools/assets/a032c58f74f8d8cdeb64de07.webp"
+            }
+          ],
+          "status": "confirmed"
+        },
+        "poster": {
+          "paragraphs": [
+            "首发阵容无悬念。哈利的恢复看起来不错，小数据也很亮眼。",
+            "核心轮换观察：\nJarace Walker 28分钟 7分5板10助 1失误 FG 3/6 FT 0/1【有点假，去年的毒瘤今年大进化了？再观察两场】\nHuff 16分钟 16分4板4助 1断1帽 2失误 FG 6/11 FT 2/2【给足机会依然强势，就看阿祖怎么说了】\nToppin 10分钟 10分 2板 1助 1断 1帽 2失误 FG 4/5 FT 1/1【看着还是打不上第六人，估计要给沃克让位了】"
+          ]
+        }
+      },
+      {
+        "id": "orl",
+        "team": {
+          "code": "ORL",
+          "name": "奥兰多魔术"
+        },
+        "game": {
+          "opponent": "孟菲斯灰熊",
+          "score": "122–118"
+        },
+        "prediction": {
+          "players": [
+            {
+              "name": "Jalen Suggs",
+              "position": "PG",
+              "avatar": "/tools/assets/9cc5f5ec9300d02be67121f5.webp"
+            },
+            {
+              "name": "Desmond Bane",
+              "position": "SG",
+              "avatar": "/tools/assets/6ba55cb609e1bfb2d987c3a0.webp"
+            },
+            {
+              "name": "Franz Wagner",
+              "position": "SF",
+              "avatar": "/tools/assets/583593adac0f77d910a4c2a5.webp"
+            },
+            {
+              "name": "Paolo Banchero",
+              "position": "PF",
+              "avatar": "/tools/assets/b60a9af0cd1ef8bfca8687b3.webp"
+            },
+            {
+              "name": "Wendell Carter Jr.",
+              "position": "C",
+              "avatar": "/tools/assets/3cf1c7666e25fdffee205e5f.webp"
+            }
+          ],
+          "version": "2026-09-24 最终首发修正版"
+        },
+        "actual": {
+          "players": [
+            {
+              "name": "Jase Richardson",
+              "position": "PG",
+              "avatar": "/tools/assets/5b7c6ef4d7b67cb11bc6ee7d.png"
+            },
+            {
+              "name": "Desmond Bane",
+              "position": "SG",
+              "avatar": "/tools/assets/6ba55cb609e1bfb2d987c3a0.webp"
+            },
+            {
+              "name": "Franz Wagner",
+              "position": "SF",
+              "avatar": "/tools/assets/583593adac0f77d910a4c2a5.webp"
+            },
+            {
+              "name": "Paolo Banchero",
+              "position": "PF",
+              "avatar": "/tools/assets/b60a9af0cd1ef8bfca8687b3.webp"
+            },
+            {
+              "name": "Wendell Carter Jr.",
+              "position": "C",
+              "avatar": "/tools/assets/3cf1c7666e25fdffee205e5f.webp"
+            }
+          ],
+          "status": "confirmed"
+        },
+        "poster": {
+          "paragraphs": [
+            "预测无误。两个控卫Suggs、Black都没打，第三控卫Richardson先发。",
+            "核心轮换观察：\n达席尔瓦 25分钟 19分5板2助1断 FG 6/16 FT 3/4【看起来稳坐球队第七人】\n比塔泽 12分钟 7分 2板 1帽 1失误 FG 3/4 FT 1/2【给足机会咔咔刷，看看今年的伤病情况了】\n武切维奇 12分钟 9分3板1助 1断 1帽 0失误 FG 3/3【药丸，排在比塔泽后面出场】"
+          ]
+        }
+      },
+      {
+        "id": "mem",
+        "team": {
+          "code": "MEM",
+          "name": "孟菲斯灰熊"
+        },
+        "game": {
+          "opponent": "奥兰多魔术",
+          "score": "118–122"
+        },
+        "prediction": {
+          "players": [
+            {
+              "name": "Ty Jerome",
+              "position": "PG",
+              "avatar": "/tools/assets/3b3cbcdbcde23dc39808882a.png"
+            },
+            {
+              "name": "Jaylen Wells",
+              "position": "SG",
+              "avatar": "/tools/assets/90a0cdeba74e1d5aba01da0a.png"
+            },
+            {
+              "name": "Cedric Coward",
+              "position": "SF",
+              "avatar": "/tools/assets/9c1e612483d39b7b262a8155.png"
+            },
+            {
+              "name": "Cameron Boozer",
+              "position": "PF",
+              "avatar": "/tools/assets/b25ce81d86bf615416b5506a.png"
+            },
+            {
+              "name": "Zach Edey",
+              "position": "C",
+              "avatar": "/tools/assets/78ad6f38f2aace246920d7df.png"
+            }
+          ],
+          "version": "2026-09-24 最终首发修正版"
+        },
+        "actual": {
+          "players": [
+            {
+              "name": "Ty Jerome",
+              "position": "PG",
+              "avatar": "/tools/assets/3b3cbcdbcde23dc39808882a.png"
+            },
+            {
+              "name": "Jaylen Wells",
+              "position": "SG",
+              "avatar": "/tools/assets/90a0cdeba74e1d5aba01da0a.png"
+            },
+            {
+              "name": "Cedric Coward",
+              "position": "SF",
+              "avatar": "/tools/assets/9c1e612483d39b7b262a8155.png"
+            },
+            {
+              "name": "Cameron Boozer",
+              "position": "PF",
+              "avatar": "/tools/assets/b25ce81d86bf615416b5506a.png"
+            },
+            {
+              "name": "Zach Edey",
+              "position": "C",
+              "avatar": "/tools/assets/78ad6f38f2aace246920d7df.png"
+            }
+          ],
+          "status": "confirmed"
+        },
+        "poster": {
+          "paragraphs": [
+            "完全体灰熊，还真有点实力。好像笔者要给Edey道歉了。布泽尔的发挥持续超预期，太强了。轮换菜了点，除了斯潘塞其他都不必在意。",
+            "核心轮换观察：\nSpencer 15分钟 7分 1板 5助 1断 2失误 FG 1/4 FT 4/4【还是有点东西，值得关注】\n小皮蓬 13分钟 1分 2助 3断 1失误 FG 0/2 FT 1/4【看起来持续的伤病也要毁了天赋不行的小皮蓬了】"
+          ]
+        }
+      },
+      {
+        "id": "mil",
+        "team": {
+          "code": "MIL",
+          "name": "密尔沃基雄鹿"
+        },
+        "game": {
+          "opponent": "俄克拉荷马城雷霆",
+          "score": "128–126"
+        },
+        "prediction": {
+          "players": [
+            {
+              "name": "Ryan Rollins",
+              "position": "PG",
+              "avatar": "/tools/assets/d81731814fd937666e97f346.png"
+            },
+            {
+              "name": "Tyler Herro",
+              "position": "SG",
+              "avatar": "/tools/assets/eed735b7f5362538ace2a775.png"
+            },
+            {
+              "name": "Jaime Jaquez Jr.",
+              "position": "SF",
+              "avatar": "/tools/assets/aa5713e73fb3f4caab17b1bc.png"
+            },
+            {
+              "name": "Kyle Kuzma",
+              "position": "PF",
+              "avatar": "/tools/assets/d64cc7590b61cab022d9ae5b.png"
+            },
+            {
+              "name": "Myles Turner",
+              "position": "C",
+              "avatar": "/tools/assets/432e80bde6650d45682cb092.png"
+            }
+          ],
+          "version": "2026-09-24 最终首发修正版"
+        },
+        "actual": {
+          "players": [
+            {
+              "name": "Ryan Rollins",
+              "position": "PG",
+              "avatar": "/tools/assets/d81731814fd937666e97f346.png"
+            },
+            {
+              "name": "Tyler Herro",
+              "position": "SG",
+              "avatar": "/tools/assets/eed735b7f5362538ace2a775.png"
+            },
+            {
+              "name": "Jaime Jaquez Jr.",
+              "position": "SF",
+              "avatar": "/tools/assets/aa5713e73fb3f4caab17b1bc.png"
+            },
+            {
+              "name": "Kel'el Ware",
+              "position": "PF",
+              "avatar": "/tools/assets/4065e16f179160b7bf59ead0.webp"
+            },
+            {
+              "name": "Myles Turner",
+              "position": "C",
+              "avatar": "/tools/assets/432e80bde6650d45682cb092.png"
+            }
+          ],
+          "status": "confirmed"
+        },
+        "poster": {
+          "paragraphs": [
+            "库兹马上场拉的不行，维尔直接上位双塔，20+10狂得不行。Burries今天受益于一堆人不打，小刷一波。",
+            "核心轮换观察：\nWare 24分钟 18分12板 1助 1帽 1失误 FG 7/13 FT 4/6【🐮】\nBurries 21分钟 16分 5板 1助 2断 1失误 FG 5/13 FT 6/8【不必相信新秀】"
+          ]
+        }
+      },
+      {
+        "id": "okc",
+        "team": {
+          "code": "OKC",
+          "name": "俄克拉荷马城雷霆"
+        },
+        "game": {
+          "opponent": "密尔沃基雄鹿",
+          "score": "126–128"
+        },
+        "prediction": {
+          "players": [
+            {
+              "name": "Shai Gilgeous-Alexander",
+              "position": "PG",
+              "avatar": "/tools/assets/1eeafe64602debc1c0e44310.png"
+            },
+            {
+              "name": "Cason Wallace",
+              "position": "SG",
+              "avatar": "/tools/assets/27625ba19e60079320d38edc.png"
+            },
+            {
+              "name": "Jalen Williams",
+              "position": "SF",
+              "avatar": "/tools/assets/6687c9dec71b440deb8c6e30.png"
+            },
+            {
+              "name": "Chet Holmgren",
+              "position": "PF",
+              "avatar": "/tools/assets/40384da1fcb24ed0651e41dd.png"
+            },
+            {
+              "name": "Isaiah Hartenstein",
+              "position": "C",
+              "avatar": "/tools/assets/d82ac6df4cf7ced4a35caf2b.png"
+            }
+          ],
+          "version": "2026-09-24 最终首发修正版"
+        },
+        "actual": {
+          "players": [
+            {
+              "name": "Shai Gilgeous-Alexander",
+              "position": "PG",
+              "avatar": "/tools/assets/1eeafe64602debc1c0e44310.png"
+            },
+            {
+              "name": "Cason Wallace",
+              "position": "SG",
+              "avatar": "/tools/assets/27625ba19e60079320d38edc.png"
+            },
+            {
+              "name": "Jalen Williams",
+              "position": "SF",
+              "avatar": "/tools/assets/6687c9dec71b440deb8c6e30.png"
+            },
+            {
+              "name": "Alex Caruso",
+              "position": "PF",
+              "avatar": "/tools/assets/eedf29413fd2a50060b8070b.webp"
+            },
+            {
+              "name": "Aday Mara",
+              "position": "C",
+              "avatar": "/tools/assets/0467d6ee01ad1fe2600956bf.png"
+            }
+          ],
+          "status": "confirmed"
+        },
+        "poster": {
+          "paragraphs": [
+            "Chet、哈滕没打，Mara补入首发。内线齐员后的分钟还没验证，先别被十投全中带跑。",
+            "核心轮换观察：\nMara 约25分钟 22分6板2助1帽 FG 10/10 0失误\nStirtz 约22分钟 20分5板 三分4/7【进观察名单】\nAjay 约17分钟 3分5助4失误 FG 1/5【毒性不小】"
+          ]
+        }
+      },
+      {
+        "id": "phx",
+        "team": {
+          "code": "PHX",
+          "name": "菲尼克斯太阳"
+        },
+        "game": {
+          "opponent": "芝加哥公牛",
+          "score": "117–124"
+        },
+        "prediction": {
+          "players": [
+            {
+              "name": "Devin Booker",
+              "position": "PG",
+              "avatar": "/tools/assets/4b8aa54d116946470cb7e334.png"
+            },
+            {
+              "name": "Jalen Green",
+              "position": "SG",
+              "avatar": "/tools/assets/065d309eff7e83507403e8a1.png"
+            },
+            {
+              "name": "Miles Bridges",
+              "position": "SF",
+              "avatar": "/tools/assets/cc0b2d4028a6fa470683f13f.png"
+            },
+            {
+              "name": "Dillon Brooks",
+              "position": "PF",
+              "avatar": "/tools/assets/0c2dd98f4003078c8413d1f5.png"
+            },
+            {
+              "name": "Mark Williams",
+              "position": "C",
+              "avatar": "/tools/assets/6834d159539e5a99bacd016f.png"
+            }
+          ],
+          "version": "2026-09-24 最终首发修正版"
+        },
+        "actual": {
+          "players": [
+            {
+              "name": "Devin Booker",
+              "position": "PG",
+              "avatar": "/tools/assets/4b8aa54d116946470cb7e334.png"
+            },
+            {
+              "name": "Jalen Green",
+              "position": "SG",
+              "avatar": "/tools/assets/065d309eff7e83507403e8a1.png"
+            },
+            {
+              "name": "Miles Bridges",
+              "position": "SF",
+              "avatar": "/tools/assets/cc0b2d4028a6fa470683f13f.png"
+            },
+            {
+              "name": "Dillon Brooks",
+              "position": "PF",
+              "avatar": "/tools/assets/0c2dd98f4003078c8413d1f5.png"
+            },
+            {
+              "name": "Oso Ighodaro",
+              "position": "C",
+              "avatar": "/tools/assets/8be4c85785ced60223e6da26.png"
+            }
+          ],
+          "status": "confirmed"
+        },
+        "poster": {
+          "paragraphs": [
+            "Mark没打，Ighodaro先发。布克FG 3/14、三分0/8，先按一场手冷处理。",
+            "核心轮换观察：\nGoodwin 约16分钟 5分3板2助6断【上半场就抢了4次】\n狄龙 约23分钟 24分5失误 FG 7/9 FT 7/8【得分猛，失误也多】\nMaluach 约25分钟 8分7板4助0帽【等Mark回来再看分钟】"
+          ]
+        }
+      },
+      {
+        "id": "chi",
+        "team": {
+          "code": "CHI",
+          "name": "芝加哥公牛"
+        },
+        "game": {
+          "opponent": "菲尼克斯太阳",
+          "score": "124–117"
+        },
+        "prediction": {
+          "players": [
+            {
+              "name": "Josh Giddey",
+              "position": "PG",
+              "avatar": "/tools/assets/f89b489a5382cadf2d4372b8.webp"
+            },
+            {
+              "name": "Norman Powell",
+              "position": "SG",
+              "avatar": "/tools/assets/532166a28c768cb7595658f2.webp"
+            },
+            {
+              "name": "Matas Buzelis",
+              "position": "SF",
+              "avatar": "/tools/assets/0576a71f7857af48df25f9dc.webp"
+            },
+            {
+              "name": "Caleb Wilson",
+              "position": "PF",
+              "avatar": "/tools/assets/d7b711725555a89c5b5080f1.png"
+            },
+            {
+              "name": "Nic Claxton",
+              "position": "C",
+              "avatar": "/tools/assets/da63b657286cb00184314a4f.webp"
+            }
+          ],
+          "version": "2026-09-24 最终首发修正版"
+        },
+        "actual": {
+          "players": [
+            {
+              "name": "Josh Giddey",
+              "position": "PG",
+              "avatar": "/tools/assets/f89b489a5382cadf2d4372b8.webp"
+            },
+            {
+              "name": "Norman Powell",
+              "position": "SG",
+              "avatar": "/tools/assets/532166a28c768cb7595658f2.webp"
+            },
+            {
+              "name": "Matas Buzelis",
+              "position": "SF",
+              "avatar": "/tools/assets/0576a71f7857af48df25f9dc.webp"
+            },
+            {
+              "name": "Caleb Wilson",
+              "position": "PF",
+              "avatar": "/tools/assets/d7b711725555a89c5b5080f1.png"
+            },
+            {
+              "name": "Jalen Smith",
+              "position": "C",
+              "avatar": "/tools/assets/0bf53c851e478fe070e76f1f.webp"
+            }
+          ],
+          "status": "confirmed"
+        },
+        "poster": {
+          "paragraphs": [
+            "先发没问题。威尔逊果然拉，不要相信新秀瘦子。",
+            "核心轮换观察：\nJalen Smith 19分钟 13分 8板 1助 2断 3失误 FG 5/8 FT 1/2【给足机会就猛猛刷的球员，看看今年能不能不受伤了】\nTobe Awaka 21分钟 14分11板 1断 1帽 3失误 FG 6/8 FT 1/3【说句实话，不认识，公牛是真没人了】\nDailyn Swain 21分钟 10分 2板 6助2断 3失误 FG 3/3 FT 4/4【说句实话，也不认识，公牛是真没人了】"
+          ]
+        }
+      },
+      {
+        "id": "gsw",
+        "team": {
+          "code": "GSW",
+          "name": "金州勇士"
+        },
+        "game": {
+          "opponent": "波特兰开拓者",
+          "score": "118–123"
+        },
+        "prediction": {
+          "players": [
+            {
+              "name": "Stephen Curry",
+              "position": "PG",
+              "avatar": "/tools/assets/9fc57a8464fd00c34e6a361f.png"
+            },
+            {
+              "name": "Brandin Podziemski",
+              "position": "SG",
+              "avatar": "/tools/assets/e1e8a7bd3b54f170a17be569.png"
+            },
+            {
+              "name": "Yaxel Lendeborg",
+              "position": "SF",
+              "avatar": "/tools/assets/d8e6fd62d9ebd97442fe97ba.jpg"
+            },
+            {
+              "name": "Draymond Green",
+              "position": "PF",
+              "avatar": "/tools/assets/8cab69583d7e60e2b8557a53.png"
+            },
+            {
+              "name": "Kristaps Porziņģis",
+              "position": "C",
+              "avatar": "/tools/assets/b0ed1ba5e2d3a434b4559499.png"
+            }
+          ],
+          "version": "2026-09-24 最终首发修正版"
+        },
+        "actual": {
+          "players": [
+            {
+              "name": "Brandon Williams",
+              "position": "PG",
+              "avatar": "/tools/assets/e1b15dd81beaca3208e11c58.webp"
+            },
+            {
+              "name": "Will Richard",
+              "position": "SG",
+              "avatar": "/tools/assets/988a7067ce9fa65196b1925e.png"
+            },
+            {
+              "name": "Dalen Terry",
+              "position": "SF",
+              "avatar": "/tools/assets/3e378ba18d6f9b09f7a1e247.png"
+            },
+            {
+              "name": "Malevy Leons",
+              "position": "PF",
+              "avatar": "/tools/assets/be2bf1344ca724081df6d892.png"
+            },
+            {
+              "name": "Charles Bassey",
+              "position": "C",
+              "avatar": "/tools/assets/0d88091d3e953fe80ab52f0c.png"
+            }
+          ],
+          "status": "confirmed"
+        },
+        "poster": {
+          "paragraphs": [
+            "主力多人没打，全队仅9人出场。Terry打了约43分钟，这场数据别直接套进常规轮换。",
+            "核心轮换观察：\nTerry 约43分钟 23分8板9助4断4失误\nKelly 约28分钟 24分7板6助 三分6/11 1失误\nBassey 约24分钟 13分6板3断3帽 FG 6/7【防守数据亮】\nB威 约18分钟 17分4助3失误 FG 7/11 FT 2/4【失误和罚球要算】"
+          ]
+        }
+      },
+      {
+        "id": "por",
+        "team": {
+          "code": "POR",
+          "name": "波特兰开拓者"
+        },
+        "game": {
+          "opponent": "金州勇士",
+          "score": "123–118"
+        },
+        "prediction": {
+          "players": [
+            {
+              "name": "Ja Morant",
+              "position": "PG",
+              "avatar": "/tools/assets/f0fc117e486dfaa109c9ab50.webp"
+            },
+            {
+              "name": "Damian Lillard",
+              "position": "SG",
+              "avatar": "/tools/assets/6e5143d1094208729e46b07b.webp"
+            },
+            {
+              "name": "Deni Avdija",
+              "position": "SF",
+              "avatar": "/tools/assets/24111097edde9b80a713a142.webp"
+            },
+            {
+              "name": "Toumani Camara",
+              "position": "PF",
+              "avatar": "/tools/assets/5bdeb0d79f45bd70c55544e1.webp"
+            },
+            {
+              "name": "Donovan Clingan",
+              "position": "C",
+              "avatar": "/tools/assets/190de8e523076b53ef2827f4.webp"
+            }
+          ],
+          "version": "2026-09-24 最终首发修正版"
+        },
+        "actual": {
+          "players": [
+            {
+              "name": "Ja Morant",
+              "position": "PG",
+              "avatar": "/tools/assets/f0fc117e486dfaa109c9ab50.webp"
+            },
+            {
+              "name": "Damian Lillard",
+              "position": "SG",
+              "avatar": "/tools/assets/6e5143d1094208729e46b07b.webp"
+            },
+            {
+              "name": "Deni Avdija",
+              "position": "SF",
+              "avatar": "/tools/assets/24111097edde9b80a713a142.webp"
+            },
+            {
+              "name": "Toumani Camara",
+              "position": "PF",
+              "avatar": "/tools/assets/5bdeb0d79f45bd70c55544e1.webp"
+            },
+            {
+              "name": "Donovan Clingan",
+              "position": "C",
+              "avatar": "/tools/assets/190de8e523076b53ef2827f4.webp"
+            }
+          ],
+          "status": "confirmed"
+        },
+        "poster": {
+          "paragraphs": [
+            "首发符合预期，利拉德恢复的也还行，不过看起来被剥夺控球权了。整体还要磨合，后续值得进一步观察。",
+            "核心轮换观察：\n健美先生 16分钟 9分 3板 3助 1帽 3失误 FG 3/8 FT 2/2【3个失误证明自己初心不变】\n霍乐迪 19分钟 5分 7板5助1断 3失误 FG 2/8 【还有点东西，但不多】\n罗威 13分钟 8分5板1助1断5帽 1失误 FG 4/5 【不受伤确实行，可惜了】"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "reportDate": "2026-10-07",
+    "cards": [
+      {
+        "id": "bkn",
+        "team": {
+          "code": "BKN",
+          "name": "布鲁克林篮网"
+        },
+        "game": {
+          "opponent": "夏洛特黄蜂",
+          "score": "124–90"
+        },
+        "prediction": {
+          "players": [
+            {
+              "name": "Mikel Brown Jr.",
+              "position": "PG",
+              "avatar": "/tools/assets/f2d10a161ea6b501345ae988.png"
+            },
+            {
+              "name": "Egor Demin",
+              "position": "SG",
+              "avatar": "/tools/assets/13d9416a6f887da7b40fb4d2.png"
+            },
+            {
+              "name": "Michael Porter Jr.",
+              "position": "SF",
+              "avatar": "/tools/assets/e150e3600b67d1beb41670c0.png"
+            },
+            {
+              "name": "Julius Randle",
+              "position": "PF",
+              "avatar": "/tools/assets/56004bd3443e686275bb813f.png"
+            },
+            {
+              "name": "Day'Ron Sharpe",
+              "position": "C",
+              "avatar": "/tools/assets/11efea4d60fa0e4828270e24.png"
+            }
+          ],
+          "version": "2026-09-24 最终首发修正版（冻结seed与分层原件）"
+        },
+        "actual": {
+          "players": [
+            {
+              "name": "Egor Demin",
+              "position": "PG",
+              "avatar": "/tools/assets/13d9416a6f887da7b40fb4d2.png"
+            },
+            {
+              "name": "Keon Ellis",
+              "position": "SG",
+              "avatar": "/tools/assets/c3f36d9b0aeaf2fbcf9ce7ad.png"
+            },
+            {
+              "name": "Michael Porter Jr.",
+              "position": "SF",
+              "avatar": "/tools/assets/e150e3600b67d1beb41670c0.png"
+            },
+            {
+              "name": "Julius Randle",
+              "position": "PF",
+              "avatar": "/tools/assets/56004bd3443e686275bb813f.png"
+            },
+            {
+              "name": "Day'Ron Sharpe",
+              "position": "C",
+              "avatar": "/tools/assets/11efea4d60fa0e4828270e24.png"
+            }
+          ],
+          "status": "confirmed"
+        },
+        "poster": {
+          "paragraphs": [
+            "Brown脚踝康复缺席，没道理不首发。首发符合预期，不能摆烂了真好。",
+            "核心轮换观察：\nWagner 18分钟 5分4板5助 1断 2失误 FG 1/4 FT 2/2【教练说要竞争首发，还真有点东西】\nClowney 19分钟 7分1板1助 2断 1失误 FG 2/6 FT 2/2【今年没有更进一步的感觉，感觉药丸】\nWolf 15分钟 9分 3板 5助 1失误 FG 3/4 FT 2/4【能刷，看看新赛季能拿多少机会了】"
+          ]
+        }
+      },
+      {
+        "id": "cha",
+        "team": {
+          "code": "CHA",
+          "name": "夏洛特黄蜂"
+        },
+        "game": {
+          "opponent": "布鲁克林篮网",
+          "score": "90–124"
+        },
+        "prediction": {
+          "players": [
+            {
+              "name": "Coby White",
+              "position": "PG",
+              "avatar": "/tools/assets/3f1ee018053d6fc9a0b5b1c6.png"
+            },
+            {
+              "name": "Kon Knueppel",
+              "position": "SG",
+              "avatar": "/tools/assets/d75191b2aac44bbe3943b791.png"
+            },
+            {
+              "name": "Brandon Miller",
+              "position": "SF",
+              "avatar": "/tools/assets/8093e5dfcd4390761dd1e5de.png"
+            },
+            {
+              "name": "Naz Reid",
+              "position": "PF",
+              "avatar": "/tools/assets/7033ca08c0579c9967d69f34.png"
+            },
+            {
+              "name": "Moussa Diabate",
+              "position": "C",
+              "avatar": "/tools/assets/b095b919c156a3745bc6d9fe.png"
+            }
+          ],
+          "version": "2026-09-24 最终首发修正版（冻结seed与分层原件）"
+        },
+        "actual": {
+          "players": [
+            {
+              "name": "Dennis Schroder",
+              "position": "PG",
+              "avatar": "/tools/assets/07f80fcc603153bdb5c2c5c7.png"
+            },
+            {
+              "name": "Grayson Allen",
+              "position": "SG",
+              "avatar": "/tools/assets/ee18e8ade6f337dda164d463.png"
+            },
+            {
+              "name": "Liam McNeeley",
+              "position": "SF",
+              "avatar": "/tools/assets/253bb58fa7b5bb2fac2f405d.png"
+            },
+            {
+              "name": "Naz Reid",
+              "position": "PF",
+              "avatar": "/tools/assets/7033ca08c0579c9967d69f34.png"
+            },
+            {
+              "name": "Moussa Diabate",
+              "position": "C",
+              "avatar": "/tools/assets/b095b919c156a3745bc6d9fe.png"
+            }
+          ],
+          "status": "confirmed"
+        },
+        "poster": {
+          "paragraphs": [
+            "三位大哥都伤缺，离谱。补上的哥也都用实际行动证明了自己确实不行。",
+            "核心轮换观察：\nAllen 14分钟 13分1板1助，FG 4-6 / FT 2-2【看着今年是不能爆了】\nRoyce O'Neale 17分钟 3分 2板 5助 1断2帽 1失误 FG 1/4 FT 0/0【老将也已经早验证了，不必在意】\n萨隆 28分钟 6分2板1助 1断 3失误 FG 2/7 FT 1/3【真不行，别练了】\nKalkbrenner 15分钟 2分2板 1帽 FG 0/1 FT 2/2【凉，迪亚巴特稳了！】"
+          ]
+        }
+      },
+      {
+        "id": "nop",
+        "team": {
+          "code": "NOP",
+          "name": "新奥尔良鹈鹕"
+        },
+        "game": {
+          "opponent": "俄克拉荷马城雷霆",
+          "score": "116–110"
+        },
+        "prediction": {
+          "players": [
+            {
+              "name": "Dejounte Murray",
+              "position": "PG",
+              "avatar": "/tools/assets/05bb0166afd0fef342ff16e5.png"
+            },
+            {
+              "name": "Herbert Jones",
+              "position": "SG",
+              "avatar": "/tools/assets/91c4d060afd2b70058ae36b1.png"
+            },
+            {
+              "name": "Trey Murphy III",
+              "position": "SF",
+              "avatar": "/tools/assets/9c0cab6aeccf9f4aa9cd5251.png"
+            },
+            {
+              "name": "Zion Williamson",
+              "position": "PF",
+              "avatar": "/tools/assets/e7d0ccd24695adf5526b72ef.png"
+            },
+            {
+              "name": "Derik Queen",
+              "position": "C",
+              "avatar": "/tools/assets/07213f7696f95918fc0e4a0a.png"
+            }
+          ],
+          "version": "2026-09-24 最终首发修正版（冻结seed与分层原件）"
+        },
+        "actual": {
+          "players": [
+            {
+              "name": "Dejounte Murray",
+              "position": "PG",
+              "avatar": "/tools/assets/05bb0166afd0fef342ff16e5.png"
+            },
+            {
+              "name": "Herbert Jones",
+              "position": "SG",
+              "avatar": "/tools/assets/91c4d060afd2b70058ae36b1.png"
+            },
+            {
+              "name": "Trey Murphy III",
+              "position": "SF",
+              "avatar": "/tools/assets/9c0cab6aeccf9f4aa9cd5251.png"
+            },
+            {
+              "name": "Zion Williamson",
+              "position": "PF",
+              "avatar": "/tools/assets/e7d0ccd24695adf5526b72ef.png"
+            },
+            {
+              "name": "Yves Missi",
+              "position": "C",
+              "avatar": "/tools/assets/ad8ecd697a8fe55f34cce832.png"
+            }
+          ],
+          "status": "confirmed"
+        },
+        "poster": {
+          "paragraphs": [
+            "Missi竟然先发了，还刷的不错，Queen替补。",
+            "核心轮换观察：\nQueen 17分钟 10分9板1助，FG 3-6 / FT 3-7【行，第六人你来当】\nMathurin 17分钟 13分 2板5助 1失误 FG 3/5 FT 5/5【不仅能得分，还能助攻了，第六人你来当】\nJeremiah Fears 17分钟 12分 2板 1助 1失误 FG 3/6 FT 4/6【相较之下，进步小了，第八人吧】\nSaddiq Bey 20分钟 5分 2板 1断 1失误 FG 1/6 FT 3/3【我变第九人了？】"
+          ]
+        }
+      },
+      {
+        "id": "okc",
+        "team": {
+          "code": "OKC",
+          "name": "俄克拉荷马城雷霆"
+        },
+        "game": {
+          "opponent": "新奥尔良鹈鹕",
+          "score": "110–116"
+        },
+        "prediction": {
+          "players": [
+            {
+              "name": "Shai Gilgeous-Alexander",
+              "position": "PG",
+              "avatar": "/tools/assets/1eeafe64602debc1c0e44310.png"
+            },
+            {
+              "name": "Cason Wallace",
+              "position": "SG",
+              "avatar": "/tools/assets/27625ba19e60079320d38edc.png"
+            },
+            {
+              "name": "Jalen Williams",
+              "position": "SF",
+              "avatar": "/tools/assets/6687c9dec71b440deb8c6e30.png"
+            },
+            {
+              "name": "Chet Holmgren",
+              "position": "PF",
+              "avatar": "/tools/assets/40384da1fcb24ed0651e41dd.png"
+            },
+            {
+              "name": "Isaiah Hartenstein",
+              "position": "C",
+              "avatar": "/tools/assets/d82ac6df4cf7ced4a35caf2b.png"
+            }
+          ],
+          "version": "2026-09-24 最终首发修正版（冻结seed与分层原件）"
+        },
+        "actual": {
+          "players": [
+            {
+              "name": "Bennett Stirtz",
+              "position": "PG",
+              "avatar": "/tools/assets/f56903ace9a942bef9b0bfe5.png"
+            },
+            {
+              "name": "Ajay Mitchell",
+              "position": "SG",
+              "avatar": "/tools/assets/109418f86a52fd08a20a3009.png"
+            },
+            {
+              "name": "Jared McCain",
+              "position": "SF",
+              "avatar": "/tools/assets/fbfd799fdfc4ab6fd7900265.png"
+            },
+            {
+              "name": "Kenrich Williams",
+              "position": "PF",
+              "avatar": "/tools/assets/17c089cc53652d5ffba3ea9a.png"
+            },
+            {
+              "name": "Aday Mara",
+              "position": "C",
+              "avatar": "/tools/assets/3bc3eaec04922fbba67874d8.png"
+            }
+          ],
+          "status": "confirmed"
+        },
+        "poster": {
+          "paragraphs": [
+            "首发全部轮休的一天，马拉好像有点东西。",
+            "核心轮换观察：\nMara 18分钟 12分9板3助3帽2失误 FG 5/5 FT 2/2【牛啊，这就是雷管，等一手哈腾让位吧】\nMcCain 16分钟 12分1板5助1断1失误 FG 4-10【不必在意】\n米切尔 18分钟 11分 1板 4助 2失误 FG 2/7 FT 6/6【看起来机会不够也刷不出来了，不必在意】"
+          ]
+        }
+      },
+      {
+        "id": "den",
+        "team": {
+          "code": "DEN",
+          "name": "丹佛掘金"
+        },
+        "game": {
+          "opponent": "犹他爵士",
+          "score": "117–106"
+        },
+        "prediction": {
+          "players": [
+            {
+              "name": "Jamal Murray",
+              "position": "PG",
+              "avatar": "/tools/assets/b7d5ca4287f62f3ec404e3e9.png"
+            },
+            {
+              "name": "Christian Braun",
+              "position": "SG",
+              "avatar": "/tools/assets/5fef018a4edf77b8c35a66cd.png"
+            },
+            {
+              "name": "Cameron Johnson",
+              "position": "SF",
+              "avatar": "/tools/assets/022919493c04ec21e3175235.png"
+            },
+            {
+              "name": "Aaron Gordon",
+              "position": "PF",
+              "avatar": "/tools/assets/8987ec137d6215472db52ae2.png"
+            },
+            {
+              "name": "Nikola Jokic",
+              "position": "C",
+              "avatar": "/tools/assets/8b025af5b65ca014ce7e04b9.png"
+            }
+          ],
+          "version": "2026-09-24 最终首发修正版（冻结seed与分层原件）"
+        },
+        "actual": {
+          "players": [
+            {
+              "name": "Jamal Murray",
+              "position": "PG",
+              "avatar": "/tools/assets/b7d5ca4287f62f3ec404e3e9.png"
+            },
+            {
+              "name": "Christian Braun",
+              "position": "SG",
+              "avatar": "/tools/assets/5fef018a4edf77b8c35a66cd.png"
+            },
+            {
+              "name": "Cameron Johnson",
+              "position": "SF",
+              "avatar": "/tools/assets/022919493c04ec21e3175235.png"
+            },
+            {
+              "name": "Aaron Gordon",
+              "position": "PF",
+              "avatar": "/tools/assets/8987ec137d6215472db52ae2.png"
+            },
+            {
+              "name": "Nikola Jokic",
+              "position": "C",
+              "avatar": "/tools/assets/8b025af5b65ca014ce7e04b9.png"
+            }
+          ],
+          "status": "confirmed"
+        },
+        "poster": {
+          "paragraphs": [
+            "原预测五人全部先发，首发及DeRozan半场收工。常规轮换层级先不改。",
+            "核心轮换观察：\nDeRozan 11分钟 7分1板1助，FG 2-5 / FT 2-2\nStrawther 18分钟 15分4板3助，FG 4-7 / FT 4-4",
+            "【判断】DeRozan仍进首轮替换；Strawther后半场得分先留样本。"
+          ]
+        }
+      },
+      {
+        "id": "uta",
+        "team": {
+          "code": "UTA",
+          "name": "犹他爵士"
+        },
+        "game": {
+          "opponent": "丹佛掘金",
+          "score": "106–117"
+        },
+        "prediction": {
+          "players": [
+            {
+              "name": "Keyonte George",
+              "position": "PG",
+              "avatar": "/tools/assets/435cc62f734bfeb86efe9ea9.png"
+            },
+            {
+              "name": "Darryn Peterson",
+              "position": "SG",
+              "avatar": "/tools/assets/3a30aa7cfb55e59d6d88f5b6.png"
+            },
+            {
+              "name": "Lauri Markkanen",
+              "position": "SF",
+              "avatar": "/tools/assets/195ff00809b6e3f6014b99d4.png"
+            },
+            {
+              "name": "Jaren Jackson Jr.",
+              "position": "PF",
+              "avatar": "/tools/assets/d3c1113c238345169dd5c268.png"
+            },
+            {
+              "name": "Jusuf Nurkic",
+              "position": "C",
+              "avatar": "/tools/assets/be842a8fb7c7da3de4543fcd.png"
+            }
+          ],
+          "version": "2026-09-24 最终首发修正版（冻结seed与分层原件）"
+        },
+        "actual": {
+          "players": [
+            {
+              "name": "Keyonte George",
+              "position": "PG",
+              "avatar": "/tools/assets/435cc62f734bfeb86efe9ea9.png"
+            },
+            {
+              "name": "Darryn Peterson",
+              "position": "SG",
+              "avatar": "/tools/assets/3a30aa7cfb55e59d6d88f5b6.png"
+            },
+            {
+              "name": "Ace Bailey",
+              "position": "SF",
+              "avatar": "/tools/assets/e0ea0b9b8bec708c7a4a9b91.png"
+            },
+            {
+              "name": "Jaren Jackson Jr.",
+              "position": "PF",
+              "avatar": "/tools/assets/d3c1113c238345169dd5c268.png"
+            },
+            {
+              "name": "Jaxson Hayes",
+              "position": "C",
+              "avatar": "/tools/assets/6185cfa816cf11bf9ab4d6d5.png"
+            }
+          ],
+          "status": "confirmed"
+        },
+        "poster": {
+          "paragraphs": [
+            "原预测命中3/5，Markkanen、Nurkic缺席。Peterson多打下半场，别只比总分。",
+            "核心轮换观察：\nPeterson 30分钟 23分3板3助，FG 10-18 / FT 2-4\nGeorge 13分钟 6分0板4助，FG 2-4 / FT 0-1",
+            "【判断】Peterson进攻值得跟；George 13分钟5犯，先不下调。"
+          ]
+        }
+      },
+      {
+        "id": "lal",
+        "team": {
+          "code": "LAL",
+          "name": "洛杉矶湖人"
+        },
+        "game": {
+          "opponent": "金州勇士",
+          "score": "98–124"
+        },
+        "prediction": {
+          "players": [
+            {
+              "name": "Luka Doncic",
+              "position": "PG",
+              "avatar": "/tools/assets/aa14fcb7dc569aff0548c3dd.png"
+            },
+            {
+              "name": "Austin Reaves",
+              "position": "SG",
+              "avatar": "/tools/assets/2a0828e6cc3429e116f157c5.png"
+            },
+            {
+              "name": "Quentin Grimes",
+              "position": "SF",
+              "avatar": "/tools/assets/acfaaea47c39af628af30b7a.png"
+            },
+            {
+              "name": "Sandro Mamukelashvili",
+              "position": "PF",
+              "avatar": "/tools/assets/7bfd13f801b9c97aff6b184b.png"
+            },
+            {
+              "name": "Walker Kessler",
+              "position": "C",
+              "avatar": "/tools/assets/5a6c8ff8b7f37e45af8c4efe.png"
+            }
+          ],
+          "version": "2026-09-24 最终首发修正版（冻结seed与分层原件）"
+        },
+        "actual": {
+          "players": [
+            {
+              "name": "Bronny James",
+              "position": "PG",
+              "avatar": "/tools/assets/a8265d49242c3557f61e40ec.png"
+            },
+            {
+              "name": "Quentin Grimes",
+              "position": "SG",
+              "avatar": "/tools/assets/acfaaea47c39af628af30b7a.png"
+            },
+            {
+              "name": "Adou Thiero",
+              "position": "SF",
+              "avatar": "/tools/assets/cdf9e451c1f529f4166f4787.png"
+            },
+            {
+              "name": "Jake LaRavia",
+              "position": "PF",
+              "avatar": "/tools/assets/fafeeae56e2c0de8b281a453.png"
+            },
+            {
+              "name": "Sandro Mamukelashvili",
+              "position": "C",
+              "avatar": "/tools/assets/7bfd13f801b9c97aff6b184b.png"
+            }
+          ],
+          "status": "confirmed"
+        },
+        "poster": {
+          "paragraphs": [
+            "看到这阵容我笑了，雷迪克还搁这布朗尼，时代变了大人！Sexton 最两场因伤都没打，需要关注。",
+            "核心轮换观察：\n马穆 18分钟 15分 2板 2助 1帽 1失误 FG 6/10【不再介绍了，确实有实力】\nJake LaRavia 22分钟 9分 3板 1助 3断1帽 1失误 FG 3/7 FT 2/3【会打不会刷，可惜了】"
+          ]
+        }
+      },
+      {
+        "id": "gsw",
+        "team": {
+          "code": "GSW",
+          "name": "金州勇士"
+        },
+        "game": {
+          "opponent": "洛杉矶湖人",
+          "score": "124–98"
+        },
+        "prediction": {
+          "players": [
+            {
+              "name": "Stephen Curry",
+              "position": "PG",
+              "avatar": "/tools/assets/9fc57a8464fd00c34e6a361f.png"
+            },
+            {
+              "name": "Brandin Podziemski",
+              "position": "SG",
+              "avatar": "/tools/assets/e1e8a7bd3b54f170a17be569.png"
+            },
+            {
+              "name": "Yaxel Lendeborg",
+              "position": "SF",
+              "avatar": "/tools/assets/3c9905760227878b9fdf87b8.png"
+            },
+            {
+              "name": "Draymond Green",
+              "position": "PF",
+              "avatar": "/tools/assets/8cab69583d7e60e2b8557a53.png"
+            },
+            {
+              "name": "Kristaps Porzingis",
+              "position": "C",
+              "avatar": "/tools/assets/b0ed1ba5e2d3a434b4559499.png"
+            }
+          ],
+          "version": "2026-09-24 最终首发修正版（冻结seed与分层原件）"
+        },
+        "actual": {
+          "players": [
+            {
+              "name": "Stephen Curry",
+              "position": "PG",
+              "avatar": "/tools/assets/9fc57a8464fd00c34e6a361f.png"
+            },
+            {
+              "name": "Brandin Podziemski",
+              "position": "SG",
+              "avatar": "/tools/assets/e1e8a7bd3b54f170a17be569.png"
+            },
+            {
+              "name": "Yaxel Lendeborg",
+              "position": "SF",
+              "avatar": "/tools/assets/3c9905760227878b9fdf87b8.png"
+            },
+            {
+              "name": "Draymond Green",
+              "position": "PF",
+              "avatar": "/tools/assets/8cab69583d7e60e2b8557a53.png"
+            },
+            {
+              "name": "Gui Santos",
+              "position": "C",
+              "avatar": "/tools/assets/60b49cff4d3e8f0921c4ea54.png"
+            }
+          ],
+          "status": "confirmed"
+        },
+        "poster": {
+          "paragraphs": [
+            "波神和霍福德都歇了，还是桑托斯上位。勇士新赛季看起来轮换也稳定了，没有什么惊喜和意外。",
+            "核心轮换观察：\nGSantos 21分钟 7分 3板 2助 1断1帽 1失误 FG 2/3 FT 3/4【新赛季已经是准首发了，值得关注】\nB威 18分钟 10分 2板 1助 1断1帽 5失误 FG 3/6 FT 4/4【第六人无疑，不过毒性不小，谨慎选择】"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "reportDate": "2026-10-06",
+    "cards": [
+      {
+        "id": "mem",
+        "team": {
+          "code": "MEM",
+          "name": "孟菲斯灰熊"
+        },
+        "game": {
+          "opponent": "亚特兰大老鹰",
+          "score": "132–123"
+        },
+        "prediction": {
+          "players": [
+            {
+              "name": "Ty Jerome",
+              "position": "PG",
+              "avatar": "/tools/assets/3b3cbcdbcde23dc39808882a.png"
+            },
+            {
+              "name": "Jaylen Wells",
+              "position": "SG",
+              "avatar": "/tools/assets/90a0cdeba74e1d5aba01da0a.png"
+            },
+            {
+              "name": "Cedric Coward",
+              "position": "SF",
+              "avatar": "/tools/assets/9c1e612483d39b7b262a8155.png"
+            },
+            {
+              "name": "Cameron Boozer",
+              "position": "PF",
+              "avatar": "/tools/assets/f8dd95fbad03f8a6371894f4.png"
+            },
+            {
+              "name": "Zach Edey",
+              "position": "C",
+              "avatar": "/tools/assets/78ad6f38f2aace246920d7df.png"
+            }
+          ],
+          "version": "2026-09-24 最终首发修正版"
+        },
+        "actual": {
+          "players": [
+            {
+              "name": "Ty Jerome",
+              "position": "PG",
+              "avatar": "/tools/assets/3b3cbcdbcde23dc39808882a.png"
+            },
+            {
+              "name": "Jaylen Wells",
+              "position": "SG",
+              "avatar": "/tools/assets/90a0cdeba74e1d5aba01da0a.png"
+            },
+            {
+              "name": "Cedric Coward",
+              "position": "SF",
+              "avatar": "/tools/assets/9c1e612483d39b7b262a8155.png"
+            },
+            {
+              "name": "Cameron Boozer",
+              "position": "PF",
+              "avatar": "/tools/assets/f8dd95fbad03f8a6371894f4.png"
+            },
+            {
+              "name": "Quinten Post",
+              "position": "C",
+              "avatar": "/tools/assets/afc86018ba0abd8f3375fec3.png"
+            }
+          ],
+          "status": "confirmed"
+        },
+        "poster": {
+          "paragraphs": [
+            "原预测命中4/5，Edey未打、Post先发。Boozer、Coward、Wells继续打第三节。",
+            "核心轮换观察：\nBoozer 18分钟 11分5板4助，FG 5-9 / FT 1-3\nCoward 18分钟 9分5板4助，FG 3-6 / FT 2-2",
+            "【判断】两位新人的组织值得跟，罚球样本也要留着；单场不升级角色。"
+          ]
+        }
+      },
+      {
+        "id": "atl",
+        "team": {
+          "code": "ATL",
+          "name": "亚特兰大老鹰"
+        },
+        "game": {
+          "opponent": "孟菲斯灰熊",
+          "score": "123–132"
+        },
+        "prediction": {
+          "players": [
+            {
+              "name": "CJ McCollum",
+              "position": "PG",
+              "avatar": "/tools/assets/4b1e87eb78e47c75161eaad0.png"
+            },
+            {
+              "name": "Nickeil Alexander-Walker",
+              "position": "SG",
+              "avatar": "/tools/assets/f06277099ec9a1f5c736da53.png"
+            },
+            {
+              "name": "Dyson Daniels",
+              "position": "SF",
+              "avatar": "/tools/assets/a90934af99bb0e7ad6360dbe.png"
+            },
+            {
+              "name": "Jalen Johnson",
+              "position": "PF",
+              "avatar": "/tools/assets/0f9dc44b3b4e59495b52e0b2.png"
+            },
+            {
+              "name": "Onyeka Okongwu",
+              "position": "C",
+              "avatar": "/tools/assets/cc66c0e73347ea80e3976511.png"
+            }
+          ],
+          "version": "2026-09-24 最终首发修正版"
+        },
+        "actual": {
+          "players": [
+            {
+              "name": "Kingston Flemings",
+              "position": "PG",
+              "avatar": "/tools/assets/35076c24d8efd6f778ed5505.png"
+            },
+            {
+              "name": "Nickeil Alexander-Walker",
+              "position": "SG",
+              "avatar": "/tools/assets/f06277099ec9a1f5c736da53.png"
+            },
+            {
+              "name": "Dyson Daniels",
+              "position": "SF",
+              "avatar": "/tools/assets/a90934af99bb0e7ad6360dbe.png"
+            },
+            {
+              "name": "Jalen Johnson",
+              "position": "PF",
+              "avatar": "/tools/assets/0f9dc44b3b4e59495b52e0b2.png"
+            },
+            {
+              "name": "Onyeka Okongwu",
+              "position": "C",
+              "avatar": "/tools/assets/cc66c0e73347ea80e3976511.png"
+            }
+          ],
+          "status": "confirmed"
+        },
+        "poster": {
+          "paragraphs": [
+            "原预测命中4/5，CJ未打、Flemings顶班。四名常规主力14–18分钟，新人多打。",
+            "核心轮换观察：\nFlemings 25分钟 11分0板2助，FG 4-11 / FT 1-4\nOkongwu 14分钟 8分4板2助，FG 3-4 / FT 1-2",
+            "【判断】Flemings球权来自CJ缺席，25分钟3失误；主力归队后再看。"
+          ]
+        }
+      },
+      {
+        "id": "phx",
+        "team": {
+          "code": "PHX",
+          "name": "菲尼克斯太阳"
+        },
+        "game": {
+          "opponent": "底特律活塞",
+          "score": "107–109"
+        },
+        "prediction": {
+          "players": [
+            {
+              "name": "Devin Booker",
+              "position": "PG",
+              "avatar": "/tools/assets/4b8aa54d116946470cb7e334.png"
+            },
+            {
+              "name": "Jalen Green",
+              "position": "SG",
+              "avatar": "/tools/assets/065d309eff7e83507403e8a1.png"
+            },
+            {
+              "name": "Miles Bridges",
+              "position": "SF",
+              "avatar": "/tools/assets/cc0b2d4028a6fa470683f13f.png"
+            },
+            {
+              "name": "Dillon Brooks",
+              "position": "PF",
+              "avatar": "/tools/assets/0c2dd98f4003078c8413d1f5.png"
+            },
+            {
+              "name": "Mark Williams",
+              "position": "C",
+              "avatar": "/tools/assets/6834d159539e5a99bacd016f.png"
+            }
+          ],
+          "version": "2026-09-24 最终首发修正版"
+        },
+        "actual": {
+          "players": [
+            {
+              "name": "Devin Booker",
+              "position": "PG",
+              "avatar": "/tools/assets/4b8aa54d116946470cb7e334.png"
+            },
+            {
+              "name": "Jalen Green",
+              "position": "SG",
+              "avatar": "/tools/assets/065d309eff7e83507403e8a1.png"
+            },
+            {
+              "name": "Miles Bridges",
+              "position": "SF",
+              "avatar": "/tools/assets/cc0b2d4028a6fa470683f13f.png"
+            },
+            {
+              "name": "Dillon Brooks",
+              "position": "PF",
+              "avatar": "/tools/assets/0c2dd98f4003078c8413d1f5.png"
+            },
+            {
+              "name": "Oso Ighodaro",
+              "position": "C",
+              "avatar": "/tools/assets/8be4c85785ced60223e6da26.png"
+            }
+          ],
+          "status": "confirmed"
+        },
+        "poster": {
+          "paragraphs": [
+            "马威大伤，目前看马鲁阿奇还没上位。",
+            "核心轮换观察：\nIghodaro 14分钟 3分 5板 2助 1断 1失误 FG 1/1 FT 1/2【鸡肋，轮转轮转吧】\nGoodwin 11分钟 7分 6板 1助 3断 1失误 FG 3/6 FT 0/1【结合上赛季表现看着是真有东西，看着是太阳的第六人了】\nMaluach 17分钟 6分 2板 1帽 0失误 FG 3/5 FT 0/3【好兄弟看起来也不太行，怪不得还没上位】"
+          ]
+        }
+      },
+      {
+        "id": "det",
+        "team": {
+          "code": "DET",
+          "name": "底特律活塞"
+        },
+        "game": {
+          "opponent": "菲尼克斯太阳",
+          "score": "109–107"
+        },
+        "prediction": {
+          "players": [
+            {
+              "name": "Cade Cunningham",
+              "position": "PG",
+              "avatar": "/tools/assets/9c3f42db3b602cb587effa76.png"
+            },
+            {
+              "name": "Duncan Robinson",
+              "position": "SG",
+              "avatar": "/tools/assets/02a55a9ba48cb9784299291f.png"
+            },
+            {
+              "name": "Ausar Thompson",
+              "position": "SF",
+              "avatar": "/tools/assets/4797d6b19fcee4a48c9b7508.png"
+            },
+            {
+              "name": "John Collins",
+              "position": "PF",
+              "avatar": "/tools/assets/fe7e69f528ad57b4cc0da239.png"
+            },
+            {
+              "name": "Jalen Duren",
+              "position": "C",
+              "avatar": "/tools/assets/29d14274b341b5e1f63b252d.png"
+            }
+          ],
+          "version": "2026-09-24 最终首发修正版"
+        },
+        "actual": {
+          "players": [
+            {
+              "name": "Cade Cunningham",
+              "position": "PG",
+              "avatar": "/tools/assets/9c3f42db3b602cb587effa76.png"
+            },
+            {
+              "name": "Duncan Robinson",
+              "position": "SG",
+              "avatar": "/tools/assets/02a55a9ba48cb9784299291f.png"
+            },
+            {
+              "name": "Ausar Thompson",
+              "position": "SF",
+              "avatar": "/tools/assets/4797d6b19fcee4a48c9b7508.png"
+            },
+            {
+              "name": "John Collins",
+              "position": "PF",
+              "avatar": "/tools/assets/fe7e69f528ad57b4cc0da239.png"
+            },
+            {
+              "name": "Paul Reed",
+              "position": "C",
+              "avatar": "/tools/assets/ec37db34ab0217f589f44fde.png"
+            }
+          ],
+          "status": "confirmed"
+        },
+        "poster": {
+          "paragraphs": [
+            "原预测命中4/5，Duren未打、Reed顶班。Ausar、Collins、Reed继续打第三节。",
+            "核心轮换观察：\nAusar 18分钟 10分2板2助，FG 5-8 / FT 0-1\nHolland 24分钟 14分4板1助，FG 4-12 / FT 5-8",
+            "【判断】Ausar 3断1帽、Holland 5断2帽有亮点，Holland投篮4-12需继续看。"
+          ]
+        }
+      },
+      {
+        "id": "nyk",
+        "team": {
+          "code": "NYK",
+          "name": "纽约尼克斯"
+        },
+        "game": {
+          "opponent": "费城76人",
+          "score": "97–120"
+        },
+        "prediction": {
+          "players": [
+            {
+              "name": "Jalen Brunson",
+              "position": "PG",
+              "avatar": "/tools/assets/7b9b6951f6795ca2f69567b0.png"
+            },
+            {
+              "name": "Josh Hart",
+              "position": "SG",
+              "avatar": "/tools/assets/b17e7593301ced89b4fe23d0.png"
+            },
+            {
+              "name": "Mikal Bridges",
+              "position": "SF",
+              "avatar": "/tools/assets/2953d48ffce6596d6cac1892.png"
+            },
+            {
+              "name": "OG Anunoby",
+              "position": "PF",
+              "avatar": "/tools/assets/2359f9c573069dc204976f53.png"
+            },
+            {
+              "name": "Karl-Anthony Towns",
+              "position": "C",
+              "avatar": "/tools/assets/9cc417f5c56baa5f17563d80.png"
+            }
+          ],
+          "version": "2026-09-24 最终首发修正版"
+        },
+        "actual": {
+          "players": [
+            {
+              "name": "Jalen Brunson",
+              "position": "PG",
+              "avatar": "/tools/assets/7b9b6951f6795ca2f69567b0.png"
+            },
+            {
+              "name": "Josh Hart",
+              "position": "SG",
+              "avatar": "/tools/assets/b17e7593301ced89b4fe23d0.png"
+            },
+            {
+              "name": "Mikal Bridges",
+              "position": "SF",
+              "avatar": "/tools/assets/2953d48ffce6596d6cac1892.png"
+            },
+            {
+              "name": "OG Anunoby",
+              "position": "PF",
+              "avatar": "/tools/assets/2359f9c573069dc204976f53.png"
+            },
+            {
+              "name": "Karl-Anthony Towns",
+              "position": "C",
+              "avatar": "/tools/assets/9cc417f5c56baa5f17563d80.png"
+            }
+          ],
+          "status": "confirmed"
+        },
+        "poster": {
+          "paragraphs": [
+            "原预测五人全部先发，首发只打13–15分钟。单场手感先留样本。",
+            "核心轮换观察：\nBrunson 15分钟 12分4板3助，FG 4-8 / FT 2-2\nKAT 15分钟 5分5板2助，FG 2-4 / FT 0-0",
+            "【判断】KAT低总分先不降档；Kolek 17分钟5助，不能据此锁定第六人。"
+          ]
+        }
+      },
+      {
+        "id": "phi",
+        "team": {
+          "code": "PHI",
+          "name": "费城76人"
+        },
+        "game": {
+          "opponent": "纽约尼克斯",
+          "score": "120–97"
+        },
+        "prediction": {
+          "players": [
+            {
+              "name": "Tyrese Maxey",
+              "position": "PG",
+              "avatar": "/tools/assets/3f32f5df395f80987411c012.png"
+            },
+            {
+              "name": "VJ Edgecombe",
+              "position": "SG",
+              "avatar": "/tools/assets/b013989b7518be3ff39efdcd.png"
+            },
+            {
+              "name": "Jaylen Brown",
+              "position": "SF",
+              "avatar": "/tools/assets/b3500474b96447a40faf4216.png"
+            },
+            {
+              "name": "LeBron James",
+              "position": "PF",
+              "avatar": "/tools/assets/3ea75738ae14d1de3e08ccc3.png"
+            },
+            {
+              "name": "Joel Embiid",
+              "position": "C",
+              "avatar": "/tools/assets/0a7060c076a4caee2bdb4bd1.png"
+            }
+          ],
+          "version": "2026-09-24 最终首发修正版"
+        },
+        "actual": {
+          "players": [
+            {
+              "name": "VJ Edgecombe",
+              "position": "PG",
+              "avatar": "/tools/assets/b013989b7518be3ff39efdcd.png"
+            },
+            {
+              "name": "Kentavious Caldwell-Pope",
+              "position": "SG",
+              "avatar": "/tools/assets/1cf42d7e91d0091d52064c51.png"
+            },
+            {
+              "name": "Jaylen Brown",
+              "position": "SF",
+              "avatar": "/tools/assets/b3500474b96447a40faf4216.png"
+            },
+            {
+              "name": "Dean Wade",
+              "position": "PF",
+              "avatar": "/tools/assets/ce830fee1c0a315c77d9238e.png"
+            },
+            {
+              "name": "Ariel Hukporti",
+              "position": "C",
+              "avatar": "/tools/assets/e0a2cd1c2e13539e7c5e9229.png"
+            }
+          ],
+          "status": "confirmed"
+        },
+        "poster": {
+          "paragraphs": [
+            "预测没毛，今年马克西、VJ、布朗看起来还是要爽刷。",
+            "核心轮换观察：\n波普 13分钟 7分2板2助 1断 0失误 FG 3/6 FT 0/0【老了，不可能回春了】\nWade 13分钟 2分 5板 1断 0失误 FG 1/3 FT 0/0【没有数据的工兵】\nLove 24分钟 15分 3板 6助 2帽 0失误 FG 4/10 FT 4/6【观察一下我拓弃将，手里有球是真行】\nWalker 19分钟 11分 11板 1助 1断 1失误 FG 4/9 FT 0/0【可能是今年数字人内线的最大收益者，关注！】"
+          ]
+        }
+      },
+      {
+        "id": "min",
+        "team": {
+          "code": "MIN",
+          "name": "明尼苏达森林狼"
+        },
+        "game": {
+          "opponent": "密尔沃基雄鹿",
+          "score": "116–97"
+        },
+        "prediction": {
+          "players": [
+            {
+              "name": "LaMelo Ball",
+              "position": "PG",
+              "avatar": "/tools/assets/badbbfc1c29ff0c3b126814b.png"
+            },
+            {
+              "name": "Anthony Edwards",
+              "position": "SG",
+              "avatar": "/tools/assets/78472e95db1b6b62776c89cf.png"
+            },
+            {
+              "name": "Jaden McDaniels",
+              "position": "SF",
+              "avatar": "/tools/assets/0ac4350ddfc905d98b1f7602.png"
+            },
+            {
+              "name": "Cody Williams",
+              "position": "PF",
+              "avatar": "/tools/assets/59eeb74ff5816b033ad1c1c7.png"
+            },
+            {
+              "name": "Rudy Gobert",
+              "position": "C",
+              "avatar": "/tools/assets/207ea34bc466104743e97eec.png"
+            }
+          ],
+          "version": "2026-09-24 最终首发修正版"
+        },
+        "actual": {
+          "players": [
+            {
+              "name": "LaMelo Ball",
+              "position": "PG",
+              "avatar": "/tools/assets/badbbfc1c29ff0c3b126814b.png"
+            },
+            {
+              "name": "Anthony Edwards",
+              "position": "SG",
+              "avatar": "/tools/assets/78472e95db1b6b62776c89cf.png"
+            },
+            {
+              "name": "Jaden McDaniels",
+              "position": "SF",
+              "avatar": "/tools/assets/0ac4350ddfc905d98b1f7602.png"
+            },
+            {
+              "name": "Jonathan Kuminga",
+              "position": "PF",
+              "avatar": "/tools/assets/d782ae6f53269479e02c4f6c.png"
+            },
+            {
+              "name": "Rudy Gobert",
+              "position": "C",
+              "avatar": "/tools/assets/207ea34bc466104743e97eec.png"
+            }
+          ],
+          "status": "confirmed"
+        },
+        "poster": {
+          "paragraphs": [
+            "原预测命中4/5，Kuminga顶替Cody先发；Cody打了10分钟。先发顺位继续跟。",
+            "核心轮换观察：\nKuminga 14分钟 8分2板0助，FG 2-4 / FT 4-4\nBeringer 15分钟 12分7板0助，FG 5-8 / FT 2-4",
+            "【判断】Kuminga先发值得跟；Beringer 15分钟12分7板，潜力层级先不改。"
+          ]
+        }
+      },
+      {
+        "id": "mil",
+        "team": {
+          "code": "MIL",
+          "name": "密尔沃基雄鹿"
+        },
+        "game": {
+          "opponent": "明尼苏达森林狼",
+          "score": "97–116"
+        },
+        "prediction": {
+          "players": [
+            {
+              "name": "Ryan Rollins",
+              "position": "PG",
+              "avatar": "/tools/assets/d81731814fd937666e97f346.png"
+            },
+            {
+              "name": "Tyler Herro",
+              "position": "SG",
+              "avatar": "/tools/assets/eed735b7f5362538ace2a775.png"
+            },
+            {
+              "name": "Jaime Jaquez Jr.",
+              "position": "SF",
+              "avatar": "/tools/assets/aa5713e73fb3f4caab17b1bc.png"
+            },
+            {
+              "name": "Kyle Kuzma",
+              "position": "PF",
+              "avatar": "/tools/assets/d64cc7590b61cab022d9ae5b.png"
+            },
+            {
+              "name": "Myles Turner",
+              "position": "C",
+              "avatar": "/tools/assets/432e80bde6650d45682cb092.png"
+            }
+          ],
+          "version": "2026-09-24 最终首发修正版"
+        },
+        "actual": {
+          "players": [
+            {
+              "name": "Ryan Rollins",
+              "position": "PG",
+              "avatar": "/tools/assets/d81731814fd937666e97f346.png"
+            },
+            {
+              "name": "Tyler Herro",
+              "position": "SG",
+              "avatar": "/tools/assets/eed735b7f5362538ace2a775.png"
+            },
+            {
+              "name": "Jaime Jaquez Jr.",
+              "position": "SF",
+              "avatar": "/tools/assets/aa5713e73fb3f4caab17b1bc.png"
+            },
+            {
+              "name": "Kyle Kuzma",
+              "position": "PF",
+              "avatar": "/tools/assets/d64cc7590b61cab022d9ae5b.png"
+            },
+            {
+              "name": "Myles Turner",
+              "position": "C",
+              "avatar": "/tools/assets/432e80bde6650d45682cb092.png"
+            }
+          ],
+          "status": "confirmed"
+        },
+        "poster": {
+          "paragraphs": [
+            "原预测五人全部先发，均打到第三节；Rollins六犯离场，不是半场收工。",
+            "核心轮换观察：\nRollins 14分钟 15分4板1助，FG 6-12 / FT 1-1\nWare 24分钟 14分12板0助，FG 5-11 / FT 2-2",
+            "【判断】Rollins分钟受六犯影响；Ware 14分12板，单场不倒推常规首发。"
+          ]
+        }
+      },
+      {
+        "id": "lal",
+        "team": {
+          "code": "LAL",
+          "name": "洛杉矶湖人"
+        },
+        "game": {
+          "opponent": "萨克拉门托国王",
+          "score": "127–103"
+        },
+        "prediction": {
+          "players": [
+            {
+              "name": "Luka Doncic",
+              "position": "PG",
+              "avatar": "/tools/assets/aa14fcb7dc569aff0548c3dd.png"
+            },
+            {
+              "name": "Austin Reaves",
+              "position": "SG",
+              "avatar": "/tools/assets/2a0828e6cc3429e116f157c5.png"
+            },
+            {
+              "name": "Quentin Grimes",
+              "position": "SF",
+              "avatar": "/tools/assets/acfaaea47c39af628af30b7a.png"
+            },
+            {
+              "name": "Sandro Mamukelashvili",
+              "position": "PF",
+              "avatar": "/tools/assets/7bfd13f801b9c97aff6b184b.png"
+            },
+            {
+              "name": "Walker Kessler",
+              "position": "C",
+              "avatar": "/tools/assets/5a6c8ff8b7f37e45af8c4efe.png"
+            }
+          ],
+          "version": "2026-09-24 最终首发修正版"
+        },
+        "actual": {
+          "players": [
+            {
+              "name": "Luka Doncic",
+              "position": "PG",
+              "avatar": "/tools/assets/aa14fcb7dc569aff0548c3dd.png"
+            },
+            {
+              "name": "Quentin Grimes",
+              "position": "SG",
+              "avatar": "/tools/assets/acfaaea47c39af628af30b7a.png"
+            },
+            {
+              "name": "Matisse Thybulle",
+              "position": "SF",
+              "avatar": "/tools/assets/7307a0a44a5b943e47a85fdb.png"
+            },
+            {
+              "name": "Ziaire Williams",
+              "position": "PF",
+              "avatar": "/tools/assets/35d41ecfa9d29cf9aac06a24.png"
+            },
+            {
+              "name": "Kevon Looney",
+              "position": "C",
+              "avatar": "/tools/assets/b08b3b4960314e7a606f2566.png"
+            }
+          ],
+          "status": "confirmed"
+        },
+        "poster": {
+          "paragraphs": [
+            "原预测命中2/5，Reaves、Kessler未打。Luka16分钟，其他首发有第三节回合。",
+            "核心轮换观察：\nGrimes 19分钟 16分0板1助，FG 5-7 / FT 4-4\nLaRavia 21分钟 12分3板2助，FG 5-6 / FT 0-3",
+            "【判断】Grimes效率、LaRavia 2断2帽值得跟，残阵下的分钟不当承诺。"
+          ]
+        }
+      },
+      {
+        "id": "sac",
+        "team": {
+          "code": "SAC",
+          "name": "萨克拉门托国王"
+        },
+        "game": {
+          "opponent": "洛杉矶湖人",
+          "score": "103–127"
+        },
+        "prediction": {
+          "players": [
+            {
+              "name": "Darius Acuff Jr.",
+              "position": "PG",
+              "avatar": "/tools/assets/c05721b640dfb86fb7887e11.png"
+            },
+            {
+              "name": "Zach LaVine",
+              "position": "SG",
+              "avatar": "/tools/assets/bfdacdb0672f921004fef94d.png"
+            },
+            {
+              "name": "De'Andre Hunter",
+              "position": "SF",
+              "avatar": "/tools/assets/5fdb29bad9585bbc43ce7c23.png"
+            },
+            {
+              "name": "Keegan Murray",
+              "position": "PF",
+              "avatar": "/tools/assets/728e4cbe5ed90cbb780731ba.png"
+            },
+            {
+              "name": "Domantas Sabonis",
+              "position": "C",
+              "avatar": "/tools/assets/54474fd4d3a36c48d51ff847.png"
+            }
+          ],
+          "version": "2026-09-24 最终首发修正版"
+        },
+        "actual": {
+          "players": [
+            {
+              "name": "Darius Acuff Jr.",
+              "position": "PG",
+              "avatar": "/tools/assets/c05721b640dfb86fb7887e11.png"
+            },
+            {
+              "name": "Zach LaVine",
+              "position": "SG",
+              "avatar": "/tools/assets/bfdacdb0672f921004fef94d.png"
+            },
+            {
+              "name": "De'Andre Hunter",
+              "position": "SF",
+              "avatar": "/tools/assets/5fdb29bad9585bbc43ce7c23.png"
+            },
+            {
+              "name": "Precious Achiuwa",
+              "position": "PF",
+              "avatar": "/tools/assets/4b4b9e5e11ff60a7e31c851d.png"
+            },
+            {
+              "name": "Domantas Sabonis",
+              "position": "C",
+              "avatar": "/tools/assets/54474fd4d3a36c48d51ff847.png"
+            }
+          ],
+          "status": "confirmed"
+        },
+        "poster": {
+          "paragraphs": [
+            "原预测命中4/5，Keegan未打、Achiuwa顶班；Sabonis10分钟5犯，并非罚下。",
+            "核心轮换观察：\nAcuff 27分钟 19分2板4助，FG 8-17 / FT 2-2\nSabonis 10分钟 4分3板3助，FG 1-2 / FT 2-2",
+            "【判断】Acuff 27分钟4助5失误；Sabonis犯规样本小，暂不降层级。"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "reportDate": "2026-10-05",
+    "cards": [
+      {
+        "id": "gsw",
+        "team": {
+          "code": "GSW",
+          "name": "金州勇士"
+        },
+        "game": {
+          "opponent": "快船",
+          "score": "101–104"
+        },
+        "prediction": {
+          "players": [
+            {
+              "name": "Stephen Curry",
+              "position": "PG",
+              "avatar": "/tools/assets/9fc57a8464fd00c34e6a361f.png"
+            },
+            {
+              "name": "Brandin Podziemski",
+              "position": "SG",
+              "avatar": "/tools/assets/e1e8a7bd3b54f170a17be569.png"
+            },
+            {
+              "name": "Yaxel Lendeborg",
+              "position": "SF",
+              "avatar": "/tools/assets/3c9905760227878b9fdf87b8.png"
+            },
+            {
+              "name": "Draymond Green",
+              "position": "PF",
+              "avatar": "/tools/assets/8cab69583d7e60e2b8557a53.png"
+            },
+            {
+              "name": "Kristaps Porzingis",
+              "position": "C",
+              "avatar": "/tools/assets/b0ed1ba5e2d3a434b4559499.png"
+            }
+          ],
+          "version": "2026-09-24 最终首发图"
+        },
+        "actual": {
+          "players": [
+            {
+              "name": "Stephen Curry",
+              "position": "PG",
+              "avatar": "/tools/assets/9fc57a8464fd00c34e6a361f.png"
+            },
+            {
+              "name": "Brandin Podziemski",
+              "position": "SG",
+              "avatar": "/tools/assets/e1e8a7bd3b54f170a17be569.png"
+            },
+            {
+              "name": "Yaxel Lendeborg",
+              "position": "SF",
+              "avatar": "/tools/assets/3c9905760227878b9fdf87b8.png"
+            },
+            {
+              "name": "Draymond Green",
+              "position": "PF",
+              "avatar": "/tools/assets/8cab69583d7e60e2b8557a53.png"
+            },
+            {
+              "name": "Al Horford",
+              "position": "C",
+              "avatar": "/tools/assets/b2c625fa3fde3a0c35342393.png"
+            }
+          ],
+          "status": "confirmed"
+        },
+        "poster": {
+          "paragraphs": [
+            "波神未随队，霍福德顶上。库里、追梦和霍福德只打上半场；伦德博格继续看，原分层先不动。",
+            "梅尔顿最先替补上场，可列第六人候选，等齐员再看。"
+          ]
+        }
+      },
+      {
+        "id": "lac",
+        "team": {
+          "code": "LAC",
+          "name": "洛杉矶快船"
+        },
+        "game": {
+          "opponent": "勇士",
+          "score": "104–101"
+        },
+        "prediction": {
+          "players": [
+            {
+              "name": "Darius Garland",
+              "position": "PG",
+              "avatar": "/tools/assets/b8ebe98dcd68ecc5bd004fb0.png"
+            },
+            {
+              "name": "Keaton Wagler",
+              "position": "SG",
+              "avatar": "/tools/assets/b0c0e8fdb2019df04e79c246.png"
+            },
+            {
+              "name": "Brandon Ingram",
+              "position": "SF",
+              "avatar": "/tools/assets/7d45af5e808f4ad95607f832.png"
+            },
+            {
+              "name": "Rui Hachimura",
+              "position": "PF",
+              "avatar": "/tools/assets/f607f09629beb20dd5b27c0f.png"
+            },
+            {
+              "name": "Brook Lopez",
+              "position": "C",
+              "avatar": "/tools/assets/8f8faf930a52a6653e8315ec.png"
+            }
+          ],
+          "version": "2026-09-24 最终首发图"
+        },
+        "actual": {
+          "players": [
+            {
+              "name": "Darius Garland",
+              "position": "PG",
+              "avatar": "/tools/assets/b8ebe98dcd68ecc5bd004fb0.png"
+            },
+            {
+              "name": "Max Strus",
+              "position": "SG",
+              "avatar": "/tools/assets/df62dfc5ace58f495d65ce13.png"
+            },
+            {
+              "name": "Derrick Jones Jr.",
+              "position": "SF",
+              "avatar": "/tools/assets/602f2401d6e33ebb750a9c2b.png"
+            },
+            {
+              "name": "Rui Hachimura",
+              "position": "PF",
+              "avatar": "/tools/assets/f607f09629beb20dd5b27c0f.png"
+            },
+            {
+              "name": "Isaiah Jackson",
+              "position": "C",
+              "avatar": "/tools/assets/615b32430681c44b2b4eb301.png"
+            }
+          ],
+          "status": "confirmed"
+        },
+        "poster": {
+          "paragraphs": [
+            "莺歌未打，斯特鲁斯伤退。杰克逊首发、大洛替补；瓦格勒的表现有下半场练兵背景。",
+            "杰克逊、瓦格勒值得跟踪，先别因总分钟上调，第六人暂不定。"
+          ]
+        }
+      },
+      {
+        "id": "uta",
+        "team": {
+          "code": "UTA",
+          "name": "犹他爵士"
+        },
+        "game": {
+          "opponent": "掘金",
+          "score": "109–97"
+        },
+        "prediction": {
+          "players": [
+            {
+              "name": "Keyonte George",
+              "position": "PG",
+              "avatar": "/tools/assets/435cc62f734bfeb86efe9ea9.png"
+            },
+            {
+              "name": "Darryn Peterson",
+              "position": "SG",
+              "avatar": "/tools/assets/3a30aa7cfb55e59d6d88f5b6.png"
+            },
+            {
+              "name": "Lauri Markkanen",
+              "position": "SF",
+              "avatar": "/tools/assets/195ff00809b6e3f6014b99d4.png"
+            },
+            {
+              "name": "Jaren Jackson Jr.",
+              "position": "PF",
+              "avatar": "/tools/assets/d3c1113c238345169dd5c268.png"
+            },
+            {
+              "name": "Jusuf Nurkic",
+              "position": "C",
+              "avatar": "/tools/assets/be842a8fb7c7da3de4543fcd.png"
+            }
+          ],
+          "version": "2026-09-24 最终首发图"
+        },
+        "actual": {
+          "players": [
+            {
+              "name": "Keyonte George",
+              "position": "PG",
+              "avatar": "/tools/assets/435cc62f734bfeb86efe9ea9.png"
+            },
+            {
+              "name": "Darryn Peterson",
+              "position": "SG",
+              "avatar": "/tools/assets/3a30aa7cfb55e59d6d88f5b6.png"
+            },
+            {
+              "name": "Lauri Markkanen",
+              "position": "SF",
+              "avatar": "/tools/assets/195ff00809b6e3f6014b99d4.png"
+            },
+            {
+              "name": "Jaren Jackson Jr.",
+              "position": "PF",
+              "avatar": "/tools/assets/d3c1113c238345169dd5c268.png"
+            },
+            {
+              "name": "Jusuf Nurkic",
+              "position": "C",
+              "avatar": "/tools/assets/be842a8fb7c7da3de4543fcd.png"
+            }
+          ],
+          "status": "confirmed"
+        },
+        "poster": {
+          "paragraphs": [
+            "首发与原预测一致。\n马卡、JJJ、努尔基奇只打上半场，替补轮换仍不完整。",
+            "原分层先不动，贝利继续看。\n贝利与米哈伊柳克同批换上，暂不定唯一第六人。"
+          ]
+        }
+      },
+      {
+        "id": "den",
+        "team": {
+          "code": "DEN",
+          "name": "丹佛掘金"
+        },
+        "game": {
+          "opponent": "爵士",
+          "score": "97–109"
+        },
+        "prediction": {
+          "players": [
+            {
+              "name": "Jamal Murray",
+              "position": "PG",
+              "avatar": "/tools/assets/b7d5ca4287f62f3ec404e3e9.png"
+            },
+            {
+              "name": "Christian Braun",
+              "position": "SG",
+              "avatar": "/tools/assets/5fef018a4edf77b8c35a66cd.png"
+            },
+            {
+              "name": "Cameron Johnson",
+              "position": "SF",
+              "avatar": "/tools/assets/022919493c04ec21e3175235.png"
+            },
+            {
+              "name": "Aaron Gordon",
+              "position": "PF",
+              "avatar": "/tools/assets/8987ec137d6215472db52ae2.png"
+            },
+            {
+              "name": "Nikola Jokic",
+              "position": "C",
+              "avatar": "/tools/assets/8b025af5b65ca014ce7e04b9.png"
+            }
+          ],
+          "version": "2026-09-24 最终首发图"
+        },
+        "actual": {
+          "players": [
+            {
+              "name": "Tyus Jones",
+              "position": "PG",
+              "avatar": "/tools/assets/61e2f3a8e104b701210eb244.png"
+            },
+            {
+              "name": "Christian Braun",
+              "position": "SG",
+              "avatar": "/tools/assets/5fef018a4edf77b8c35a66cd.png"
+            },
+            {
+              "name": "Cameron Johnson",
+              "position": "SF",
+              "avatar": "/tools/assets/022919493c04ec21e3175235.png"
+            },
+            {
+              "name": "Aaron Gordon",
+              "position": "PF",
+              "avatar": "/tools/assets/8987ec137d6215472db52ae2.png"
+            },
+            {
+              "name": "Nikola Jokic",
+              "position": "C",
+              "avatar": "/tools/assets/8b025af5b65ca014ce7e04b9.png"
+            }
+          ],
+          "status": "confirmed"
+        },
+        "poster": {
+          "paragraphs": [
+            "泰厄斯顶替缺席的穆雷，五名首发和德罗赞都只打上半场。",
+            "原分层先不动。德罗赞单独首换，可列第六人候选，等穆雷回归再看。"
+          ]
+        }
+      }
+    ]
+  }
+]
