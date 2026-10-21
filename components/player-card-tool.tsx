@@ -11,17 +11,17 @@ import type {Player} from '@/lib/types';
 
 function PastedCard({player}:{player:PlayerCardContent}){
   const [query,setQuery]=useState(player.name),[search,setSearch]=useState({query:player.name,revision:0});
-  const [state,setState]=useState<{key:string;players?:Player[];error?:string}>(),[selected,setSelected]=useState<Player>();
+  const [state,setState]=useState<{key:string;players?:Player[];error?:string;warning?:string}>(),[selected,setSelected]=useState<Player>();
   const key=`${search.query}:${search.revision}`;
   useEffect(()=>{
     const controller=new AbortController();
-    fetch(`/api/players?q=${encodeURIComponent(search.query)}`,{signal:controller.signal}).then(async response=>{
-      const body=await response.json() as {players?:Player[];error?:string};
+    fetch(`/api/player-card-portraits?q=${encodeURIComponent(search.query)}&team=${encodeURIComponent(player.team)}`,{signal:controller.signal}).then(async response=>{
+      const body=await response.json() as {players?:Player[];error?:string;warning?:string;requiresSelection?:boolean};
       if(!response.ok||!Array.isArray(body.players))throw new Error(body.error||'头像查找暂时不可用，请重试或上传头像。');
-      if(!controller.signal.aborted){setState({key,players:body.players});setSelected(matchingPortrait(body.players,search.query));}
+      if(!controller.signal.aborted){setState({key,players:body.players,warning:body.warning});setSelected(body.requiresSelection?undefined:matchingPortrait(body.players,search.query));}
     }).catch(error=>{if(!controller.signal.aborted)setState({key,error:error instanceof Error?error.message:'头像查找失败。'});});
     return ()=>controller.abort();
-  },[search.query,key]);
+  },[search.query,key,player.team]);
   const current=state?.key===key?state:undefined;
   const entry=useMemo(()=>({...player,id:selected?.id}),[player,selected]);
   return <>
@@ -29,6 +29,7 @@ function PastedCard({player}:{player:PlayerCardContent}){
       <div className="row-avatar-heading"><div><h2>球员头像</h2><p>{selected?`已选择 ${selected.chineseName||selected.name} · ${selected.name}`:current?.players?.length?'点选对应球员的头像。简称可能对应多名球员。':'可以用中文全名、英文名查找，也可以在下方上传头像。'}</p></div>
         <form className="row-avatar-search" onSubmit={event=>{event.preventDefault();setSelected(undefined);setSearch({query:query.trim(),revision:search.revision+1});}}><label className="sr-only" htmlFor="portrait-search">查找头像</label><input id="portrait-search" value={query} maxLength={80} onChange={e=>setQuery(e.target.value)} placeholder="输入球员全名"/><button type="submit" disabled={query.trim().length<2}>查找头像</button></form>
       </div>
+      {current?.warning&&<p className="card-notice" role="status">{current.warning}</p>}
       {!current?<p className="card-notice" role="status">正在查找球员头像，数据卡已在下方生成…</p>:current.error?<p className="card-notice" role="status">{current.error}</p>:current.players?.length?<div className="row-avatar-results" aria-label="选择球员头像">{current.players.map(p=><button type="button" key={p.id} aria-pressed={selected?.id===p.id} onClick={()=>setSelected(p)}><img src={`/api/player-headshot?id=${p.id}`} alt="" loading="lazy"/><span><strong>{p.chineseName||p.name}</strong><small>{p.name} · {p.team}</small></span></button>)}</div>:<p className="card-notice">没有找到头像，试试英文全名，或在下方上传图片。</p>}
     </div>
     <PlayerCardPreview player={entry} pasted/>
