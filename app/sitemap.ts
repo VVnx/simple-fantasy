@@ -13,6 +13,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   return [
     {url:siteUrl('/')},
     {url:siteUrl('/schedule')},
+    {url:siteUrl('/player-cards')},
     {url:siteUrl('/briefings'), ...(latestUpdate ? {lastModified:latestUpdate} : {})},
     ...briefings.map(item=>{
       const cover = getBriefingCover(item.date);

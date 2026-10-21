@@ -15,9 +15,9 @@ describe('SEO metadata safety', () => {
     const description=briefingDescription(content);
     expect(Array.from(description)).toHaveLength(150);
     expect(description).not.toContain('\uFFFD');
-    const metadata=briefingMetadata({date:'2026-10-20',title:'新一期简报',content,createdAt:'2026-10-20T00:00:00Z',updatedAt:'2026-10-20T00:00:00Z'});
+    const metadata=briefingMetadata({date:'2026-10-15',title:'新一期简报',content,createdAt:'2026-10-20T00:00:00Z',updatedAt:'2026-10-20T00:00:00Z'});
     expect(metadata.twitter).toMatchObject({card:'summary',images:[]});
-    expect(metadata.alternates?.canonical).toBe(`${SITE_URL}/briefings?date=2026-10-20`);
+    expect(metadata.alternates?.canonical).toBe(`${SITE_URL}/briefings?date=2026-10-15`);
   });
 
   it('advertises the canonical sitemap without blocking assets needed to render pages', () => {

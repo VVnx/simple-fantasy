@@ -34,7 +34,7 @@ const entries = [
  ['阿夫迪亚|阿夫迪亞','Deni Avdija'],['夏普','Shaedon Sharpe'],['亨德森','Scoot Henderson'],['艾顿|艾頓','Deandre Ayton'],
  ['克林根','Donovan Clingan'],['凯斯勒|凱斯勒','Walker Kessler'],['马尔卡宁|馬爾卡寧','Lauri Markkanen'],['乔治|喬治','George'],
  ['基扬特乔治|基揚特喬治','Keyonte George'],['科林斯','Collins'],['约翰科林斯|約翰科林斯','John Collins'],
- ['凯尔特|卡斯尔|卡斯爾','Stephon Castle'],['瓦塞尔|瓦塞爾','Devin Vassell'],['索汉|索漢','Jeremy Sochan'],
+ ['卡斯尔|卡斯爾|凯尔特','Stephon Castle'],['瓦塞尔|瓦塞爾','Devin Vassell'],['索汉|索漢','Jeremy Sochan'],
  ['库珀弗拉格|庫珀弗拉格|弗拉格','Cooper Flagg'],['迪伦哈珀|迪倫哈珀|哈珀','Dylan Harper'],['克努佩尔|克努佩爾','Kon Knueppel'],
  ['特雷约翰逊|特雷約翰遜','Tre Johnson'],['埃奇库姆|埃奇庫姆','VJ Edgecombe'],['贝利|貝利','Ace Bailey'],
  ['卡明斯','Cummings'],['库明加|庫明加','Jonathan Kuminga'],['波杰姆斯基|波傑姆斯基','Brandin Podziemski'],['穆迪','Moses Moody'],
@@ -60,6 +60,9 @@ const entries = [
  ['戴文卡特|德文卡特','Devin Carter'],['卡特','Carter'],['温德尔卡特|溫德爾卡特','Wendell Carter Jr.'],
  ['萨格斯|薩格斯','Jalen Suggs'],['贝恩|貝恩','Desmond Bane'],['埃迪|扎克伊迪|扎克埃迪','Zach Edey'],['阿尔达马|阿爾達馬','Santi Aldama'],
  ['姚明','Yao Ming'],['易建联|易建聯','Yi Jianlian'],['杨瀚森|楊瀚森','Hansen Yang'],['崔永熙','Yongxi Cui'],['周琦','Zhou Qi'],
+ ['贾旺特格林|贾旺特·格林','Javonte Green'],['麦凯恩|麦肯','Jared McCain'],
+ ['朱利安香帕尼|香帕尼','Julian Champagnie'],['邓肯罗宾逊|邓罗','Duncan Robinson'],
+ ['德拉蒙德|庄神','Andre Drummond'],['大桥','Mikal Bridges'],['OG','OG Anunoby'],
 ] as const;
 export const normalize = (s: string) => s.normalize('NFKD').replace(/\p{M}/gu,'').toLowerCase().replace(/[\s·・.'’\-]/g,'');
 const aliases = new Map(entries.flatMap(([names, en])=>names.split('|').map(n=>[normalize(n),en] as const)));

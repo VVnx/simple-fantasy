@@ -1,3 +1,4 @@
+import { addDays } from '@/lib/schedule';
 /* eslint-disable @next/next/no-html-link-for-pages -- Keep navigation compatible with the Sites runtime. */
 /* eslint-disable @next/next/no-img-element -- Serve the original downloadable cover without an image optimizer. */
 import { cache } from 'react';
@@ -77,6 +78,7 @@ export default async function BriefingsPage({searchParams}: Props) {
                 <a href={cover.src} download={`NBA-Fantasy-${briefing.date}-cover.png`}>下载封面 ↓</a>
               </figcaption>
             </figure>}
+            <a className="briefing-card-link" href={`/player-cards?date=${addDays(briefing.date,-1)}`}>制作当天球员数据卡片 ↗</a>
             <div className="briefing-content">{briefing.content}</div>
           </article></> : <div className="briefings-empty"><p>暂无这篇简报</p></div>}
           {(view?.previousDate || view?.nextDate) && <nav className="briefings-pagination" aria-label="简报翻页">
