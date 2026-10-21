@@ -232,8 +232,9 @@ describe('briefing search visibility', () => {
     const dates=Array.from({length:35},(_,i)=>new Date(Date.UTC(2026,8,1+i)).toISOString().slice(0,10));
     for (const date of dates) await publish(write(date,'原文'));
     const first=await runWithBriefingEnv(env,sitemap);
-    expect(first).toHaveLength(39);
+    expect(first).toHaveLength(40);
     expect(first.some(item=>item.url===`${SITE_URL}/player-cards`)).toBe(true);
+    expect(first.some(item=>item.url===`${SITE_URL}/surprise-board`)).toBe(true);
     expect(first.some(item=>item.url===`${SITE_URL}/briefings?date=${dates[0]}`)).toBe(true);
     const previous=first.find(item=>item.url.endsWith(dates[0]))!.lastModified;
     vi.useFakeTimers();vi.setSystemTime(new Date('2027-01-01T00:00:00Z'));

@@ -14,6 +14,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     {url:siteUrl('/')},
     {url:siteUrl('/schedule')},
     {url:siteUrl('/player-cards')},
+    {url:siteUrl('/surprise-board')},
     {url:siteUrl('/briefings'), ...(latestUpdate ? {lastModified:latestUpdate} : {})},
     ...briefings.map(item=>{
       const cover = getBriefingCover(item.date);

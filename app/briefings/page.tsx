@@ -79,6 +79,7 @@ export default async function BriefingsPage({searchParams}: Props) {
               </figcaption>
             </figure>}
             <a className="briefing-card-link" href={`/player-cards?date=${addDays(briefing.date,-1)}`}>制作当天球员数据卡片 ↗</a>
+            <a className="briefing-card-link" href={`/surprise-board?date=${briefing.date}`}>拖拽惊喜球员榜 ↗</a>
             <div className="briefing-content">{briefing.content}</div>
           </article></> : <div className="briefings-empty"><p>暂无这篇简报</p></div>}
           {(view?.previousDate || view?.nextDate) && <nav className="briefings-pagination" aria-label="简报翻页">
