@@ -12,6 +12,7 @@ function Grade({value}:{value?:string}){return <span className={`bm-grade bm-gra
 export default function BriefingMatchView({data,original}:{data:StructuredBriefing;original:ReactNode}){
   const [view,setView]=useState<'data'|'original'>('data'),[gameKey,setGameKey]=useState('all'),[grade,setGrade]=useState('all');
   const [query,setQuery]=useState(''),[sort,setSort]=useState<Sort>('rank'),[expanded,setExpanded]=useState('');
+  const [openGames,setOpenGames]=useState<string[]>([]);
   const [portraits,setPortraits]=useState<Record<string,string>>({});
   useEffect(()=>{
     if(!data.performances.length)return;
@@ -40,16 +41,20 @@ export default function BriefingMatchView({data,original}:{data:StructuredBriefi
       <nav className="bm-overview" aria-label="本期内容"><a href="#briefing-games"><strong>{data.games.length}</strong><span>场比赛</span></a><a href="#briefing-performances"><strong>{data.rankings.length||data.performances.length}</strong><span>位惊喜球员</span></a><a href="#briefing-lineup"><strong>{data.lineupUpdates.length}</strong><span>条阵容动态</span></a></nav>
       {data.notes.filter(n=>n.section==='简报导语').map((n,i)=><p className="bm-intro" key={i}>{n.text}</p>)}
       {data.games.length>0&&<section id="briefing-games" className="bm-section" aria-label="逐场比赛"><div className="bm-section-heading"><h2>逐场比赛</h2><span>点击比赛筛选球员 · 展开查看简评</span></div>
-        <div className="bm-game-grid">{data.games.map((game,i)=>{
+        <div className="bm-game-list">{data.games.map((game,i)=>{
           const members=data.performances.filter(p=>p.gameKey===game.key);
+          const isOpen=openGames.includes(game.key);
           return <article className={`bm-game ${gameKey===game.key?'is-active':''}`} key={game.key}>
-            <button className="bm-game-score" type="button" aria-label={`筛选${game.teams.map(t=>t.name).join('对')}的球员`} aria-pressed={gameKey===game.key} onClick={()=>setGameKey(gameKey===game.key?'all':game.key)}>
-              <span className="bm-game-label">{String(i+1).padStart(2,'0')} / 比赛结果</span>
-              {game.teams.map((team,index)=><span className={`bm-team-score ${team.score>game.teams[1-index].score?'is-winner':''}`} key={team.name}><span>{team.name}</span><b>{team.score}</b></span>)}
-              <span className="bm-game-count">{members.length} 位惊喜球员 <span aria-hidden="true">↗</span></span>
-            </button>
-            {game.headline&&<h3>{game.headline}</h3>}
-            <details className="bm-game-review"><summary>展开逐场简评</summary>{game.paragraphs.map((p,index)=><p key={index}>{p}</p>)}</details>
+            <div className="bm-game-row">
+              <span className="bm-game-label" aria-hidden="true">{String(i+1).padStart(2,'0')}</span>
+              <button className="bm-game-score" type="button" aria-label={`筛选${game.teams.map(t=>t.name).join('对')}的球员`} aria-pressed={gameKey===game.key} onClick={()=>setGameKey(gameKey===game.key?'all':game.key)}>
+                {game.teams.map((team,index)=><Fragment key={team.name}>{index===1&&<span className="bm-score-divider" aria-hidden="true">:</span>}<span className={`bm-team-score ${team.score>game.teams[1-index].score?'is-winner':''}`}><span>{team.name}</span><b>{team.score}</b></span></Fragment>)}
+              </button>
+              <h3>{game.headline}</h3>
+              <span className="bm-game-count">{members.length} 位惊喜球员</span>
+              <button className="bm-game-toggle" type="button" aria-label={`${isOpen?'收起':'展开'}${game.teams.map(t=>t.name).join('对')}逐场简评`} aria-expanded={isOpen} aria-controls={`game-review-${game.key}`} onClick={()=>setOpenGames(previous=>isOpen?previous.filter(key=>key!==game.key):[...previous,game.key])}>{isOpen?'收起':'简评'}<span aria-hidden="true">{isOpen?'−':'+'}</span></button>
+            </div>
+            <div id={`game-review-${game.key}`} className="bm-game-review" hidden={!isOpen}>{game.headline&&<h4>{game.headline}</h4>}{game.paragraphs.map((p,index)=><p key={index}>{p}</p>)}</div>
           </article>;
         })}</div>
       </section>}
