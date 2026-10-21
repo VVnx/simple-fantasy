@@ -36,8 +36,11 @@ function PastedCard({player}:{player:PlayerCardContent}){
   </>;
 }
 
-function PasteSource(){
-  const [text,setText]=useState(''),[error,setError]=useState(''),[submission,setSubmission]=useState<{text:string;player:PlayerCardContent;revision:number}>();
+function PasteSource({initialLine}:{initialLine:string}){
+  const [text,setText]=useState(initialLine),[error,setError]=useState(''),[submission,setSubmission]=useState<{text:string;player:PlayerCardContent;revision:number}|undefined>(()=>{
+    if(!initialLine)return undefined;
+    try{return {text:initialLine,player:parsePlayerCardLine(initialLine),revision:1};}catch{return undefined;}
+  });
   const current=submission?.text===text?submission:undefined;
   function generate(){try{setSubmission({text,player:parsePlayerCardLine(text),revision:(submission?.revision??0)+1});setError('');}catch(error){setSubmission(undefined);setError(error instanceof Error?error.message:'数据无法识别。');}}
   return <>
@@ -81,12 +84,12 @@ function GameSource({initialDate}:{initialDate:string}){
   </>;
 }
 
-export default function PlayerCardTool({initialDate}:{initialDate:string}){
+export default function PlayerCardTool({initialDate,initialLine=''}:{initialDate:string;initialLine?:string}){
   const [mode,setMode]=useState<'paste'|'game'>('paste');
   return <main className="card-tool-page row-card-tool">
     <header className="site-header"><a className="site-brand" href="/">Fantasy - All Timeline</a><ToolNavigation active="cards"/></header>
     <div className="card-tool-heading"><div><p className="eyebrow">PLAYER CARD STUDIO</p><h1>球员数据卡片</h1><p>粘贴一行表现，生成一张横条。</p></div><span className="card-format">单人横条 · {CARD_WIDTH} × {CARD_HEIGHT}</span></div>
     <div className="row-source-tabs" role="group" aria-label="数据来源"><button type="button" aria-pressed={mode==='paste'} onClick={()=>setMode('paste')}>粘贴一行数据</button><button type="button" aria-pressed={mode==='game'} onClick={()=>setMode('game')}>按比赛选择</button></div>
-    {mode==='paste'?<PasteSource/>:<GameSource initialDate={initialDate}/>}
+    {mode==='paste'?<PasteSource initialLine={initialLine}/>:<GameSource initialDate={initialDate}/>}
   </main>;
 }

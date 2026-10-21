@@ -5,6 +5,8 @@ import { cache } from 'react';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import ToolNavigation from '@/components/tool-navigation';
+import BriefingMatchView from '@/components/briefing-match-view';
+import {structureBriefing,hasBriefingStructure} from '@/lib/briefing-structure';
 import JsonLd from '@/components/json-ld';
 import { BriefingError, validBriefingDate, validateBriefingDate, type BriefingList, type BriefingView } from '@/lib/briefings';
 import { getBriefingList, getBriefingView } from '@/lib/data/briefings';
@@ -53,7 +55,10 @@ export default async function BriefingsPage({searchParams}: Props) {
   const briefing = view?.briefing;
   if (isDetail && !error && !briefing) notFound();
   const cover = briefing ? getBriefingCover(briefing.date) : undefined;
-  return <main className="briefings-page">
+  const structured=briefing?structureBriefing(briefing):undefined;
+  const showStructure=structured&&hasBriefingStructure(structured);
+  const original=briefing&&<>{cover&&<figure className="briefing-cover"><img src={cover.src} alt={cover.alt} width={cover.width} height={cover.height} decoding="async"/><figcaption><a href={cover.src} download={`NBA-Fantasy-${briefing.date}-cover.png`}>下载封面 ↓</a></figcaption></figure>}<div className="briefing-content">{briefing.content}</div></>;
+  return <main className={`briefings-page ${showStructure?'briefing-structured-page':''}`}>
     <header className="site-header"><a className="site-brand" href="/">Fantasy - All Timeline</a><ToolNavigation active="briefings"/></header>
     <div className="briefings-body">
       <div className="briefings-heading">
@@ -72,15 +77,9 @@ export default async function BriefingsPage({searchParams}: Props) {
               <time dateTime={briefing.date}>{briefing.date}</time>
               <h1>{briefing.title}</h1>
             </header>
-            {cover && <figure className="briefing-cover">
-              <img src={cover.src} alt={cover.alt} width={cover.width} height={cover.height} decoding="async"/>
-              <figcaption>
-                <a href={cover.src} download={`NBA-Fantasy-${briefing.date}-cover.png`}>下载封面 ↓</a>
-              </figcaption>
-            </figure>}
             <a className="briefing-card-link" href={`/player-cards?date=${addDays(briefing.date,-1)}`}>制作当天球员数据卡片 ↗</a>
             <a className="briefing-card-link" href={`/surprise-board?date=${briefing.date}`}>拖拽惊喜球员榜 ↗</a>
-            <div className="briefing-content">{briefing.content}</div>
+            {showStructure?<BriefingMatchView data={structured!} original={original}/>:original}
           </article></> : <div className="briefings-empty"><p>暂无这篇简报</p></div>}
           {(view?.previousDate || view?.nextDate) && <nav className="briefings-pagination" aria-label="简报翻页">
             {view.previousDate ? <a href={briefingUrl(view.previousDate)}>← 上一篇 <span>{view.previousDate}</span></a> : <span/>}

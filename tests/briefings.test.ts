@@ -4,6 +4,8 @@ import { DatabaseSync, type SQLInputValue } from 'node:sqlite';
 import { readFileSync, readdirSync } from 'node:fs';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { GET, PUT } from '@/app/api/briefings/route';
+import {GET as structuredGET} from '@/app/api/briefing-games/route';
+import type {StructuredBriefing} from '@/lib/briefing-structure';
 import BriefingsPage, { generateMetadata } from '@/app/briefings/page';
 import sitemap from '@/app/sitemap';
 import { SITE_URL } from '@/lib/seo';
@@ -245,5 +247,28 @@ describe('briefing search visibility', () => {
     expect((await read(dates[0])).response.headers.get('x-robots-tag')).toBe('noindex');
     sqlite.exec('DROP TABLE daily_briefings');
     await expect(runWithBriefingEnv(env,sitemap)).rejects.toThrow();
+  });
+});
+
+
+describe('structured briefing API and page',()=>{
+  const fixture=JSON.parse(readFileSync(new URL('./fixtures/briefing-2026-10-21.json',import.meta.url),'utf8')).briefing;
+  const structuredRead=(date?:string)=>runWithBriefingEnv(env,()=>structuredGET(new Request(`https://example.test/api/briefing-games${date?`?date=${date}`:''}`)));
+  it('reads saved articles, follows edits without a second write and handles missing/invalid dates',async()=>{
+    expect((await (await structuredRead()).json() as {briefing:StructuredBriefing|null}).briefing).toBeNull();
+    expect((await structuredRead('2026-02-30')).status).toBe(400);
+    await publish(write(fixture.date,fixture.content));
+    const first=await structuredRead(fixture.date),data=await first.json() as {briefing:StructuredBriefing};
+    expect(first.headers.get('cache-control')).toBe('no-store');expect(data.briefing.games).toHaveLength(3);expect(data.briefing.performances).toHaveLength(18);
+    await publish(write(fixture.date,fixture.content.replace('夯——乔治：','顶——乔治：')));
+    const updated=await (await structuredRead(fixture.date)).json() as {briefing:StructuredBriefing};expect(updated.briefing.performances[0].grade).toBe('顶');
+    expect((await read(fixture.date)).data.briefing?.content).toContain('顶——乔治：');
+    expect(sqlite.prepare('SELECT COUNT(*) AS count FROM daily_briefings').get()?.count).toBe(1);
+  });
+  it('renders the structured view, safe original text and linked player cards together',async()=>{
+    await publish(write(fixture.date,fixture.content));
+    const html=renderToStaticMarkup(await runWithBriefingEnv(env,()=>BriefingsPage({searchParams:Promise.resolve({date:fixture.date})})));
+    expect(html).toContain('比赛与数据');expect(html).toContain('简报原文');expect(html).toContain('惊喜球员数据表');expect(html).toContain('制作乔治数据卡片');
+    expect(html).toContain('href="/player-cards?line=');expect(html).toContain('下载封面');expect(html).not.toContain(token);expect(html).not.toContain('type="file"');
   });
 });
