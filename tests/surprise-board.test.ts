@@ -1,7 +1,7 @@
 import {describe,it,expect} from 'vitest';
 import {readFileSync} from 'node:fs';
 import {parseCardGame} from '../lib/data/player-cards';
-import {BOARD_WIDTH,BOARD_HEIGHT,BOARD_PADDING,clampPoint,pointerOnBoard,readBoardLayout,matchSurprisePlayers,emptyBoard} from '../lib/surprise-board';
+import {BOARD_WIDTH,BOARD_HEIGHT,BOARD_PADDING,clampPoint,pointerOnBoard,readBoardLayout,matchSurprisePlayers,emptyBoard,boardRoster} from '../lib/surprise-board';
 import {GET} from '../app/api/surprise-board/route';
 const players=()=>parseCardGame(JSON.parse(readFileSync(new URL('./fixtures/card-game-401909088.json',import.meta.url),'utf8')),'401909088','2026-10-20');
 const appendix='附录：惊喜球员表现明细\n\n凯尔特人 乔治 38分5板3助攻 7记三分 投篮21投12中 罚球7/8 5抢断0盖帽3失误\n\n活塞 贾旺特·格林 19分4板0助攻 5记三分 投篮10投5中 罚球4/4 0抢断0盖帽0失误';
@@ -39,6 +39,18 @@ describe('daily surprise portrait board',()=>{
     expect(readBoardLayout('{"version":2,"positions":{}}', ['4251'])).toEqual(emptyBoard());
     const stored=JSON.stringify({version:1,size:112,showNames:false,positions:{4251:{x:300,y:80},999:{x:10,y:20},123:{x:-200,y:2000},456:{x:'bad',y:2}}});
     expect(readBoardLayout(stored,['4251','123','456'])).toEqual({size:112,showNames:false,positions:{4251:{x:300,y:80},123:{x:56,y:930}}});
+  });
+  it('adds same-day players without replacing briefing names or losing their saved positions',()=>{
+    const matched=matchSurprisePlayers(appendix,players());
+    const availablePlayers=players().map(p=>({...p,boardName:p.chineseName||p.name}));
+    const roster=boardRoster({date:'2026-10-21',...matched,availablePlayers});
+    expect(new Set(roster.map(p=>p.id)).size).toBe(roster.length);
+    expect(roster[0].boardName).toBe('乔治');
+    const extra=availablePlayers.find(p=>!matched.players.some(m=>m.id===p.id))!;
+    const positions={[roster[0].id]:{x:245,y:178},[extra.id]:{x:800,y:510}};
+    const stored=JSON.stringify({version:1,size:160,showNames:true,positions});
+    expect(readBoardLayout(stored,roster.map(p=>p.id)).positions).toEqual(positions);
+    expect(boardRoster({date:'2026-10-21',...matched})).toEqual(matched.players);
   });
   it('rejects invalid dates before accessing storage',async()=>{
     const response=await GET(new Request('https://example.com/api/surprise-board?date=2026-02-30'));expect(response.status).toBe(400);

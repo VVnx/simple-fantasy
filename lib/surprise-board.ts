@@ -3,7 +3,12 @@ import {formatMinutes,type PlayerGameCard} from './player-cards';
 
 export const BOARD_WIDTH=1265,BOARD_HEIGHT=986,BOARD_PADDING=180,BACKGROUND_HEIGHT=626;
 export type BoardPlayer=PlayerGameCard&{boardName:string};
-export type BoardDay={date:string;players:BoardPlayer[];total:number;warnings:string[];message?:string};
+export type BoardDay={date:string;players:BoardPlayer[];availablePlayers?:BoardPlayer[];total:number;warnings:string[];message?:string};
+export function boardRoster(data:BoardDay):BoardPlayer[]{
+  const players=new Map(data.players.map(player=>[player.id,player]));
+  for(const player of data.availablePlayers??[])if(!players.has(player.id))players.set(player.id,player);
+  return [...players.values()];
+}
 export type Point={x:number;y:number};
 export type BoardLayout={positions:Record<string,Point>;size:number;showNames:boolean};
 export const emptyBoard=():BoardLayout=>({positions:{},size:112,showNames:true});

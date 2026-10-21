@@ -15,6 +15,7 @@ export async function GET(request:Request){
     if(!/附录[：:]\s*惊喜球员表现明细/.test(briefing.content))return Response.json({date,players:[],total:0,warnings:[],message:'这篇简报没有惊喜球员表现明细。'},{headers});
     const day=await getCardDay(addDays(date,-1));
     const matched=matchSurprisePlayers(briefing.content,day.players);
-    return Response.json({date,...matched,warnings:[...day.warnings,...matched.warnings]},{headers});
+    const availablePlayers=day.players.map(player=>({...player,boardName:player.chineseName||player.name}));
+    return Response.json({date,...matched,availablePlayers,warnings:[...day.warnings,...matched.warnings]},{headers});
   }catch(error){return Response.json({error:error instanceof BriefingError?error.message:'惊喜球员暂时无法读取，请稍后重试。'},{status:error instanceof BriefingError?error.status:502,headers});}
 }

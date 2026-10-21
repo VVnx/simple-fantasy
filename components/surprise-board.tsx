@@ -1,11 +1,12 @@
 'use client';
 /* eslint-disable @next/next/no-img-element -- The fixed same-origin portrait endpoint also supplies canvas export. */
-import {useEffect,useRef,useState,type PointerEvent as ReactPointerEvent,type MouseEvent,type KeyboardEvent} from 'react';
+import {useEffect,useMemo,useRef,useState,type PointerEvent as ReactPointerEvent,type MouseEvent,type KeyboardEvent} from 'react';
 import ToolNavigation from './tool-navigation';
 import {validDate} from '@/lib/schedule';
 import {cardStatLine} from '@/lib/player-cards';
+import {normalize,resolveSearch} from '@/lib/aliases';
 import {loadCardPortrait} from '@/lib/player-card-image';
-import {BOARD_WIDTH,BOARD_HEIGHT,BOARD_PADDING,boardKey,clampPoint,emptyBoard,pointerOnBoard,readBoardLayout,type BoardDay,type BoardLayout,type BoardPlayer,type Point} from '@/lib/surprise-board';
+import {BOARD_WIDTH,BOARD_HEIGHT,BOARD_PADDING,boardKey,boardRoster,clampPoint,emptyBoard,pointerOnBoard,readBoardLayout,type BoardDay,type BoardLayout,type Point} from '@/lib/surprise-board';
 import {downloadBoard,loadBoardBackground,paintBoard} from '@/lib/surprise-board-image';
 
 export default function SurpriseBoard({initialDate}:{initialDate:string}){
@@ -35,13 +36,15 @@ export default function SurpriseBoard({initialDate}:{initialDate:string}){
 }
 type Drag={id:string;pointerId:number;client:Point;start:Point;offset:Point;fromBoard:boolean;moved:boolean;point:Point|null};
 function BoardEditor({date,data}:{date:string;data:BoardDay}){
-  const {players}=data;
+  const players=useMemo(()=>boardRoster(data),[data]);
+  const [showAll,setShowAll]=useState(false),[search,setSearch]=useState('');
   const board=useRef<HTMLDivElement>(null),canvas=useRef<HTMLCanvasElement>(null),tray=useRef<HTMLElement>(null),dragRef=useRef<Drag|null>(null);
   const [layout,setLayout]=useState<BoardLayout>(emptyBoard),[ready,setReady]=useState(false),[selected,setSelected]=useState('');
   const [background,setBackground]=useState<HTMLImageElement>(),[backgroundError,setBackgroundError]=useState('');
   const [photos,setPhotos]=useState<Record<string,HTMLImageElement>>({}),[photosReady,setPhotosReady]=useState(false),[failed,setFailed]=useState<string[]>([]),[photoRevision,setPhotoRevision]=useState(0);
   const [drag,setDrag]=useState<Drag|null>(null),[message,setMessage]=useState(''),[saving,setSaving]=useState(false),[storageError,setStorageError]=useState(false);
   const exporting=useRef(false),ids=players.map(p=>p.id).join(',');
+  const photoIds=Object.keys(layout.positions).sort().join(',');
   useEffect(()=>{
     try{setLayout(readBoardLayout(localStorage.getItem(boardKey(date)),ids.split(',')));}catch{setStorageError(true);}
     setReady(true);setSelected('');
@@ -53,13 +56,14 @@ function BoardEditor({date,data}:{date:string;data:BoardDay}){
   useEffect(()=>{let active=true;loadBoardBackground().then(image=>{if(active)setBackground(image);}).catch(()=>{if(active)setBackgroundError('背景暂时未能读取，请刷新页面重试。');});return ()=>{active=false;};},[]);
   useEffect(()=>{
     const controller=new AbortController();setPhotosReady(false);
-    Promise.allSettled(ids.split(',').filter(Boolean).map(async id=>({id,image:await loadCardPortrait(id,controller.signal)}))).then(results=>{
+    const requested=photoIds.split(',').filter(Boolean);
+    Promise.allSettled(requested.map(async id=>({id,image:await loadCardPortrait(id,controller.signal)}))).then(results=>{
       if(controller.signal.aborted)return;
       const loaded:Record<string,HTMLImageElement>={},missing:string[]=[];
-      results.forEach((r,i)=>{if(r.status==='fulfilled')loaded[r.value.id]=r.value.image;else missing.push(ids.split(',')[i]);});
+      results.forEach((r,i)=>{if(r.status==='fulfilled')loaded[r.value.id]=r.value.image;else missing.push(requested[i]);});
       setPhotos(loaded);setFailed(missing);setPhotosReady(true);
     });return ()=>controller.abort();
-  },[ids,photoRevision]);
+  },[photoIds,photoRevision]);
   const paintedLayout=drag?.point?{...layout,positions:{...layout.positions,[drag.id]:clampPoint(drag.point,layout.size)}}:layout;
   useEffect(()=>{
     if(!canvas.current||!background||!ready)return;
@@ -110,6 +114,8 @@ function BoardEditor({date,data}:{date:string;data:BoardDay}){
     finally{exporting.current=false;setSaving(false);}
   }
   const selectedPlayer=players.find(p=>p.id===selected),placed=Object.keys(layout.positions).length;
+  const query=normalize(search),resolved=normalize(resolveSearch(search));
+  const roster=players.filter(player=>(showAll||query||data.players.some(p=>p.id===player.id)||layout.positions[player.id])&&(!query||normalize(player.boardName+player.team).includes(query)||normalize(player.name).includes(resolved)||normalize(player.chineseName||'').includes(query)));
   return <div onPointerMove={move} onPointerUp={end} onPointerCancel={cancel} onLostPointerCapture={cancel} className="board-editor">
     <div className="board-toolbar">
       <div className="board-tools"><label>头像大小 <input aria-label="头像大小" type="range" min="72" max="160" step="4" value={layout.size} onChange={e=>{const size=+e.target.value;setLayout(l=>({...l,size,positions:Object.fromEntries(Object.entries(l.positions).map(([id,p])=>[id,clampPoint(p,size)]))}));}}/></label><label><input type="checkbox" checked={layout.showNames} onChange={e=>setLayout(l=>({...l,showNames:e.target.checked}))}/> 显示名字</label><button type="button" disabled={!selected||!layout.positions[selected]} onClick={()=>remove(selected)}>移回侧栏</button><button type="button" disabled={!placed} onClick={()=>{setLayout(l=>({...l,positions:{}}));setSelected('');}}>全部移回</button></div>
@@ -131,8 +137,9 @@ function BoardEditor({date,data}:{date:string;data:BoardDay}){
         <p className="board-feedback" role="status">{message||(!photosReady?'正在准备球员头像…':'')}</p>
         {!!failed.length&&<p className="card-notice" role="status">{failed.map(id=>players.find(p=>p.id===id)?.boardName).join('、')}的头像暂不可用，将显示轮廓。<button type="button" onClick={()=>setPhotoRevision(n=>n+1)}>重试头像</button></p>}
       </section>
-      <aside ref={tray} className="board-tray" aria-label="惊喜球员侧栏"><div className="board-tray-heading"><h2>当天惊喜球员 <span>{players.length}</span></h2><p>拖到左边，自由排位。拖回来即可撤下。</p></div>
-        {!players.length?<p className="board-empty">{data.message||'这一天没有可用的惊喜球员。'}</p>:<div className="board-roster">{players.map(player=><button key={player.id} type="button" className={`board-avatar ${layout.positions[player.id]?'is-placed':''} ${selected===player.id?'is-selected':''}`} aria-label={`${player.boardName}，${player.team}${layout.positions[player.id]?'，已上榜':''}`} aria-pressed={selected===player.id} onPointerDown={e=>start(e,player.id,false)} onClick={()=>setSelected(player.id)} onKeyDown={e=>keyboard(e,player.id)} title={cardStatLine(player,player.boardName)}>
+      <aside ref={tray} className="board-tray" aria-label="惊喜球员侧栏"><div className="board-tray-heading"><h2>当天球员 <span>{roster.length}</span></h2><p>拖到左边，自由排位。拖回来即可撤下。</p></div>
+        <div className="board-roster-filter"><input type="search" aria-label="查找当天球员" placeholder="搜索姓名、昵称或球队" value={search} onChange={event=>setSearch(event.target.value)}/><label><input type="checkbox" checked={showAll} onChange={event=>setShowAll(event.target.checked)}/> 包含当天其他球员</label></div>
+        {!roster.length?<p className="board-empty">{!players.length?(data.message||'这一天没有可用的球员。'):'没有找到这名球员。'}</p>:<div className="board-roster">{roster.map(player=><button key={player.id} type="button" className={`board-avatar ${layout.positions[player.id]?'is-placed':''} ${selected===player.id?'is-selected':''}`} aria-label={`${player.boardName}，${player.team}${layout.positions[player.id]?'，已上榜':''}`} aria-pressed={selected===player.id} onPointerDown={e=>start(e,player.id,false)} onClick={()=>setSelected(player.id)} onKeyDown={e=>keyboard(e,player.id)} title={cardStatLine(player,player.boardName)}>
           <span className="board-avatar-photo">{failed.includes(player.id)?<span className="board-photo-fallback">{player.boardName.slice(0,1)}</span>:<img src={`/api/player-headshot?id=${player.id}`} alt="" draggable={false}/>}</span><strong>{player.boardName}</strong><small>{layout.positions[player.id]?'✓ 已上榜':player.team}</small>
         </button>)}</div>}
         {selectedPlayer&&<div className="board-selection"><strong>{selectedPlayer.boardName}</strong><p>{cardStatLine(selectedPlayer,selectedPlayer.boardName)}</p></div>}
