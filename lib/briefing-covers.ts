@@ -31,6 +31,12 @@ const covers: Record<string, BriefingCover | undefined> = {
     width: 1922,
     height: 818,
   },
+  '2026-10-21': {
+    src: '/briefing-covers/2026-10-21.png',
+    alt: '乔治开局就夯 — 10月21日 NBA Fantasy 每日简报封面',
+    width: 1922,
+    height: 818,
+  },
 };
 
 export function getBriefingCover(date: string): BriefingCover | undefined {
