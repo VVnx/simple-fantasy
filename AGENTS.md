@@ -24,6 +24,12 @@ truth. When updating it, keep the installed personal copy at
 `$CODEX_HOME/skills/nba-fantasy-briefing` (or `~/.codex/skills/nba-fantasy-briefing`
 when `CODEX_HOME` is unset) in sync, and include the project copy in the commit.
 
+The default illustrated Word export skill is versioned in
+`skills/nba-fantasy-briefing-docx/SKILL.md` and is called after each complete
+daily briefing. Keep this skill and its scripts in sync with the installed
+personal copy using the same rule. Preserve the user's blue headings, compact
+player cards, and 15 MB document limit.
+
 For requests to publish or update a daily briefing, follow `docs/BRIEFINGS.md`.
 Use the existing Sites project in `.openai/hosting.json` and the protected upload
 API. Retrieve credentials through the authorized Sites tools, pass them only on

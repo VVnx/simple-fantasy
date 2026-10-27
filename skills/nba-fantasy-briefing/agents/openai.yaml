@@ -1,4 +1,4 @@
 interface:
   display_name: "NBA Fantasy 每日简报"
-  short_description: "按11项数据分牛人、惊喜、小惊喜、惊吓四档，支持原稿口吻的带图Word简版，不写赛程"
-  default_prompt: "使用 $nba-fantasy-briefing 写今天的 NBA Fantasy 简报，按9CAT+DD+A/T完整筛查球员，分今日牛人、今日惊喜哥、今日小惊喜哥、今日惊吓哥四档，小惊喜可包含有价值的常规兑现，并汇总伤病与轮换影响，不写赛程。若要求按简版或用户来稿整理，保留名单、顺序和短评口吻；要求Word时为每位球员配本站同款数据卡并制作DOCX。完整版保留逐场简评和独立微信封面。"
+  short_description: "按11项数据分牛人、惊喜、小惊喜、惊吓四档，默认交付封面和蓝色标题带图Word"
+  default_prompt: "使用 $nba-fantasy-briefing 写今天的 NBA Fantasy 简报，按9CAT+DD+A/T筛查牛人、惊喜哥、小惊喜哥、惊吓哥，汇总伤病轮换，不写赛程。定稿后默认调用 $nba-fantasy-briefing-docx 交付蓝色标题、紧凑球员卡且15MB以内的Word，并附独立微信封面。"

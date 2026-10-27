@@ -11,7 +11,7 @@ export type PlayerCardContent = Pick<PlayerGameCard,'name'|'chineseName'|'team'|
   stats:Omit<CardStats,'threeAttempted'> & {threeAttempted?:number};
 };
 export const CARD_WIDTH=2400;
-export const CARD_HEIGHT=280;
+export const CARD_HEIGHT=200;
 export function formatMinutes(minutes:string){
   const clock=minutes.match(/^(\d+):([0-5]\d)$/);
   return clock?`${clock[1]}分${clock[2]}秒`:`${minutes}分钟`;

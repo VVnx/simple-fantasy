@@ -1,0 +1,4 @@
+interface:
+  display_name: "NBA Fantasy 带图 Word"
+  short_description: "将简报导出为蓝色标题、紧凑球员卡与贴合头像的Word，控制在15MB以内"
+  default_prompt: "使用 $nba-fantasy-briefing-docx 将已定稿的每日简报导出为蓝色标题和紧凑球员数据卡的Word，保留口吻与顺序，文件小于15MB。"
