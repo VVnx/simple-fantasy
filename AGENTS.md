@@ -8,7 +8,21 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 <!-- END:nextjs-agent-rules -->
 
+## Commit messages
+
+Write commit messages that describe the specific changes and the affected feature.
+Do not use generic messages such as `update site source`, `update`, or `fix` alone.
+For example, use `Add player performance details to daily briefings` or
+`Fix surprise board player matching`. This applies to manual commits and commits
+created through site publishing or deployment workflows.
+
 ## Daily briefings
+
+The project's generation skill is versioned in
+`skills/nba-fantasy-briefing/SKILL.md`. Treat this project copy as the source of
+truth. When updating it, keep the installed personal copy at
+`$CODEX_HOME/skills/nba-fantasy-briefing` (or `~/.codex/skills/nba-fantasy-briefing`
+when `CODEX_HOME` is unset) in sync, and include the project copy in the commit.
 
 For requests to publish or update a daily briefing, follow `docs/BRIEFINGS.md`.
 Use the existing Sites project in `.openai/hosting.json` and the protected upload

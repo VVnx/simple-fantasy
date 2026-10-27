@@ -1,0 +1,4 @@
+interface:
+  display_name: "NBA Fantasy 每日简报"
+  short_description: "逐场简评、9CAT+DD+A/T惊喜+惊吓榜、阵容影响与加人建议，不写赛程，每篇配微信封面"
+  default_prompt: "使用 $nba-fantasy-briefing 写今天的 NBA Fantasy 简报，包含逐场简评、按9CAT+DD+A/T评估并完整筛查的每日惊喜+惊吓球员榜，每位上榜球员写今日表现简介和一句上榜原因，重点汇总影响后续阵容的伤病与轮换变化，不写赛程，并生成一张微信公众号推荐封面。"
